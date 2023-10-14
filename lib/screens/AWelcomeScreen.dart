@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:appetit/utils/AColors.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/main.dart';
+import '../services/auth_service.dart';
 
 class AWelcomeScreen extends StatefulWidget {
   const AWelcomeScreen({Key? key}) : super(key: key);
@@ -116,7 +117,9 @@ class _AWelcomeScreenState extends State<AWelcomeScreen> {
                     child: Container(
                       height: 60,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),

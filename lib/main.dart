@@ -2,10 +2,14 @@ import 'package:appetit/store/AppStore.dart';
 import 'package:appetit/utils/AConstants.dart';
 import 'package:appetit/utils/ADataProvider.dart';
 import 'package:appetit/utils/AppTheme.dart';
+import 'package:appetit/utils/bloc_provider.dart';
+import 'package:appetit/utils/get_it.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'screens/ASplashScreen.dart';
 
 AppStore appStore = AppStore();
@@ -13,11 +17,11 @@ AppStore appStore = AppStore();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialize(aLocaleLanguageList: languageList());
-
+  await initialGetIt();
+  await Firebase.initializeApp();
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
 
   defaultToastGravityGlobal = ToastGravity.BOTTOM;
-
   runApp(const MyApp());
 }
 
@@ -27,12 +31,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => MaterialApp(
+    return MultiBlocProvider(
+      providers: multiBlocProvider(),
+      child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         debugShowCheckedModeBanner: false,
         title: 'Appetit${!isMobile ? ' ${platformName()}' : ''}',
         home: ASplashScreen(),
-        theme: !appStore.isDarkModeOn ? AppThemeData.lightTheme : AppThemeData.darkTheme,
+        theme: !appStore.isDarkModeOn
+            ? AppThemeData.lightTheme
+            : AppThemeData.darkTheme,
         navigatorKey: navigatorKey,
         scrollBehavior: SBehavior(),
         supportedLocales: LanguageDataModel.languageLocales(),
@@ -41,3 +53,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+Future<void> _initialApp() async {}

@@ -134,6 +134,10 @@ final List<SearchPage> searchitems = [
     text: 'Top Cheif',
     image: "image/appetit/search4.png",
   ),
+  SearchPage(
+    text: 'Discovery',
+    image: 'image/appetit/search5.svg'
+  )
 ];
 
 class Ingredients {
