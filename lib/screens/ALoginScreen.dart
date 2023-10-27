@@ -1,6 +1,5 @@
 import 'package:appetit/cubit/login/login_cubit.dart';
 import 'package:appetit/cubit/login/login_state.dart';
-import 'package:appetit/screens/AForgetPasswordScreen.dart';
 import 'package:appetit/screens/ARegisterScreen.dart';
 import 'package:appetit/screens/ADashboardScreen.dart';
 import 'package:appetit/utils/messages.dart';

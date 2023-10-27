@@ -4,6 +4,9 @@ import 'package:appetit/fragments/AProfileFragment.dart';
 import 'package:appetit/screens/AAddRecipeScreen.dart';
 import 'package:appetit/fragments/ASearchFragment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/home/home_cubit.dart';
 
 class ADashboardScreen extends StatefulWidget {
   ADashboardScreen({Key? key}) : super(key: key);
@@ -32,26 +35,31 @@ class _ADashboardScreenState extends State<ADashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widgetOption.elementAt(selectedItem),
-      bottomNavigationBar: BottomNavigationBar(
-        iconSize: 25,
-        backgroundColor: Color(0xFF462F4C),
-        type: BottomNavigationBarType.fixed,
-        currentIndex: selectedItem,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        onTap: onTapSelection,
-        elevation: 0,
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.orangeAccent,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline_outlined), label: 'Reels'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_outlined), label: 'Notification'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline_outlined), label: 'Profile'),
-        ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => IndustriesCubit()),
+      ],
+      child: Scaffold(
+        body: widgetOption.elementAt(selectedItem),
+        bottomNavigationBar: BottomNavigationBar(
+          iconSize: 25,
+          backgroundColor: Color(0xFF462F4C),
+          type: BottomNavigationBarType.fixed,
+          currentIndex: selectedItem,
+          showUnselectedLabels: false,
+          showSelectedLabels: false,
+          onTap: onTapSelection,
+          elevation: 0,
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Colors.orangeAccent,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline_outlined), label: 'Reels'),
+            BottomNavigationBarItem(icon: Icon(Icons.notifications_outlined), label: 'Notification'),
+            BottomNavigationBarItem(icon: Icon(Icons.person_outline_outlined), label: 'Profile'),
+          ],
+        ),
       ),
     );
   }

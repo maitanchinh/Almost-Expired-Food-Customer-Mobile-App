@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:appetit/utils/AColors.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/main.dart';
-import '../services/auth_service.dart';
 
 class AWelcomeScreen extends StatefulWidget {
   const AWelcomeScreen({Key? key}) : super(key: key);

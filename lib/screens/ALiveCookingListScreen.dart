@@ -1,4 +1,4 @@
-import 'package:appetit/screens/ALiveCookingRecipeScreen.dart';
+import 'package:appetit/screens/ProductDetailScreen.dart';
 import 'package:appetit/utils/ADataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:appetit/utils/AColors.dart';
@@ -48,7 +48,7 @@ class ALiveCookingListScreen extends StatelessWidget {
                     child: Stack(
                       children: [
                         InkWell(
-                          onTap: () => ALiveCookingRecipeScreen().launch(context),
+                          onTap: () {},
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
@@ -116,7 +116,7 @@ class ALiveCookingListScreen extends StatelessWidget {
                       ],
                     ),
                   ).onTap(() {
-                    ALiveCookingRecipeScreen().launch(context);
+                    // ProductDetailScreen().launch(context);
                   },splashColor: Colors.transparent,highlightColor: Colors.transparent);
                 },
               ),

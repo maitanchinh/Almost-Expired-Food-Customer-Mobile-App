@@ -1,13 +1,15 @@
+import 'package:appetit/domain/repositories/user_repo.dart';
+import 'package:appetit/screens/ADashboardScreen.dart';
 import 'package:appetit/store/AppStore.dart';
 import 'package:appetit/utils/AConstants.dart';
 import 'package:appetit/utils/ADataProvider.dart';
 import 'package:appetit/utils/AppTheme.dart';
 import 'package:appetit/utils/bloc_provider.dart';
 import 'package:appetit/utils/get_it.dart';
+import 'package:appetit/utils/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/ASplashScreen.dart';
@@ -20,7 +22,6 @@ void main() async {
   await initialGetIt();
   await Firebase.initializeApp();
   appStore.toggleDarkMode(value: getBoolAsync(isDarkModeOnPref));
-
   defaultToastGravityGlobal = ToastGravity.BOTTOM;
   runApp(const MyApp());
 }
@@ -39,9 +40,10 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+        onGenerateRoute: generateRoute,
         debugShowCheckedModeBanner: false,
         title: 'Appetit${!isMobile ? ' ${platformName()}' : ''}',
-        home: ASplashScreen(),
+        home: _fetchAuthAndInitialRoute(),
         theme: !appStore.isDarkModeOn
             ? AppThemeData.lightTheme
             : AppThemeData.darkTheme,
@@ -54,4 +56,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future<void> _initialApp() async {}
+
+Widget _fetchAuthAndInitialRoute() {
+  // final UserRepo _userRepo = getIt.get<UserRepo>();
+  try {
+    String accessToken = getStringAsync(TOKEN_KEY);
+    if (accessToken.isNotEmpty) {
+      return ADashboardScreen();
+    }
+  } catch (e) {
+   debugPrint("ex ${e.toString()}"); 
+  }
+    return ASplashScreen();
+}

@@ -1,4 +1,4 @@
-import 'package:appetit/components/APopularRecipesComponent.dart';
+import 'package:appetit/components/ProductsOfCategoryComponent.dart';
 import 'package:appetit/components/ASearchGalleriesComponent.dart';
 import 'package:appetit/components/ASearchLiveComponent.dart';
 import 'package:appetit/components/ASearchTopChefComponent.dart';
@@ -30,7 +30,7 @@ class _ASearchFragmentState extends State<ASearchFragment>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           leading: SizedBox(),
@@ -95,8 +95,8 @@ class _ASearchFragmentState extends State<ASearchFragment>
         ),
         body: TabBarView(
           children: [
-            APopularRecipesComponent(physics: AlwaysScrollableScrollPhysics())
-                .paddingTop(16),
+            // ProductsOfCategoryComponent(categoryId: AlwaysScrollableScrollPhysics())
+            //     .paddingTop(16),
             ASearchLiveComponent(),
             ASearchGalleriesComponent(),
             ASearchTopChefComponent(),
