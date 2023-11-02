@@ -1,4 +1,3 @@
-import 'package:appetit/screens/ProductDetailScreen.dart';
 import 'package:appetit/utils/ADataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:appetit/utils/AColors.dart';

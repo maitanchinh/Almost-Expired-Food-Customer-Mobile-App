@@ -1,17 +1,17 @@
 class Products {
   Pagination? pagination;
-  List<Product>? product;
+  List<Product>? products;
 
-  Products({this.pagination, this.product});
+  Products({this.pagination, this.products});
 
   Products.fromJson(Map<String, dynamic> json) {
     pagination = json['pagination'] != null
         ? new Pagination.fromJson(json['pagination'])
         : null;
     if (json['data'] != null) {
-      product = <Product>[];
+      products = <Product>[];
       json['data'].forEach((v) {
-        product!.add(new Product.fromJson(v));
+        products!.add(new Product.fromJson(v));
       });
     }
   }
@@ -21,8 +21,8 @@ class Products {
     if (this.pagination != null) {
       data['pagination'] = this.pagination!.toJson();
     }
-    if (this.product != null) {
-      data['data'] = this.product!.map((v) => v.toJson()).toList();
+    if (this.products != null) {
+      data['data'] = this.products!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -60,7 +60,7 @@ class Product {
   int? price;
   int? promotionalPrice;
   String? expiredAt;
-  Null? rated;
+  double? rated;
   String? createAt;
   String? status;
   String? thumbnailUrl;

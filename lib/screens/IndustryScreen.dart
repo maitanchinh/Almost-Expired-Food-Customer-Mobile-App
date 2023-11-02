@@ -1,12 +1,12 @@
-import 'package:appetit/cubit/home/home_cubit.dart';
-import 'package:appetit/cubit/home/home_state.dart';
+import 'package:appetit/cubit/categories/categories_cubit.dart';
+import 'package:appetit/cubit/categories/categories_state.dart';
 import 'package:appetit/domain/models/industries.dart';
 import 'package:appetit/utils/AColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-import '../components/ProductsOfCategoryComponent.dart';
+import '../components/ProductsListComponent.dart';
 
 class IndustryScreen extends StatefulWidget {
   static const routeName = '/industry';
@@ -23,8 +23,19 @@ class _IndustryScreenState extends State<IndustryScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<CategoriesCubit>(
       create: (context) =>
-          CategoriesCubit(categoryGroupId: widget.categoryGroup.id.toString()),
-      child: BlocBuilder<CategoriesCubit, CategoriesState>(
+          CategoriesCubit(categoryGroupId: widget.categoryGroup.id, campaignId: null, name: null),
+      child: Categories(categoryGroup: widget.categoryGroup)
+    );
+  }
+}
+
+class Categories extends StatelessWidget {
+  final Industry categoryGroup;
+  const Categories({Key? key, required this.categoryGroup}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CategoriesCubit, CategoriesState>(
           builder: (context, state) {
         if (state is CategoriesLoadingState) {
           return Scaffold(
@@ -38,16 +49,16 @@ class _IndustryScreenState extends State<IndustryScreen> {
             child: Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: Text(widget.categoryGroup.name.toString(), style: TextStyle(color: black, fontWeight: FontWeight.bold),),
+                title: Text(categoryGroup.name.toString(), style: TextStyle(color: black, fontWeight: FontWeight.bold),),
                 leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {Navigator.pop(context);},),
                 elevation: 0,
                 backgroundColor: appetitAppContainerColor,
                 bottom: TabBar(
-                  indicatorColor: Colors.blue,
-                  indicator: UnderlineTabIndicator(
-                      borderSide: BorderSide(width: 2, color: Colors.blue)),
+                  indicatorColor: Colors.orange.shade600,
                   isScrollable: true,
                   physics: AlwaysScrollableScrollPhysics(),
+                  labelColor: Colors.orange.shade600,
+                  unselectedLabelColor: black,
                   tabs: categories.map(
                     (e) {
                       // Check the file extension of the image
@@ -71,7 +82,7 @@ class _IndustryScreenState extends State<IndustryScreen> {
                           Text(
                             e.name.toString(),
                             style: TextStyle(
-                                color: context.iconColor, fontSize: 14, fontWeight: FontWeight.bold),
+                                 fontSize: 14),
                           ),
                         ],
                       ).paddingSymmetric(vertical: 6);
@@ -82,7 +93,7 @@ class _IndustryScreenState extends State<IndustryScreen> {
               body: TabBarView(
                 children: categories.map((c) {
 
-                  return ProductsOfCategoryComponent(
+                  return ProductsListComponent(
                           categoryId: c.id!)
                       .paddingTop(16);
                 }).toList()
@@ -97,7 +108,6 @@ class _IndustryScreenState extends State<IndustryScreen> {
             child: Text('Chưa có loại nào được tạo. Hãy qua lại sau.'),
           ),
         );
-      }),
-    );
+      });
   }
 }

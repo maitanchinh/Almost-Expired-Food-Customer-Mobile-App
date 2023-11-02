@@ -1,9 +1,13 @@
 import 'package:appetit/components/ADiscussionComponent.dart';
+import 'package:appetit/cubit/store/store_cubit.dart';
+import 'package:appetit/cubit/store/store_state.dart';
 import 'package:appetit/domain/models/products.dart';
 import 'package:appetit/screens/ADiscussionScreen.dart';
+import 'package:appetit/screens/StoreScreen.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:appetit/utils/AColors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/main.dart';
@@ -222,58 +226,72 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Gap.k16.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.asset('image/appetit/topchef1.jpg',
-                              height: 40, width: 40, fit: BoxFit.cover),
-                        ),
-                        SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text('Ngon Ngon Quán',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w700)),
-                                Gap.k8.width,
-                                Icon(
-                                  Icons.star_outlined,
-                                  color: Colors.orange.shade600,
-                                  size: 16,
-                                ),
-                                Text(
-                                  '4.5',
-                                  style:
-                                      TextStyle(color: Colors.orange.shade500),
-                                )
-                              ],
+                BlocProvider<StoreCubit>(
+                  create: (context) => StoreCubit(productId: widget.product.id!),
+                  child: BlocBuilder<StoreCubit, StoreState>(
+                    builder: (context, state) {
+                      if (state is StoreLoadingState) {
+                        return SizedBox.shrink();
+                      }
+                      if (state is StoreSuccessState) {
+                      var store = state.store;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: FadeInImage.assetNetwork(image: store.thumbnailUrl!, placeholder: 'image/appetit/store-placeholder-avatar.png',
+                                    height: 40, width: 40, fit: BoxFit.cover),
+                              ),
+                              SizedBox(width: 8),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(store.name!,
+                                          style:
+                                              TextStyle(fontWeight: FontWeight.w700)),
+                                      Gap.k8.width,
+                                    ],
+                                  ),
+                                      store.rated != null ? Row(
+                                        children: [
+                                          Icon(
+                                            Icons.star_outlined,
+                                            color: Colors.orange.shade600,
+                                            size: 16,
+                                          ),
+                                          Text(
+                                            store.rated.toString(),
+                                            style:
+                                                TextStyle(color: Colors.orange.shade600),
+                                          ),
+                                        ],
+                                      ) : SizedBox.shrink(),
+                                ],
+                              )
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1, color: Colors.orange.shade600),
+                                borderRadius: BorderRadius.circular(4)),
+                            child: Text(
+                              'Xem cửa hàng',
+                              style: TextStyle(color: Colors.orange.shade600),
                             ),
-                            SizedBox(height: 4),
-                            Text('Chi nhánh Hồ Chí Minh',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300, fontSize: 12)),
-                          ],
-                        )
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1, color: Colors.orange.shade600),
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Text(
-                        'Xem cửa hàng',
-                        style: TextStyle(color: Colors.orange.shade600),
-                      ),
-                    )
-                  ],
+                          ).onTap(() => Navigator.pushNamed(context, StoreScreen.routeName, arguments: store))
+                        ],
+                      );
+                      }
+                      return SizedBox.shrink();
+                    }
+                  ),
                 ),
                 Gap.kSection.height,
 

@@ -119,24 +119,20 @@ class SearchPage {
 
 final List<SearchPage> searchitems = [
   SearchPage(
-    text: 'Food Recipes',
-    image: "image/appetit/search1.png",
+    text: 'Chiến dịch',
+    image: "image/appetit/campaign.png",
   ),
   SearchPage(
-    text: 'Live',
-    image: "image/appetit/search2.png",
+    text: 'Thể loại',
+    image: "image/appetit/category.png",
   ),
   SearchPage(
-    text: 'Galleries',
-    image: "image/appetit/search3.png",
-  ),
-  SearchPage(
-    text: 'Top Cheif',
-    image: "image/appetit/search4.png",
+    text: 'Sản phẩm',
+    image: "image/appetit/product.png",
   ),
   SearchPage(
     text: 'Discovery',
-    image: 'image/appetit/search5.svg'
+    image: 'image/appetit/map.png'
   )
 ];
 

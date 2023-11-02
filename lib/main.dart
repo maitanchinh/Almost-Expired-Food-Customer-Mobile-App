@@ -1,4 +1,3 @@
-import 'package:appetit/domain/repositories/user_repo.dart';
 import 'package:appetit/screens/ADashboardScreen.dart';
 import 'package:appetit/store/AppStore.dart';
 import 'package:appetit/utils/AConstants.dart';

@@ -1,12 +1,8 @@
 import 'package:appetit/domain/models/products.dart';
 
-class ProductsState {
-  
-}
+class ProductsState {}
 
-class ProductsLoadingState extends ProductsState {
-  
-}
+class ProductsLoadingState extends ProductsState {}
 
 class ProductsFailedState extends ProductsState {
   final String msg;

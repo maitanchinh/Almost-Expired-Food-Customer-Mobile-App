@@ -29,9 +29,7 @@ class _AProfileFragmentState extends State<AProfileFragment>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AccountCubit>(
-      create: (context) => AccountCubit(),
-      child: BlocBuilder<AccountCubit, AccountState>(builder: (context, state) {
+    return  BlocBuilder<AccountCubit, AccountState>(builder: (context, state) {
         if (state is AccountLoadingState) {
           return Center(
             child: CircularProgressIndicator(),
@@ -93,7 +91,7 @@ class _AProfileFragmentState extends State<AProfileFragment>
                               borderRadius: BorderRadius.circular(25),
                               child: FadeInImage.assetNetwork(
                                   placeholder:
-                                      'image/appetit/backgroundprofile.jpg',
+                                      'image/appetit/avatar_placeholder.png',
                                   image: account.avatarUrl!,
                                   width: 120,
                                   height: 140,
@@ -189,7 +187,6 @@ class _AProfileFragmentState extends State<AProfileFragment>
           );
         }
         return SizedBox.shrink();
-      }),
-    );
+      });
   }
 }

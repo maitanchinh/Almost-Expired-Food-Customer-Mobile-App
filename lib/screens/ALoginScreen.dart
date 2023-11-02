@@ -2,6 +2,7 @@ import 'package:appetit/cubit/login/login_cubit.dart';
 import 'package:appetit/cubit/login/login_state.dart';
 import 'package:appetit/screens/ARegisterScreen.dart';
 import 'package:appetit/screens/ADashboardScreen.dart';
+import 'package:appetit/utils/gap.dart';
 import 'package:appetit/utils/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +54,7 @@ class _ALoginScreenState extends State<ALoginScreen> {
             body: Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: MediaQuery.of(context).viewPadding.top),
                   Row(
@@ -88,31 +89,33 @@ class _ALoginScreenState extends State<ALoginScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 60),
+                  Gap.kSection.height,
+                  Gap.kSection.height,
+                  Gap.kSection.height,
+                  Gap.kSection.height,
+                  Gap.kSection.height,
                   Text('Login',
                       style:
                           TextStyle(fontSize: 45, fontWeight: FontWeight.w500)),
-                  SizedBox(height: 16),
+                  Gap.kSection.height,
                   Text('Login into this course for rewards ',
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
-                  SizedBox(height: 16),
-                  Expanded(
-                    child: Container(
-                      height: 60,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          cubit.loginByGoole();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: appStore.isDarkModeOn
-                                ? context.cardColor
-                                : appetitAppContainerColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15))),
-                        child: Image.asset('image/appetit/google.png',
-                            width: 70, height: 70),
-                      ),
+                  Gap.kSection.height,
+                  Container(
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        cubit.loginByGoole();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: appStore.isDarkModeOn
+                              ? context.cardColor
+                              : appetitAppContainerColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                      child: Image.asset('image/appetit/google.png',
+                          width: 70, height: 70),
                     ),
                   ),
                 ],

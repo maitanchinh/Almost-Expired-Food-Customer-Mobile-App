@@ -65,16 +65,24 @@ class ProductComponent extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       Gap.k8.width,
-                      Text(
-                        '(-' +
-                            ((1 - product.price! / product.promotionalPrice!) *
-                                    100)
-                                .round()
-                                .toString() +
-                            '%)',
-                        style: TextStyle(
-                            color: Colors.redAccent,
-                            fontWeight: FontWeight.w600),
+                      Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.redAccent),
+                          borderRadius: BorderRadius.circular(4)
+                        ),
+                        child: Text(
+                          'Giảm ' +
+                              ((product.price! / product.promotionalPrice! - 1) *
+                                      100)
+                                  .round()
+                                  .toString() +
+                              '%',
+                          style: TextStyle(
+                            fontSize: 12,
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.w600),
+                        ),
                       )
                     ],
                   ),
