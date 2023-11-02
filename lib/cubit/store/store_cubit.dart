@@ -19,4 +19,6 @@ class StoreCubit extends Cubit<StoreState> {
       emit(StoreFailedState(msg: e.toString()));
     }
   }
+
+
 }

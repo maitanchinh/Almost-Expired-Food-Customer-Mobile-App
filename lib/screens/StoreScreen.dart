@@ -1,7 +1,7 @@
 import 'package:appetit/components/CampaignsComponent.dart';
 import 'package:appetit/cubit/campaigns/campaign_cubit.dart';
 import 'package:appetit/cubit/campaigns/campaigns_state.dart';
-import 'package:appetit/domain/models/store.dart';
+import 'package:appetit/domain/models/stores.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -106,7 +106,6 @@ class _StoreScreenState extends State<StoreScreen>
             ),
           ),
           SliverToBoxAdapter(
-            
             child: TabBar(
                 labelColor: Colors.orange.shade600,
                 unselectedLabelColor: black,
@@ -128,7 +127,7 @@ class _StoreScreenState extends State<StoreScreen>
                 MultiBlocProvider(
                   providers: [
                     BlocProvider<CampaignsCubit>(
-                        create: (context) => CampaignsCubit()),
+                        create: (context) => CampaignsCubit(storeId: widget.store.id)),
                     // BlocProvider<ProductsCubit>(create: (context) => ProductsCubit(campaignId: )),
                   ],
                   child: Campaigns(),
@@ -176,7 +175,7 @@ class Campaigns extends StatelessWidget {
                       );
                     }
                     if (state is CampaignsSuccessState) {
-                      var campaigns = state.campaigns;
+                      var campaigns = state.campaigns.campaign!;
                       return CampaignsComponent(
                         campaigns: campaigns,
                       ).paddingTop(16);

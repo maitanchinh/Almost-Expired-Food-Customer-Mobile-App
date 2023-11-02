@@ -1,4 +1,7 @@
+import 'package:appetit/cubit/campaigns/campaign_cubit.dart';
+import 'package:appetit/cubit/product/products_cubit.dart';
 import 'package:appetit/cubit/store/store_cubit.dart';
+import 'package:appetit/cubit/stores/stores_cubit.dart';
 import 'package:appetit/fragments/AHomeFragment.dart';
 import 'package:appetit/fragments/ANotificationFragment.dart';
 import 'package:appetit/fragments/AProfileFragment.dart';
@@ -44,7 +47,10 @@ class _ADashboardScreenState extends State<ADashboardScreen> {
         BlocProvider<AccountCubit>(
           create: (context) => AccountCubit(),
         ),
-        // BlocProvider(create: (context) => StoreCubit(productId))
+        BlocProvider<ProductsCubit>(create: (context) => ProductsCubit()),
+        BlocProvider<StoreCubit>(create: (context) => StoreCubit()),
+        BlocProvider<CampaignsCubit>(create: (context) => CampaignsCubit()),
+        BlocProvider<StoresCubit>(create: (context) => StoresCubit())
       ],
       child: Scaffold(
         body: widgetOption.elementAt(selectedItem),

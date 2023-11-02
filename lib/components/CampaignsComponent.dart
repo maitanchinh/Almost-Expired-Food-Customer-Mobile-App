@@ -8,7 +8,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 // ignore: must_be_immutable
 class CampaignsComponent extends StatefulWidget {
-  final Campaigns campaigns;
+  final List<Campaign> campaigns;
   ScrollPhysics? physics;
   CampaignsComponent({this.physics, required this.campaigns});
 
@@ -23,11 +23,11 @@ class _CampaignsComponentState extends State<CampaignsComponent> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: (1 / 1.5),
+          childAspectRatio: (1 / 1.3),
           mainAxisSpacing: 16,
           crossAxisSpacing: 16),
       physics: widget.physics ?? NeverScrollableScrollPhysics(),
-      itemCount: widget.campaigns.campaign!.length,
+      itemCount: widget.campaigns.length,
       padding: EdgeInsets.only(left: 16, right: 16, top: 0, bottom: 16),
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
@@ -35,7 +35,7 @@ class _CampaignsComponentState extends State<CampaignsComponent> {
         //     .getProductsByCampaignId(widget.campaigns.campaign![index].id!);
 
         return BlocProvider<ProductsCubit>(
-          create: (context) => ProductsCubit(campaignId: widget.campaigns.campaign![index].id),
+          create: (context) => ProductsCubit(campaignId: widget.campaigns[index].id),
           child: BlocBuilder<ProductsCubit, ProductsState>(
               builder: (context, state) {
             if (state is ProductsLoadingState) {
@@ -47,18 +47,18 @@ class _CampaignsComponentState extends State<CampaignsComponent> {
               var products = state.products.products;
               Map<String, dynamic> arguments = {
                 'products': products,
-                'campaign': widget.campaigns.campaign![index],
+                'campaign': widget.campaigns[index],
               };
               return Stack(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: FadeInImage.assetNetwork(
-                      image: widget.campaigns.campaign![index].thumbnailUrl
+                      image: widget.campaigns[index].thumbnailUrl
                           .toString(),
                       placeholder: 'image/appetit/placeholder.png',
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -103,7 +103,7 @@ class _CampaignsComponentState extends State<CampaignsComponent> {
                           SizedBox(
                             width: 100,
                             child: Text(
-                              widget.campaigns.campaign![index].name.toString(),
+                              widget.campaigns[index].name.toString(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

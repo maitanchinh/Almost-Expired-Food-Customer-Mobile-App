@@ -1,7 +1,7 @@
 import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/industries.dart';
 import 'package:appetit/domain/models/products.dart';
-import 'package:appetit/domain/models/store.dart';
+import 'package:appetit/domain/models/stores.dart';
 import 'package:appetit/screens/CartScreen.dart';
 import 'package:appetit/screens/IndustryScreen.dart';
 import 'package:appetit/screens/ProductDetailScreen.dart';

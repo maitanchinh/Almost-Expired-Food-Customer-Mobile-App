@@ -1,4 +1,4 @@
-import 'package:appetit/domain/models/store.dart';
+import 'package:appetit/domain/models/stores.dart';
 
 class StoreState {}
 
@@ -13,3 +13,5 @@ class StoreSuccessState extends StoreState {
   final Store store;
   StoreSuccessState({required this.store});
 }
+
+

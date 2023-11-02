@@ -6,18 +6,18 @@ import 'package:bloc/bloc.dart';
 class CampaignsCubit extends Cubit<CampaignsState> {
   final CampaignsRepo _campaignsRepo = getIt<CampaignsRepo>();
 
-  CampaignsCubit({String? storeOwnerId, String? branchId, String? name})
+  CampaignsCubit({String? storeOwnerId, String? storeId, String? branchId, String? name})
       : super(CampaignsState()) {
     getCampaignsList(
-        storeOwnerId: storeOwnerId, branchId: branchId, name: name);
+        storeOwnerId: storeOwnerId, branchId: branchId, storeId: storeId, name: name);
   }
 
   Future<void> getCampaignsList(
-      {String? storeOwnerId, String? branchId, String? name}) async {
+      {String? storeOwnerId, String? storeId, String? branchId, String? name}) async {
     try {
       emit(CampaignsLoadingState());
       final campaigns =
-          await _campaignsRepo.getCampaignsList(storeOwnerId, branchId, name);
+          await _campaignsRepo.getCampaignsList(storeOwnerId, branchId, storeId, name);
       emit(CampaignsSuccessState(campaigns: campaigns));
     } on Exception catch (e) {
       emit(CampaignsFailedState(msg: e.toString()));
