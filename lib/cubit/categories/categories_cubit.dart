@@ -34,10 +34,10 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   final CategoriesRepo _categoriesRepo = getIt<CategoriesRepo>();
 
   CategoriesCubit({String? categoryGroupId, String? campaignId, String? name}) :super(CategoriesState()){
-    getCategories(categoryGroupId, campaignId, name);
+    getCategories(categoryGroupId: categoryGroupId, campaignId: campaignId, name: name);
   }
 
-  Future<void> getCategories(String? categoryGroupId, String? campaignId, String? name) async {
+  Future<void> getCategories({String? categoryGroupId, String? campaignId, String? name}) async {
     try {
       emit(CategoriesLoadingState());
       var categories = await _categoriesRepo.getCategories(categoryGroupId, campaignId, name);

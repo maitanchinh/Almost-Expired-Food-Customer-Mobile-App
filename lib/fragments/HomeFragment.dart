@@ -15,7 +15,7 @@ import 'package:appetit/screens/IndustryScreen.dart';
 import 'package:appetit/screens/ProductDetailScreen.dart';
 import 'package:appetit/utils/AColors.dart';
 import 'package:appetit/main.dart';
-import 'package:appetit/screens/ACategoryListScreen.dart';
+import 'package:appetit/screens/IndustriesListScreen.dart';
 import 'package:appetit/utils/format_utils.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:appetit/widgets/SkeletonWidget.dart';
@@ -26,14 +26,14 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../components/CampaignsComponent.dart';
 
-class AHomeFragment extends StatefulWidget {
-  const AHomeFragment({Key? key}) : super(key: key);
+class HomeFragment extends StatefulWidget {
+  const HomeFragment({Key? key}) : super(key: key);
 
   @override
-  State<AHomeFragment> createState() => _AHomeFragmentState();
+  State<HomeFragment> createState() => _HomeFragmentState();
 }
 
-class _AHomeFragmentState extends State<AHomeFragment> {
+class _HomeFragmentState extends State<HomeFragment> {
   var bookmarkSelection = true;
 
   @override
@@ -100,7 +100,7 @@ class _AHomeFragmentState extends State<AHomeFragment> {
                           SkeletonWidget(
                             borderRadius: 10,
                             height: 20,
-                            width: 100,
+                            width: 70,
                           ),
                           SkeletonWidget(
                             borderRadius: 10,
@@ -143,7 +143,7 @@ class _AHomeFragmentState extends State<AHomeFragment> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Categories',
+                            Text('Ngành hàng',
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w500)),
                             TextButton(
@@ -151,8 +151,8 @@ class _AHomeFragmentState extends State<AHomeFragment> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ACategoryListScreen())),
-                              child: Text('View all',
+                                          IndustriesListScreen())),
+                              child: Text('Xem tất cả',
                                   style: TextStyle(
                                       color: appStore.isDarkModeOn
                                           ? Colors.grey

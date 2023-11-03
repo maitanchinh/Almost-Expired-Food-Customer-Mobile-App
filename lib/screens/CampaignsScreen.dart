@@ -75,7 +75,7 @@ class _BodyState extends State<Body> {
         var categories = state.categories;
         return ScrollView(
           categories: categories,
-          tabLength: categories.data!.length,
+          tabLength: categories.categories!.length,
         );
       }
       return SizedBox.shrink();
@@ -128,7 +128,7 @@ class _ScrollViewState extends State<ScrollView>
                 unselectedLabelColor: Colors.black,
                 indicatorColor: Colors.orange.shade600,
                 controller: tabController,
-                tabs: widget.categories.data!
+                tabs: widget.categories.categories!
                     .map((e) => Center(child: Text(e.name.toString())))
                     .toList(),
               ),
@@ -138,7 +138,7 @@ class _ScrollViewState extends State<ScrollView>
         SliverFillRemaining(
           child: TabBarView(
               controller: tabController,
-              children: widget.categories.data!.map((e) {
+              children: widget.categories.categories!.map((e) {
                 return ProductsListComponent(categoryId: e.id.toString());
               }).toList()),
         ),

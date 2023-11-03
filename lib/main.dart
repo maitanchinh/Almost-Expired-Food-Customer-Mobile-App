@@ -1,4 +1,4 @@
-import 'package:appetit/screens/ADashboardScreen.dart';
+import 'package:appetit/screens/DashboardScreen.dart';
 import 'package:appetit/store/AppStore.dart';
 import 'package:appetit/utils/AConstants.dart';
 import 'package:appetit/utils/ADataProvider.dart';
@@ -61,7 +61,7 @@ Widget _fetchAuthAndInitialRoute() {
   try {
     String accessToken = getStringAsync(TOKEN_KEY);
     if (accessToken.isNotEmpty) {
-      return ADashboardScreen();
+      return DashboardScreen();
     }
   } catch (e) {
    debugPrint("ex ${e.toString()}"); 

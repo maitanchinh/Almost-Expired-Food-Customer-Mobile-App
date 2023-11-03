@@ -2,6 +2,7 @@ import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/industries.dart';
 import 'package:appetit/domain/models/products.dart';
 import 'package:appetit/domain/models/stores.dart';
+import 'package:appetit/screens/LoginScreen.dart';
 import 'package:appetit/screens/CartScreen.dart';
 import 'package:appetit/screens/IndustryScreen.dart';
 import 'package:appetit/screens/ProductDetailScreen.dart';
@@ -34,6 +35,8 @@ PageRoute? generateRoute(RouteSettings settings) {
               CampaignsScreen(products: products, campaign: campaign,));
     case CartScreen.routeName: 
     return MaterialPageRoute(builder: (_) => CartScreen());
+    case LoginScreen.routeName:
+    return MaterialPageRoute(builder: (_) => LoginScreen());
     default:
   }
   return null;

@@ -43,7 +43,7 @@ class Categories extends StatelessWidget {
           );
         }
         if (state is CategoriesSuccessState) {
-          var categories = state.categories.data;
+          var categories = state.categories.categories;
           return DefaultTabController(
             length: categories!.length,
             child: Scaffold(

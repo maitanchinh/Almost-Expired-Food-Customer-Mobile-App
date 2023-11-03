@@ -53,18 +53,21 @@ class Pagination {
 class Industry {
   String? id;
   String? name;
+  String? thumbnailUrl;
 
-  Industry({this.id, this.name});
+  Industry({this.id, this.name, this.thumbnailUrl});
 
   Industry.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    thumbnailUrl = json['thumbnailUrl'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['thumbnailUrl'] = this.thumbnailUrl;
     return data;
   }
 }

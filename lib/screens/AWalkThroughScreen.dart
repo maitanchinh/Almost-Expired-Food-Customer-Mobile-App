@@ -1,4 +1,4 @@
-import 'package:appetit/screens/ALoginScreen.dart';
+import 'package:appetit/screens/LoginScreen.dart';
 import 'package:appetit/utils/ADataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -124,7 +124,7 @@ class _AWalkThroughScreenState extends State<AWalkThroughScreen> {
                       if (initialValue < 2) {
                         setState(() => pageController.jumpToPage(initialValue + 1));
                       } else {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ALoginScreen()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
                       }
                     },
                     child: Icon(Icons.arrow_forward_ios_outlined, color: Colors.white),

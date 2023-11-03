@@ -9,3 +9,12 @@ class LoginByGooglelFailedState extends LoginByGoogleState {
 }
 
 class LoginByGooglelSuccessState extends LoginByGoogleState {}
+
+class LogoutState {}
+
+class LogoutFailedState extends LogoutState {
+  final String msg;
+  LogoutFailedState({required this.msg});
+}
+
+class LogoutSuccessState extends LogoutState {}

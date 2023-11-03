@@ -1,4 +1,4 @@
-import 'package:appetit/components/ASearchLiveComponent.dart';
+import 'package:appetit/components/CategoriesListComponent.dart';
 import 'package:appetit/components/CampaignsComponent.dart';
 import 'package:appetit/components/MapComponent.dart';
 import 'package:appetit/components/ProductsListComponent.dart';
@@ -15,14 +15,14 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/utils/AColors.dart';
 import 'package:appetit/main.dart';
 
-class ASearchFragment extends StatefulWidget {
-  ASearchFragment({Key? key}) : super(key: key);
+class SearchFragment extends StatefulWidget {
+  SearchFragment({Key? key}) : super(key: key);
 
   @override
-  State<ASearchFragment> createState() => _ASearchFragmentState();
+  State<SearchFragment> createState() => _SearchFragmentState();
 }
 
-class _ASearchFragmentState extends State<ASearchFragment>
+class _SearchFragmentState extends State<SearchFragment>
     with SingleTickerProviderStateMixin {
   var selectedItem = 0;
   String _searchQuery = '';
@@ -31,8 +31,7 @@ class _ASearchFragmentState extends State<ASearchFragment>
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<CampaignsCubit>(
-              create: (context) => CampaignsCubit()),
+          BlocProvider<CampaignsCubit>(create: (context) => CampaignsCubit()),
           BlocProvider<ProductsCubit>(
               create: (context) => ProductsCubit(name: _searchQuery)),
           BlocProvider<CategoriesCubit>(
@@ -130,9 +129,7 @@ class TabView extends StatelessWidget {
       children: [
         BlocBuilder<CampaignsCubit, CampaignsState>(builder: (context, state) {
           if (state is CampaignsLoadingState) {
-            return Center(
-              child: CircularProgressIndicator()
-            );
+            return SizedBox.shrink();
           }
           if (state is CampaignsSuccessState) {
             if (state.campaigns.campaign!.isNotEmpty) {
@@ -148,7 +145,9 @@ class TabView extends StatelessWidget {
           }
           return SizedBox.shrink();
         }),
-        ASearchLiveComponent(),
+        CategoriesListComponent(
+          name: searchQuery,
+        ),
         ProductsListComponent(
           name: searchQuery,
         ),

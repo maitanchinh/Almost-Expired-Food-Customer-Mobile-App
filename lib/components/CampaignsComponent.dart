@@ -2,6 +2,7 @@ import 'package:appetit/cubit/product/products_cubit.dart';
 import 'package:appetit/cubit/product/products_state.dart';
 import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/screens/CampaignsScreen.dart';
+import 'package:appetit/widgets/SkeletonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -39,9 +40,7 @@ class _CampaignsComponentState extends State<CampaignsComponent> {
           child: BlocBuilder<ProductsCubit, ProductsState>(
               builder: (context, state) {
             if (state is ProductsLoadingState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return SkeletonWidget(borderRadius: 20, height: 0, width: 0);
             }
             if (state is ProductsSuccessState) {
               var products = state.products.products;

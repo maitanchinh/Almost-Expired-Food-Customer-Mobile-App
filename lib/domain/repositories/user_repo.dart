@@ -4,7 +4,6 @@ import 'package:appetit/utils/messages.dart';
 import 'package:dio/dio.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJhNDFiM2ZlLWIyOTYtNDkyOC1iZDRiLTk5ZTQwMmFkYmU0NyIsInJvbGUiOiJDdXN0b21lciIsIm5iZiI6MTY5NzYyNDU2MywiZXhwIjoxNjk4MjI5MzYzLCJpYXQiOjE2OTc2MjQ1NjN9.mFJ2PaE9EkqNRgg6qJKXG4IRN0c-ljiGqeeHf_8glmE
 class UserRepo{
   final Dio apiClient = getIt.get<Dio>();
 

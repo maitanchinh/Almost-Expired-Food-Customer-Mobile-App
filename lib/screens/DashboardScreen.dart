@@ -2,25 +2,25 @@ import 'package:appetit/cubit/campaigns/campaign_cubit.dart';
 import 'package:appetit/cubit/product/products_cubit.dart';
 import 'package:appetit/cubit/store/store_cubit.dart';
 import 'package:appetit/cubit/stores/stores_cubit.dart';
-import 'package:appetit/fragments/AHomeFragment.dart';
+import 'package:appetit/fragments/HomeFragment.dart';
 import 'package:appetit/fragments/ANotificationFragment.dart';
-import 'package:appetit/fragments/AProfileFragment.dart';
+import 'package:appetit/fragments/ProfileFragment.dart';
 import 'package:appetit/screens/AAddRecipeScreen.dart';
-import 'package:appetit/fragments/ASearchFragment.dart';
+import 'package:appetit/fragments/SearchFragment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/categories/categories_cubit.dart';
 import '../cubit/profile/account_cubit.dart';
 
-class ADashboardScreen extends StatefulWidget {
-  ADashboardScreen({Key? key}) : super(key: key);
+class DashboardScreen extends StatefulWidget {
+  DashboardScreen({Key? key}) : super(key: key);
 
   @override
-  State<ADashboardScreen> createState() => _ADashboardScreenState();
+  State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _ADashboardScreenState extends State<ADashboardScreen> {
+class _DashboardScreenState extends State<DashboardScreen> {
   int selectedItem = 0;
 
   void onTapSelection(int index) {
@@ -32,11 +32,11 @@ class _ADashboardScreenState extends State<ADashboardScreen> {
   }
 
   List<Widget> widgetOption = <Widget>[
-    AHomeFragment(),
-    ASearchFragment(),
+    HomeFragment(),
+    SearchFragment(),
     SizedBox(),
     ANotificationFragment(),
-    AProfileFragment(),
+    ProfileFragment(),
   ];
 
   @override
@@ -50,7 +50,8 @@ class _ADashboardScreenState extends State<ADashboardScreen> {
         BlocProvider<ProductsCubit>(create: (context) => ProductsCubit()),
         BlocProvider<StoreCubit>(create: (context) => StoreCubit()),
         BlocProvider<CampaignsCubit>(create: (context) => CampaignsCubit()),
-        BlocProvider<StoresCubit>(create: (context) => StoresCubit())
+        BlocProvider<StoresCubit>(create: (context) => StoresCubit()),
+        BlocProvider<CategoriesCubit>(create: (context) => CategoriesCubit())
       ],
       child: Scaffold(
         body: widgetOption.elementAt(selectedItem),

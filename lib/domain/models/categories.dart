@@ -1,17 +1,17 @@
 class Categories {
   Pagination? pagination;
-  List<Data>? data;
+  List<Category>? categories;
 
-  Categories({this.pagination, this.data});
+  Categories({this.pagination, this.categories});
 
   Categories.fromJson(Map<String, dynamic> json) {
     pagination = json['pagination'] != null
         ? new Pagination.fromJson(json['pagination'])
         : null;
     if (json['data'] != null) {
-      data = <Data>[];
+      categories = <Category>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        categories!.add(new Category.fromJson(v));
       });
     }
   }
@@ -21,8 +21,8 @@ class Categories {
     if (this.pagination != null) {
       data['pagination'] = this.pagination!.toJson();
     }
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    if (this.categories != null) {
+      data['data'] = this.categories!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -50,16 +50,18 @@ class Pagination {
   }
 }
 
-class Data {
+class Category {
   String? id;
   String? name;
+  String? thumbnailUrl;
   CategoryGroup? categoryGroup;
 
-  Data({this.id, this.name, this.categoryGroup});
+  Category({this.id, this.name, this.thumbnailUrl, this.categoryGroup});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    thumbnailUrl = json['thumbnailUrl'];
     categoryGroup = json['categoryGroup'] != null
         ? new CategoryGroup.fromJson(json['categoryGroup'])
         : null;
@@ -69,6 +71,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['thumbnailUrl'] = this.thumbnailUrl;
     if (this.categoryGroup != null) {
       data['categoryGroup'] = this.categoryGroup!.toJson();
     }

@@ -1,4 +1,4 @@
-import 'package:appetit/screens/ALoginScreen.dart';
+import 'package:appetit/screens/LoginScreen.dart';
 import 'package:appetit/screens/ARegisterScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:appetit/utils/AColors.dart';
@@ -150,7 +150,7 @@ class _AWelcomeScreenState extends State<AWelcomeScreen> {
                 children: [
                   Text('Have an account ? ', style: TextStyle(fontWeight: FontWeight.w300)),
                   InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ALoginScreen())),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen())),
                     child: Text('Login', style: TextStyle(fontWeight: FontWeight.w700)),
                   ),
                 ],

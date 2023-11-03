@@ -1,7 +1,7 @@
 import 'package:appetit/cubit/login/login_cubit.dart';
 import 'package:appetit/cubit/login/login_state.dart';
 import 'package:appetit/screens/ARegisterScreen.dart';
-import 'package:appetit/screens/ADashboardScreen.dart';
+import 'package:appetit/screens/DashboardScreen.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:appetit/utils/messages.dart';
 import 'package:flutter/material.dart';
@@ -10,14 +10,15 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/utils/AColors.dart';
 import 'package:appetit/main.dart';
 
-class ALoginScreen extends StatefulWidget {
-  const ALoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  static const routeName = '/login';
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _ALoginScreenState createState() => _ALoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _ALoginScreenState extends State<ALoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   var viewPassword = true;
 
   GlobalKey<FormState> mykey = new GlobalKey<FormState>();
@@ -30,7 +31,7 @@ class _ALoginScreenState extends State<ALoginScreen> {
         listener: (context, state) {
           if (state is LoginByGooglelSuccessState) {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => ADashboardScreen()));
+                MaterialPageRoute(builder: (context) => DashboardScreen()));
             return;
           } else if (state is LoginByGooglelFailedState) {
             showModalBottomSheet(
