@@ -20,11 +20,7 @@ class ProductsListComponent extends StatefulWidget {
 class _ProductsListComponentState extends State<ProductsListComponent> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProductsCubit>(
-      create: (context) =>
-          ProductsCubit(categoryId: widget.categoryId, name: widget.name),
-      child: ProductsList(categoryId: widget.categoryId, name: widget.name),
-    );
+    return ProductsList(categoryId: widget.categoryId, name: widget.name);
   }
 }
 
@@ -36,6 +32,8 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productsCubit = BlocProvider.of<ProductsCubit>(context);
+    productsCubit.getProducts(categoryId: categoryId, name: name);
     return BlocBuilder<ProductsCubit, ProductsState>(builder: (context, state) {
       if (state is ProductsLoadingState) {
         return ListView.builder(

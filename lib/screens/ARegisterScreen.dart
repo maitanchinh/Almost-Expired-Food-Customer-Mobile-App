@@ -2,7 +2,7 @@ import 'package:appetit/components/ARegisterFormComponent.dart';
 import 'package:appetit/screens/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:appetit/utils/AColors.dart';
+import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/main.dart';
 
 class ARegisterScreen extends StatefulWidget {

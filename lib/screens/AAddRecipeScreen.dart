@@ -4,7 +4,7 @@ import 'package:appetit/components/AAddIngredientsComponent.dart';
 import 'package:appetit/components/AAddOptionalComponent.dart';
 import 'package:appetit/components/AAddTitleComponent.dart';
 import 'package:appetit/main.dart';
-import 'package:appetit/utils/AColors.dart';
+import 'package:appetit/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 

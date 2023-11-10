@@ -1,5 +1,5 @@
 
-import 'package:appetit/utils/AColors.dart';
+import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/utils/AConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-import '../utils/AColors.dart';
+import '../utils/Colors.dart';
 
 class StoreScreen extends StatefulWidget {
   static const String routeName = '/store';

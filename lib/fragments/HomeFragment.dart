@@ -7,13 +7,12 @@ import 'package:appetit/cubit/product/products_state.dart';
 import 'package:appetit/cubit/profile/account_cubit.dart';
 import 'package:appetit/cubit/profile/account_state.dart';
 import 'package:appetit/cubit/store/store_cubit.dart';
-import 'package:appetit/cubit/store/store_state.dart';
 import 'package:appetit/cubit/stores/stores_cubit.dart';
 import 'package:appetit/cubit/stores/stores_state.dart';
 import 'package:appetit/screens/CartScreen.dart';
 import 'package:appetit/screens/IndustryScreen.dart';
 import 'package:appetit/screens/ProductDetailScreen.dart';
-import 'package:appetit/utils/AColors.dart';
+import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/main.dart';
 import 'package:appetit/screens/IndustriesListScreen.dart';
 import 'package:appetit/utils/format_utils.dart';
@@ -39,6 +38,9 @@ class _HomeFragmentState extends State<HomeFragment> {
   @override
   Widget build(BuildContext context) {
     final _industriesCubit = GetIt.I.get<IndustriesCubit>();
+    final _productsCubit = BlocProvider.of<ProductsCubit>(context);
+    final _storeCubit =
+                                BlocProvider.of<StoreCubit>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -75,7 +77,10 @@ class _HomeFragmentState extends State<HomeFragment> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async => _industriesCubit.refresh(),
+        onRefresh: () async {
+          _industriesCubit.refresh();
+          _productsCubit.refresh();
+        },
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Column(
@@ -115,9 +120,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          SizedBox(
-                            width: 12,
-                          ),
                           Row(
                             children: [
                               SkeletonWidget(
@@ -259,9 +261,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                         physics: BouncingScrollPhysics(),
                         child: Row(
                           children: products.take(4).map((e) {
-                            final storeCubit =
-                                BlocProvider.of<StoreCubit>(context);
-                            storeCubit.getStoreByProductId(productId: e.id);
+                            
+                            _storeCubit.getStoreByProductId(productId: e.id);
                             return Padding(
                               padding: EdgeInsets.only(right: 16.0),
                               child: ClipRRect(
@@ -280,62 +281,63 @@ class _HomeFragmentState extends State<HomeFragment> {
                                         width: 250,
                                         fit: BoxFit.cover,
                                       ),
-                                      BlocBuilder<StoreCubit, StoreState>(
-                                          builder: (context, state) {
-                                        if (state is StoreLoadingState) {
-                                          return SizedBox.shrink();
-                                        }
-                                        if (state is StoreSuccessState) {
-                                          var store = state.store;
-                                          return Positioned(
-                                            top: 16,
-                                            left: 16,
-                                            child: Container(
-                                                height: 40,
-                                                width: 160,
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 8, vertical: 4),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  color: Colors.white24
-                                                      .withOpacity(0.25),
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    CircleAvatar(
-                                                      child: ClipOval(
-                                                        child: FadeInImage
-                                                            .assetNetwork(
-                                                          image: store
-                                                              .thumbnailUrl
-                                                              .toString(),
-                                                          placeholder:
-                                                              'image/appetit/store-placeholder-avatar.png',
-                                                          height: 70,
-                                                          width: 70,
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      ),
-                                                      radius: 15,
-                                                    ),
-                                                    SizedBox(width: 8),
-                                                    Expanded(
-                                                      child: Text(
-                                                          store.name.toString(),
-                                                          style: TextStyle(
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              color: Colors
-                                                                  .white)),
-                                                    ),
-                                                  ],
-                                                )),
-                                          );
-                                        }
-                                        return SizedBox.shrink();
-                                      }),
+                                      // BlocBuilder<StoreCubit, StoreState>(
+                                      //     builder: (context, state) {
+                                      //   if (state is StoreLoadingState) {
+                                      //     return SizedBox.shrink();
+                                      //   }
+                                      //   if (state is StoreSuccessState) {
+                                      //     var store = state.store;
+                                      //     print(store.name);
+                                      //     return Positioned(
+                                      //       top: 16,
+                                      //       left: 16,
+                                      //       child: Container(
+                                      //           height: 40,
+                                      //           width: 160,
+                                      //           padding: EdgeInsets.symmetric(
+                                      //               horizontal: 8, vertical: 4),
+                                      //           decoration: BoxDecoration(
+                                      //             borderRadius:
+                                      //                 BorderRadius.circular(20),
+                                      //             color: Colors.grey
+                                      //                 .withOpacity(0.5),
+                                      //           ),
+                                      //           child: Row(
+                                      //             children: [
+                                      //               CircleAvatar(
+                                      //                 child: ClipOval(
+                                      //                   child: FadeInImage
+                                      //                       .assetNetwork(
+                                      //                     image: store
+                                      //                         .thumbnailUrl
+                                      //                         .toString(),
+                                      //                     placeholder:
+                                      //                         'image/appetit/store-placeholder-avatar.png',
+                                      //                     height: 70,
+                                      //                     width: 70,
+                                      //                     fit: BoxFit.cover,
+                                      //                   ),
+                                      //                 ),
+                                      //                 radius: 15,
+                                      //               ),
+                                      //               SizedBox(width: 8),
+                                      //               Expanded(
+                                      //                 child: Text(
+                                      //                     store.name.toString(),
+                                      //                     style: TextStyle(
+                                      //                         overflow:
+                                      //                             TextOverflow
+                                      //                                 .ellipsis,
+                                      //                         color: Colors
+                                      //                             .white)),
+                                      //               ),
+                                      //             ],
+                                      //           )),
+                                      //     );
+                                      //   }
+                                      //   return SizedBox.shrink();
+                                      // }),
                                       Positioned(
                                         top: 0,
                                         right: 20,
@@ -430,12 +432,15 @@ class _HomeFragmentState extends State<HomeFragment> {
                                       Positioned(
                                         left: 16,
                                         top: 80,
-                                        right: 16,
-                                        child: Text(e.name.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500)),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                          decoration: BoxDecoration(color: grey.withOpacity(0.5), borderRadius: BorderRadius.circular(20)),
+                                          child: Text(e.name.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500)),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -535,70 +540,80 @@ class _HomeFragmentState extends State<HomeFragment> {
                   );
                 }
                 if (state is StoresSuccessState) {
-                  var stores = state.stores.stores!.where((element) => element.rated != null && element.rated! >= 4).toList();
+                  var stores = state.stores.stores!
+                      .where((element) =>
+                          element.rated != null && element.rated! >= 4)
+                      .toList();
                   if (stores.isNotEmpty) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text('Cửa hàng nổi bật',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500)),
-                      ),
-                      Gap.k8.height,
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        child: Row(
-                          children: stores.map((e) {
-                            return Container(
-                              width: 90,
-                              // padding: EdgeInsets.only(right: 16),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: white,
-                                    radius: 25,
-                                    child: ClipOval(
-                                  child: FadeInImage.assetNetwork(
-                                    placeholder:
-                                        'image/appetit/store-placeholder-avatar.png',
-                                    image: e.thumbnailUrl.toString(),
-                                    fit: BoxFit.cover,
-                                    height: 50,
-                                    width: 50,
-                                  ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8),
-                                  e.rated != null ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.star_outlined,
-                                        color: Colors.orange.shade600,
-                                        size: 16,
-                                      ),
-                                      Text(
-                                        e.rated.toString(),
-                                        style: TextStyle(
-                                            color: Colors.orange.shade600,
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ) : SizedBox.shrink(),
-                                  Text(e.name.toString(), textAlign: TextAlign.center,),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text('Cửa hàng nổi bật',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w500)),
                         ),
-                      ),
-                      Gap.k16.height
-                    ],
-                  );
+                        Gap.k8.height,
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          child: Row(
+                            children: stores.map((e) {
+                              return Container(
+                                width: 90,
+                                // padding: EdgeInsets.only(right: 16),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: white,
+                                      radius: 25,
+                                      child: ClipOval(
+                                        child: FadeInImage.assetNetwork(
+                                          placeholder:
+                                              'image/appetit/store-placeholder-avatar.png',
+                                          image: e.thumbnailUrl.toString(),
+                                          fit: BoxFit.cover,
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    e.rated != null
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.star_outlined,
+                                                color: Colors.orange.shade600,
+                                                size: 16,
+                                              ),
+                                              Text(
+                                                e.rated.toString(),
+                                                style: TextStyle(
+                                                    color:
+                                                        Colors.orange.shade600,
+                                                    fontSize: 14),
+                                              ),
+                                            ],
+                                          )
+                                        : SizedBox.shrink(),
+                                    Text(
+                                      e.name.toString(),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        Gap.k16.height
+                      ],
+                    );
                   } else {
                     return SizedBox.shrink();
                   }

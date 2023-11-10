@@ -1,9 +1,13 @@
 import 'package:appetit/cubit/categories/categories_cubit.dart';
+import 'package:appetit/cubit/product/products_cubit.dart';
 import 'package:appetit/cubit/profile/account_cubit.dart';
+import 'package:appetit/cubit/store/store_cubit.dart';
 import 'package:appetit/domain/repositories/account_repo.dart';
 import 'package:appetit/domain/repositories/campaigns_repo.dart';
+import 'package:appetit/domain/repositories/cart_repo.dart';
 import 'package:appetit/domain/repositories/categories_repo.dart';
 import 'package:appetit/domain/repositories/industries_repo.dart';
+import 'package:appetit/domain/repositories/orders_repo.dart';
 import 'package:appetit/domain/repositories/products_repo.dart';
 import 'package:appetit/domain/repositories/store_repo.dart';
 import 'package:appetit/utils/dio.dart';
@@ -22,7 +26,11 @@ Future<void> initialGetIt() async {
   getIt.registerLazySingleton(() => ProductsRepo());
   getIt.registerLazySingleton(() => StoreRepo());
   getIt.registerLazySingleton(() => CampaignsRepo());
+  getIt.registerLazySingleton(() => CartRepo());
+  getIt.registerLazySingleton(() => OrdersRepo());
 
   getIt.registerLazySingleton(() => IndustriesCubit());
   getIt.registerLazySingleton(() => AccountCubit());
+  getIt.registerLazySingleton(() => ProductsCubit());
+  getIt.registerLazySingleton(() => StoreCubit());
 }

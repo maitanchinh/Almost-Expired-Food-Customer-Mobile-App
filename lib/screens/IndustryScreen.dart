@@ -1,7 +1,7 @@
 import 'package:appetit/cubit/categories/categories_cubit.dart';
 import 'package:appetit/cubit/categories/categories_state.dart';
 import 'package:appetit/domain/models/industries.dart';
-import 'package:appetit/utils/AColors.dart';
+import 'package:appetit/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';

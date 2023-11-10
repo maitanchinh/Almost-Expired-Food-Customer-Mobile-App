@@ -6,7 +6,7 @@ import 'package:appetit/screens/ADiscussionScreen.dart';
 import 'package:appetit/screens/StoreScreen.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
-import 'package:appetit/utils/AColors.dart';
+import 'package:appetit/utils/Colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -80,7 +80,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       child: Text(
                         'Còn ' +
-                            widget.product.quantity.toString() +
+                            (widget.product.quantity! - widget.product.sold!).toString() +
                             ' sản phẩm',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -203,7 +203,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           )),
                         ).onTap(() {
                           setState(() {
-                            quantity++;
+                            if (quantity < widget.product.quantity! - widget.product.sold!) {
+                              quantity++;
+                            } else {
+                              quantity = widget.product.quantity! - widget.product.sold!;
+                            }
                           });
                         })
                       ],
@@ -227,13 +231,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 Gap.k16.height,
                 BlocProvider<StoreCubit>(
-                  create: (context) => StoreCubit(productId: widget.product.id!),
+                  create: (context) =>
+                      StoreCubit(productId: widget.product.id!),
                   child: BlocBuilder<StoreCubit, StoreState>(
-                    builder: (context, state) {
-                      if (state is StoreLoadingState) {
-                        return SizedBox.shrink();
-                      }
-                      if (state is StoreSuccessState) {
+                      builder: (context, state) {
+                    if (state is StoreLoadingState) {
+                      return SizedBox.shrink();
+                    }
+                    if (state is StoreSuccessState) {
                       var store = state.store;
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,8 +247,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
-                                child: FadeInImage.assetNetwork(image: store.thumbnailUrl!, placeholder: 'image/appetit/store-placeholder-avatar.png',
-                                    height: 40, width: 40, fit: BoxFit.cover),
+                                child: FadeInImage.assetNetwork(
+                                    image: store.thumbnailUrl!,
+                                    placeholder:
+                                        'image/appetit/store-placeholder-avatar.png',
+                                    height: 40,
+                                    width: 40,
+                                    fit: BoxFit.cover),
                               ),
                               SizedBox(width: 8),
                               Column(
@@ -252,31 +262,35 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   Row(
                                     children: [
                                       Text(store.name!,
-                                          style:
-                                              TextStyle(fontWeight: FontWeight.w700)),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700)),
                                       Gap.k8.width,
                                     ],
                                   ),
-                                      store.rated != null ? Row(
-                                        children: [
-                                          Icon(
-                                            Icons.star_outlined,
-                                            color: Colors.orange.shade600,
-                                            size: 16,
-                                          ),
-                                          Text(
-                                            store.rated.toString(),
-                                            style:
-                                                TextStyle(color: Colors.orange.shade600),
-                                          ),
-                                        ],
-                                      ) : SizedBox.shrink(),
+                                  store.rated != null
+                                      ? Row(
+                                          children: [
+                                            Icon(
+                                              Icons.star_outlined,
+                                              color: Colors.orange.shade600,
+                                              size: 16,
+                                            ),
+                                            Text(
+                                              store.rated.toString(),
+                                              style: TextStyle(
+                                                  color:
+                                                      Colors.orange.shade600),
+                                            ),
+                                          ],
+                                        )
+                                      : SizedBox.shrink(),
                                 ],
                               )
                             ],
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 1, color: Colors.orange.shade600),
@@ -285,13 +299,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               'Xem cửa hàng',
                               style: TextStyle(color: Colors.orange.shade600),
                             ),
-                          ).onTap(() => Navigator.pushNamed(context, StoreScreen.routeName, arguments: store))
+                          ).onTap(() => Navigator.pushNamed(
+                              context, StoreScreen.routeName,
+                              arguments: store))
                         ],
                       );
-                      }
-                      return SizedBox.shrink();
                     }
-                  ),
+                    return SizedBox.shrink();
+                  }),
                 ),
                 Gap.kSection.height,
 
@@ -345,49 +360,64 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ],
             ),
           ),
-          quantity > 0 ? Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    height: 50,
-                    color: Colors.green,
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Thêm giỏ hàng - ', style: TextStyle(color: white),),
-                          SvgPicture.asset(
-                            'image/appetit/cart-shopping.svg',
-                            width: 20,
-                            color: white,
+          quantity > 0
+              ? Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: Container(
+                          height: 50,
+                          color: Colors.green,
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Thêm giỏ hàng - ',
+                                  style: TextStyle(color: white),
+                                ),
+                                SvgPicture.asset(
+                                  'image/appetit/cart-shopping.svg',
+                                  width: 20,
+                                  color: white,
+                                ),
+                                Gap.k4.width,
+                                Text(
+                                  quantity.toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: white),
+                                )
+                              ],
+                            ),
                           ),
-                          Gap.k4.width,
-                          Text(quantity.toString(), style: TextStyle(fontWeight: FontWeight.bold, color: white),)
-                        ],
+                        ),
                       ),
-                    ),
+                      Flexible(
+                        flex: 1,
+                        child: Container(
+                          color: Colors.orange.shade600,
+                          height: 50,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                                'Xem đơn hàng - ₫' +
+                                    FormatUtils.formatPrice((quantity *
+                                                widget.product.price!.toInt())
+                                            .toDouble())
+                                        .toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    color: Colors.orange.shade600,
-                    height: 50,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text('Xem đơn hàng - ₫' + FormatUtils.formatPrice((quantity * widget.product.price!.toInt()).toDouble()).toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                          )),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ) : SizedBox.shrink(),
+                )
+              : SizedBox.shrink(),
         ],
       ),
     );

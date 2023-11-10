@@ -150,13 +150,17 @@ class StoreOwner {
 class Branches {
   String? id;
   String? address;
+  double? latitude;
+  double? longitude;
   String? phone;
 
-  Branches({this.id, this.address, this.phone});
+  Branches({this.id, this.address, this.latitude, this.longitude, this.phone});
 
   Branches.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     address = json['address'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
     phone = json['phone'];
   }
 
@@ -164,7 +168,10 @@ class Branches {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['address'] = this.address;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     data['phone'] = this.phone;
     return data;
   }
 }
+

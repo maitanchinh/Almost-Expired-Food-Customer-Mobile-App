@@ -37,6 +37,11 @@ class ProductsCubit extends Cubit<ProductsState> {
     }
   }
 
+  void refresh(){
+    emit(ProductsLoadingState());
+    getProducts();
+  }
+
   // Future<void> getProductsByCampaignId(String campaignId) async {
   //   try {
   //     emit(ProductsLoadingState());
