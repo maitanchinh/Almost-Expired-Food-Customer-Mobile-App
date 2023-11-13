@@ -458,8 +458,8 @@ class _CartScreenState extends State<CartScreen> {
                               ],
                             ),
                             choosenItems.values.where((element) => element == true).length > 0
-                                ? BlocProvider<UpdateCartCubit>(
-                                    create: (context) => UpdateCartCubit(),
+                                ? BlocProvider<CreateOrderCubit>(
+                                    create: (context) => CreateOrderCubit(),
                                     child: Container(
                                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       decoration: BoxDecoration(color: Colors.orange.shade700, borderRadius: BorderRadius.circular(4)),
@@ -498,17 +498,6 @@ class _CartScreenState extends State<CartScreen> {
                                           'Mua hàng',
                                           style: TextStyle(color: white, fontSize: 12, fontWeight: FontWeight.bold),
                                         ),
-                                        choosenItems.values.where((element) => element == true).length > 0
-                                            ? Row(
-                                                children: [
-                                                  Gap.k4.width,
-                                                  Text(
-                                                    '(' + choosenItems.values.where((element) => element == true).length.toString() + ')',
-                                                    style: TextStyle(color: white, fontSize: 12, fontWeight: FontWeight.bold),
-                                                  ),
-                                                ],
-                                              )
-                                            : SizedBox.shrink(),
                                       ],
                                     ),
                                   ),

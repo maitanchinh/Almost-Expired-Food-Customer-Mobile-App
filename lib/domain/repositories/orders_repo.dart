@@ -14,14 +14,14 @@ class OrdersRepo {
   //   }
   // }
 
-  Future<int?> createOrder(CreateOrder data) async {
+  Future<int> createOrder(CreateOrder data) async {
     try {
       var res = await apiClient.post('/api/orders', data: {
         'amount': data.amount,
         'isPayment': data.isPayment,
-        'orderDetails': data.orderDetails
+        'orderDetails': data.orderDetails?.map((orderDetail) => orderDetail.toJson()).toList()
       });
-      return res.statusCode;
+      return res.statusCode!;
     } on DioException {
       throw Exception(msg_server_error);
     }

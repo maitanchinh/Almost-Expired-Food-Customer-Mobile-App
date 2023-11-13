@@ -44,14 +44,17 @@ class Cart {
 class CartItem {
   String? id;
   Store? store;
+  Branches? branch;
   int? quantity;
   Product? product;
 
-  CartItem({this.id, this.store, this.quantity, this.product});
+  CartItem({this.id, this.store, this.branch, this.quantity, this.product});
 
   CartItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     store = json['store'] != null ? new Store.fromJson(json['store']) : null;
+    branch =
+        json['branch'] != null ? new Branches.fromJson(json['branch']) : null;
     quantity = json['quantity'];
     product =
         json['product'] != null ? new Product.fromJson(json['product']) : null;
@@ -62,6 +65,9 @@ class CartItem {
     data['id'] = this.id;
     if (this.store != null) {
       data['store'] = this.store!.toJson();
+    }
+    if (this.branch != null) {
+      data['branch'] = this.branch!.toJson();
     }
     data['quantity'] = this.quantity;
     if (this.product != null) {

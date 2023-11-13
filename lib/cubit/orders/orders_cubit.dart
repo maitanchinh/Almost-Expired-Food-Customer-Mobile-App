@@ -13,8 +13,8 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     try {
       emit(CreateOrderLoadingState());
       final status = await _ordersRepo.createOrder(order);
-      emit(CreateOrderSuccessState(status: status!));
-    } catch (e) {
+      emit(CreateOrderSuccessState(status: status));
+    } on Exception catch (e) {
       emit(CreateOrderFailedState(msg: e.toString()));
     }
   }

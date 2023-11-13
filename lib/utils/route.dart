@@ -1,3 +1,4 @@
+import 'package:appetit/cubit/orders/orders_cubit.dart';
 import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/cart.dart';
 import 'package:appetit/domain/models/industries.dart';
@@ -12,6 +13,7 @@ import 'package:appetit/screens/ProductDetailScreen.dart';
 import 'package:appetit/screens/CampaignsScreen.dart';
 import 'package:appetit/screens/StoreScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 PageRoute? generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -51,7 +53,7 @@ PageRoute? generateRoute(RouteSettings settings) {
 
       if (cartItems != null && order != null) {
         return MaterialPageRoute(
-          builder: (_) => PaymentScreen(cartItems: cartItems, order: order),
+          builder: (_) => BlocProvider<CreateOrderCubit>(create: (context) => CreateOrderCubit(),child: PaymentScreen(cartItems: cartItems, order: order)),
         );
       }
       return MaterialPageRoute(builder: (_) => CartScreen());

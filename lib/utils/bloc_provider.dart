@@ -4,6 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 List<BlocProvider> multiBlocProvider(){
   return [
-    BlocProvider(create: (context) => LoginByGoogleCubit())
+    BlocProvider(create: (context) => LoginByGoogleCubit()),
   ];
 }
