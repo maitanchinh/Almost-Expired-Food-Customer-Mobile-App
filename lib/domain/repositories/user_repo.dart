@@ -1,4 +1,4 @@
-import 'package:appetit/utils/AConstants.dart';
+import 'package:appetit/utils/Constants.dart';
 import 'package:appetit/utils/get_it.dart';
 import 'package:appetit/utils/messages.dart';
 import 'package:dio/dio.dart';

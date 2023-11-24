@@ -1,6 +1,6 @@
 import 'package:appetit/screens/DashboardScreen.dart';
 import 'package:appetit/store/AppStore.dart';
-import 'package:appetit/utils/AConstants.dart';
+import 'package:appetit/utils/Constants.dart';
 import 'package:appetit/utils/ADataProvider.dart';
 import 'package:appetit/utils/AppTheme.dart';
 import 'package:appetit/utils/bloc_provider.dart';
@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/ASplashScreen.dart';
+import 'screens/SplashScreen.dart';
 
 AppStore appStore = AppStore();
 
@@ -66,5 +66,5 @@ Widget _fetchAuthAndInitialRoute() {
   } catch (e) {
    debugPrint("ex ${e.toString()}"); 
   }
-    return ASplashScreen();
+    return SplashScreen();
 }
