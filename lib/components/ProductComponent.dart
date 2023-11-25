@@ -38,7 +38,7 @@ class ProductComponent extends StatelessWidget {
                   product.productCategories != null
                       ? Text(
                           product.productCategories!.first.category!.name
-                              .toString() + ' | + ' + (product.productCategories!.length - 1).toString(),
+                              .toString() + ' | +' + (product.productCategories!.length - 1).toString(),
                           style: TextStyle(color: Colors.grey, fontSize: 14),
                         )
                       : SizedBox.shrink(),

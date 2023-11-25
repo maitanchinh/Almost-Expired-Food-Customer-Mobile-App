@@ -345,8 +345,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                                           size: Size(30,
                                               40), // Set the size of the custom rectangle.
                                           // painter: Discount('GIẢM' + ((1 - e.promotionalPrice! / e.price!) * 100).round().toString() + '%'),
-                                          painter: Discount((1 -
-                                                  e.promotionalPrice! /
+                                          painter: Discount((
+                                                  (e.price! - e.promotionalPrice!) /
                                                       e.price!) *
                                               100),
                                         ),
@@ -395,7 +395,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                                       child:
                                                           LinearProgressIndicator(
                                                         value: e.sold! /
-                                                            e.quantity!,
+                                                            (e.quantity! + e.sold!),
                                                         backgroundColor: Colors
                                                             .orange.shade200,
                                                         valueColor:

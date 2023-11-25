@@ -377,14 +377,14 @@ class _CartScreenState extends State<CartScreen> {
                                                         decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
                                                       ).onTap(() {
                                                         setState(() {
-                                                          if (quantities[cartItems[index].id!]! < cartItems[index].product!.quantity! - cartItems[index].product!.sold!) {
+                                                          if (quantities[cartItems[index].id!]! < cartItems[index].product!.quantity!) {
                                                             quantities[cartItems[index].id!] = quantities[cartItems[index].id!]! + 1;
                                                             if (choosenItems[cartItems[index]]!) {
                                                               totalPrice = totalPrice + cartItems[index].product!.promotionalPrice!;
                                                               totalDiscount = totalDiscount + (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
                                                             }
                                                           } else {
-                                                            quantities[cartItems[index].id!] = cartItems[index].product!.quantity! - cartItems[index].product!.sold!;
+                                                            quantities[cartItems[index].id!] = cartItems[index].product!.quantity!;
                                                           }
                                                         });
                                                         updateQuantity(context, cartItems[index].id!);
@@ -401,7 +401,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     style: TextStyle(color: Colors.orange.shade700, fontSize: 14.0, fontWeight: FontWeight.bold),
                                                   ),
                                                   Text(
-                                                    'Còn ' + (cartItems[index].product!.quantity! - cartItems[index].product!.sold!).toString() + ' sản phẩm',
+                                                    'Còn ' + (cartItems[index].product!.quantity!).toString() + ' sản phẩm',
                                                     style: TextStyle(color: Colors.orange.shade700, fontSize: 12),
                                                   )
                                                 ],
@@ -412,12 +412,12 @@ class _CartScreenState extends State<CartScreen> {
                                       ),
                                     );
                                   }
-                                }).paddingBottom(16)
+                                }).paddingBottom(16),
                           ],
                         ),
                       );
                     },
-                  ),
+                  ).paddingBottom(64),
                   Positioned(
                     bottom: 0,
                     right: 0,

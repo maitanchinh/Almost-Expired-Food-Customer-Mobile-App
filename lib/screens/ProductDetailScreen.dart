@@ -170,10 +170,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           )),
                         ).onTap(() {
                           setState(() {
-                            if (quantity < widget.product.quantity! - widget.product.sold!) {
+                            if (quantity < widget.product.quantity!) {
                               quantity++;
                             } else {
-                              quantity = widget.product.quantity! - widget.product.sold!;
+                              quantity = widget.product.quantity!;
                             }
                           });
                         })
