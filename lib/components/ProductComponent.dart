@@ -38,7 +38,7 @@ class ProductComponent extends StatelessWidget {
                   product.productCategories != null
                       ? Text(
                           product.productCategories!.first.category!.name
-                              .toString(),
+                              .toString() + ' | + ' + (product.productCategories!.length - 1).toString(),
                           style: TextStyle(color: Colors.grey, fontSize: 14),
                         )
                       : SizedBox.shrink(),
@@ -73,8 +73,7 @@ class ProductComponent extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4)),
                         child: Text(
                           'Giảm ' +
-                              ((product.price! / product.promotionalPrice! -
-                                          1) *
+                              ((product.promotionalPrice! / product.price!) *
                                       100)
                                   .round()
                                   .toString() +

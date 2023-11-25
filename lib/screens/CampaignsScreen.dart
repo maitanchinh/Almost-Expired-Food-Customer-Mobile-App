@@ -22,6 +22,7 @@ class CampaignsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: appLayout_background,
       appBar: AppBar(
         title: Text(
           campaign.name.toString(),

@@ -20,7 +20,7 @@ class ProductsListComponent extends StatefulWidget {
 class _ProductsListComponentState extends State<ProductsListComponent> {
   @override
   Widget build(BuildContext context) {
-    return ProductsList(categoryId: widget.categoryId, name: widget.name);
+    return BlocProvider<ProductsCubit>(create: (context) => ProductsCubit(), child: ProductsList(categoryId: widget.categoryId, name: widget.name));
   }
 }
 
