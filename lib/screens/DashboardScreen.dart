@@ -5,7 +5,6 @@ import 'package:appetit/cubit/stores/stores_cubit.dart';
 import 'package:appetit/fragments/HomeFragment.dart';
 import 'package:appetit/fragments/ANotificationFragment.dart';
 import 'package:appetit/fragments/ProfileFragment.dart';
-import 'package:appetit/screens/AAddRecipeScreen.dart';
 import 'package:appetit/fragments/SearchFragment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,17 +23,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int selectedItem = 0;
 
   void onTapSelection(int index) {
-    if (index == 2)
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AAddRecipeScreen()));
-    else
       setState(() => selectedItem = index);
   }
 
   List<Widget> widgetOption = <Widget>[
     HomeFragment(),
     SearchFragment(),
-    SizedBox(),
     ANotificationFragment(),
     ProfileFragment(),
   ];
@@ -69,8 +63,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline_outlined), label: 'Reels'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_outlined),
                 label: 'Notification'),

@@ -5,14 +5,14 @@ import 'package:appetit/utils/Colors.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/main.dart';
 
-class AWelcomeScreen extends StatefulWidget {
-  const AWelcomeScreen({Key? key}) : super(key: key);
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
-  _AWelcomeScreenState createState() => _AWelcomeScreenState();
+  _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _AWelcomeScreenState extends State<AWelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void dispose() {
     super.dispose();

@@ -15,12 +15,21 @@ class CartRepo {
     }
   }
 
+  Future<int> addToCart({required String productId, required int quantity}) async {
+    try {
+      var res = await apiClient.post('/api/carts', data: {'productId' : productId, 'quantity' : quantity});
+      return res.statusCode!;
+    } on DioException {
+      throw Exception(msg_server_error);
+    }
+  }
+
   Future<CartItem> updateCart(String? itemId, int? quantity) async {
     try {
       var res = await apiClient.put('/api/carts/items/$itemId', data: {"quantity" : quantity});
       return CartItem.fromJson(res.data);
-    } on DioException catch(e){
-      throw Exception(e);
+    } on DioException {
+      throw Exception(msg_server_error);
     }
   }
 }

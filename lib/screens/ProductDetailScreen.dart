@@ -1,4 +1,6 @@
 import 'package:appetit/components/ADiscussionComponent.dart';
+import 'package:appetit/cubit/cart/cart_cubit.dart';
+import 'package:appetit/cubit/cart/cart_state.dart';
 import 'package:appetit/cubit/store/store_cubit.dart';
 import 'package:appetit/cubit/store/store_state.dart';
 import 'package:appetit/domain/models/products.dart';
@@ -18,22 +20,19 @@ import '../utils/format_utils.dart';
 class ProductDetailScreen extends StatefulWidget {
   static const routeName = '/product-detail';
   final Product product;
-  const ProductDetailScreen({Key? key, required this.product})
-      : super(key: key);
+  const ProductDetailScreen({Key? key, required this.product}) : super(key: key);
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  var image = Image.asset('image/appetit/p3.jpg',
-      fit: BoxFit.cover,
-      color: Colors.black.withOpacity(0.5),
-      colorBlendMode: BlendMode.darken);
+  var image = Image.asset('image/appetit/p3.jpg', fit: BoxFit.cover, color: Colors.black.withOpacity(0.5), colorBlendMode: BlendMode.darken);
   int quantity = 0;
 
   @override
   Widget build(BuildContext context) {
+    final addToCartCubit = BlocProvider.of<AddToCartCubit>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -57,11 +56,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
                   child: FadeInImage.assetNetwork(
-                      image: widget.product.thumbnailUrl.toString(),
-                      placeholder: 'image/appetit/placeholder.png',
-                      width: MediaQuery.of(context).size.width,
-                      height: 250,
-                      fit: BoxFit.cover),
+                      image: widget.product.thumbnailUrl.toString(), placeholder: 'image/appetit/placeholder.png', width: MediaQuery.of(context).size.width, height: 250, fit: BoxFit.cover),
                 ),
                 SizedBox(height: 16),
                 Row(
@@ -69,8 +64,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   children: [
                     Text(
                       widget.product.name.toString(),
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -79,13 +73,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        'Còn ' +
-                            (widget.product.quantity! - widget.product.sold!).toString() +
-                            ' sản phẩm',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: white,
-                            fontSize: 10),
+                        'Còn ' + (widget.product.quantity! - widget.product.sold!).toString() + ' sản phẩm',
+                        style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 10),
                       ),
                     )
                   ],
@@ -97,10 +86,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       children: [
                         Text(
                           e.category!.name.toString() + '| ',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey),
                         ),
                       ],
                     );
@@ -114,22 +100,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '₫' +
-                              FormatUtils.formatPrice(widget
-                                      .product.promotionalPrice!
-                                      .toDouble())
-                                  .toString(),
-                          style: TextStyle(
-                              color: Colors.orange.shade600,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
+                          '₫' + FormatUtils.formatPrice(widget.product.promotionalPrice!.toDouble()).toString(),
+                          style: TextStyle(color: Colors.orange.shade600, fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
                         Gap.k4.width,
                         Text(
-                          '₫' +
-                              FormatUtils.formatPrice(
-                                      widget.product.price!.toDouble())
-                                  .toString(),
+                          '₫' + FormatUtils.formatPrice(widget.product.price!.toDouble()).toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey,
@@ -144,11 +120,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         Container(
                           height: 40,
                           width: 40,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 2, color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(16),
-                              shape: BoxShape.rectangle),
+                          decoration: BoxDecoration(border: Border.all(width: 2, color: Colors.grey.shade300), borderRadius: BorderRadius.circular(16), shape: BoxShape.rectangle),
                           child: Center(
                               child: Container(
                             height: 1,
@@ -166,18 +138,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         Gap.k16.width,
                         Text(
                           quantity.toString(),
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Gap.k16.width,
                         Container(
                           height: 40,
                           width: 40,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 2, color: Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(16),
-                              shape: BoxShape.rectangle),
+                          decoration: BoxDecoration(border: Border.all(width: 2, color: Colors.grey.shade300), borderRadius: BorderRadius.circular(16), shape: BoxShape.rectangle),
                           child: Center(
                               child: Stack(
                             children: [
@@ -231,10 +198,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 Gap.k16.height,
                 BlocProvider<StoreCubit>(
-                  create: (context) =>
-                      StoreCubit(productId: widget.product.id!),
-                  child: BlocBuilder<StoreCubit, StoreState>(
-                      builder: (context, state) {
+                  create: (context) => StoreCubit(productId: widget.product.id!),
+                  child: BlocBuilder<StoreCubit, StoreState>(builder: (context, state) {
                     if (state is StoreLoadingState) {
                       return SizedBox.shrink();
                     }
@@ -247,13 +212,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
-                                child: FadeInImage.assetNetwork(
-                                    image: store.thumbnailUrl!,
-                                    placeholder:
-                                        'image/appetit/store-placeholder-avatar.png',
-                                    height: 40,
-                                    width: 40,
-                                    fit: BoxFit.cover),
+                                child: FadeInImage.assetNetwork(image: store.thumbnailUrl!, placeholder: 'image/appetit/store-placeholder-avatar.png', height: 40, width: 40, fit: BoxFit.cover),
                               ),
                               SizedBox(width: 8),
                               Column(
@@ -261,9 +220,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(store.name!,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700)),
+                                      Text(store.name!, style: TextStyle(fontWeight: FontWeight.w700)),
                                       Gap.k8.width,
                                     ],
                                   ),
@@ -277,9 +234,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             ),
                                             Text(
                                               store.rated.toString(),
-                                              style: TextStyle(
-                                                  color:
-                                                      Colors.orange.shade600),
+                                              style: TextStyle(color: Colors.orange.shade600),
                                             ),
                                           ],
                                         )
@@ -289,19 +244,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ],
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 1, color: Colors.orange.shade600),
-                                borderRadius: BorderRadius.circular(4)),
+                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.orange.shade600), borderRadius: BorderRadius.circular(4)),
                             child: Text(
                               'Xem cửa hàng',
                               style: TextStyle(color: Colors.orange.shade600),
                             ),
-                          ).onTap(() => Navigator.pushNamed(
-                              context, StoreScreen.routeName,
-                              arguments: store))
+                          ).onTap(() => Navigator.pushNamed(context, StoreScreen.routeName, arguments: store))
                         ],
                       );
                     }
@@ -314,15 +263,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Đánh giá cửa hàng',
-                        style: TextStyle(fontWeight: FontWeight.w600)),
+                    Text('Đánh giá cửa hàng', style: TextStyle(fontWeight: FontWeight.w600)),
                     InkWell(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ADiscussionScreen())),
-                      child: Text('Xem tất cả',
-                          style: TextStyle(color: Colors.grey)),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ADiscussionScreen())),
+                      child: Text('Xem tất cả', style: TextStyle(color: Colors.grey)),
                     ),
                   ],
                 ),
@@ -340,14 +284,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: TextField(
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            fillColor: appStore.isDarkModeOn
-                                ? context.cardColor
-                                : appetitAppContainerColor,
+                            fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
                             filled: true,
                             labelText: 'Discuss here',
                             labelStyle: TextStyle(color: Colors.grey),
-                            suffixIcon: Icon(Icons.send_outlined,
-                                color: Colors.orange.shade600),
+                            suffixIcon: Icon(Icons.send_outlined, color: Colors.orange.shade600),
                           ),
                         ),
                       )
@@ -386,14 +327,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 Gap.k4.width,
                                 Text(
                                   quantity.toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: white),
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: white),
                                 )
                               ],
                             ),
                           ),
-                        ),
+                        ).onTap(() async {
+                          await addToCartCubit.addToCart(productId: widget.product.id.toString(), quantity: quantity);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ProcessingPopup(
+                                  state: addToCartCubit.state,
+                                );
+                              });
+                        }),
                       ),
                       Flexible(
                         flex: 1,
@@ -402,12 +350,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           height: 50,
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text(
-                                'Xem đơn hàng - ₫' +
-                                    FormatUtils.formatPrice((quantity *
-                                                widget.product.price!.toInt())
-                                            .toDouble())
-                                        .toString(),
+                            child: Text('Tổng - ₫' + FormatUtils.formatPrice((quantity * widget.product.price!.toInt()).toDouble()).toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),
@@ -419,6 +362,70 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 )
               : SizedBox.shrink(),
         ],
+      ),
+    );
+  }
+}
+
+class ProcessingPopup extends StatelessWidget {
+  final AddToCartState state;
+  const ProcessingPopup({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        height: 150,
+        width: 150,
+        padding: const EdgeInsets.all(32.0),
+        child: Builder(builder: (context) {
+          if (state is AddToCartLoadingState) {
+            return Column(
+              children: [
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+                Gap.k16.height,
+                Text('Đang xử lý, vui lòng chờ.')
+              ],
+            );
+          }
+          if (state is AddToCartSuccessState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Thêm vào giỏ hàng thành công'),
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Đóng',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))
+              ],
+            );
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text('Đã xãy ra sự cố, hãy thử lại'),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Đóng',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ))
+            ],
+          );
+        }),
       ),
     );
   }

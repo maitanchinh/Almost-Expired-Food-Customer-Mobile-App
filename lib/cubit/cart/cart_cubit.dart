@@ -20,6 +20,23 @@ class CartCubit extends Cubit<CartState> {
 
 }
 
+//Add to cart
+class AddToCartCubit extends Cubit<AddToCartState> {
+  final CartRepo _cartRepo = getIt.get<CartRepo>();
+
+  AddToCartCubit():super(AddToCartState());
+
+  Future<void> addToCart({required String productId, required int quantity}) async {
+    try {
+      emit(AddToCartLoadingState());
+      var statusCode = await _cartRepo.addToCart(productId: productId, quantity: quantity);
+      emit(AddToCartSuccessState(statusCode: statusCode));
+    } on Exception catch (e) {
+      emit(AddToCartFailedState(msg: e.toString()));
+    }
+  }
+}
+
 //Update Cart
 class UpdateCartCubit extends Cubit<UpdateCartState> {
   final CartRepo _cartRepo = getIt<CartRepo>();

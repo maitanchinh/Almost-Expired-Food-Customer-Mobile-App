@@ -1,3 +1,4 @@
+import 'package:appetit/cubit/cart/cart_cubit.dart';
 import 'package:appetit/cubit/orders/orders_cubit.dart';
 import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/cart.dart';
@@ -23,9 +24,12 @@ PageRoute? generateRoute(RouteSettings settings) {
               IndustryScreen(categoryGroup: settings.arguments as Industry));
     case ProductDetailScreen.routeName:
       return MaterialPageRoute(
-          builder: (_) => ProductDetailScreen(
-                product: settings.arguments as Product,
-              ));
+          builder: (_) => BlocProvider<AddToCartCubit>(
+            create: (context) => AddToCartCubit(),
+            child: ProductDetailScreen(
+                  product: settings.arguments as Product,
+                ),
+          ));
     case StoreScreen.routeName:
       return MaterialPageRoute(
           builder: (_) => StoreScreen(
