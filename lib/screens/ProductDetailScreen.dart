@@ -350,7 +350,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           height: 50,
                           child: Align(
                             alignment: Alignment.center,
-                            child: Text('Tổng - ₫' + FormatUtils.formatPrice((quantity * widget.product.price!.toInt()).toDouble()).toString(),
+                            child: Text('Tổng - ₫' + FormatUtils.formatPrice((quantity * widget.product.promotionalPrice!.toInt()).toDouble()).toString(),
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),

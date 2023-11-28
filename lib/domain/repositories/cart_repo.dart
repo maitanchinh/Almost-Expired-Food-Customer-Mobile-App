@@ -19,7 +19,8 @@ class CartRepo {
     try {
       var res = await apiClient.post('/api/carts', data: {'productId' : productId, 'quantity' : quantity});
       return res.statusCode!;
-    } on DioException {
+    } on DioException catch(e){
+      print(e);
       throw Exception(msg_server_error);
     }
   }

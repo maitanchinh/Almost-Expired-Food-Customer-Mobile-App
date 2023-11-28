@@ -14,19 +14,11 @@ class ProfileFragment extends StatefulWidget {
 
 class _ProfileFragmentState extends State<ProfileFragment>
     with TickerProviderStateMixin {
-  List profileOption = ["Food Recipes", "Live"];
-  var selectedItem = 0;
-  late PageController myPageController;
-  late TabController tabController;
 
   @override
   void initState() {
     super.initState();
-    myPageController = PageController(initialPage: selectedItem);
-    tabController = new TabController(length: 2, vsync: this);
   }
-
-  void onTapFunction(value) => setState(() => selectedItem = value);
 
   @override
   Widget build(BuildContext context) {

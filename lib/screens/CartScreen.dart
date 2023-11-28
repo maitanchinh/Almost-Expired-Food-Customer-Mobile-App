@@ -124,7 +124,7 @@ class _CartScreenState extends State<CartScreen> {
             cart!.forEach((element) => choosenItems[element] = false);
           }
           choosenItems.forEach((cartItem, isSelected) {
-            if (isSelected) {
+            if (isSelected && !orderDetailsList.any((orderDetail) => orderDetail.productId == cartItem.product?.id)) {
               OrderDetails orderDetails = OrderDetails(
                 productId: cartItem.product?.id,
                 quantity: cartItem.quantity,
@@ -133,6 +133,28 @@ class _CartScreenState extends State<CartScreen> {
               orderDetailsList.add(orderDetails);
             }
           });
+          //   for (var i = 0; i < choosenItems.length; i++) {
+          //     if (choosenItems.values.elementAt(i) == true && !orderDetailsList.any((orderDetail) =>
+          // orderDetail.productId == choosenItems.keys.elementAt(i).product?.id)) {
+          //       OrderDetails orderDetails = OrderDetails(
+          //         productId: choosenItems.keys.elementAt(i).product?.id,
+          //         quantity: choosenItems.keys.elementAt(i).quantity,
+          //         price: choosenItems.keys.elementAt(i).product!.promotionalPrice,
+          //       );
+          //       orderDetailsList.add(orderDetails);
+          //     }
+          //   }
+          // choosenItems.entries.where((entry) => entry.value).forEach((entry) {
+          //   CartItem cartItem = entry.key;
+
+          //   OrderDetails orderDetails = OrderDetails(
+          //     productId: cartItem.product?.id,
+          //     quantity: cartItem.quantity,
+          //     price: cartItem.product?.promotionalPrice,
+          //   );
+
+          //   orderDetailsList.add(orderDetails);
+          // });
           // final createOrderCubit = BlocProvider.of<CreateOrderCubit>(context);
           return Scaffold(
               backgroundColor: appLayout_background,

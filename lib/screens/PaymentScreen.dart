@@ -135,7 +135,7 @@ class PaymentScreen extends StatelessWidget {
                 );
               },
               separatorBuilder: (context, index) => Gap.k8.height,
-              itemCount: cartItems.length),
+              itemCount: cartItems.length).paddingBottom(64),
           Positioned(
             bottom: 0,
             right: 0,
