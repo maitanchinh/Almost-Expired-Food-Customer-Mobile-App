@@ -138,6 +138,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                 if (state is IndustriesSuccessState) {
                   var industry = state.industries.data;
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding:

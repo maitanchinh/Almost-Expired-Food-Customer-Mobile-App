@@ -263,7 +263,7 @@ class OrderSubmitPopup extends StatelessWidget {
                   Text('Đặt hàng thành công'),
                   TextButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.popUntil(context, ModalRoute.withName('/'));
                       },
                       child: Text(
                         'Đóng',

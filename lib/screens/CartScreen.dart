@@ -247,12 +247,12 @@ class _CartScreenState extends State<CartScreen> {
                                             children: [
                                               Text(
                                                 cartItems[index].product!.name!,
-                                                style: TextStyle(color: black.withOpacity(0.4), fontSize: 16, fontWeight: FontWeight.bold),
+                                                style: TextStyle(color: black.withOpacity(0.4)),
                                               ),
                                               cartItems[index].product!.productCategories != null
                                                   ? Text(
                                                       cartItems[index].product!.productCategories!.first.category!.name.toString(),
-                                                      style: TextStyle(color: black.withOpacity(0.4), fontSize: 14),
+                                                      style: TextStyle(color: black.withOpacity(0.4), fontSize: 12),
                                                     )
                                                   : SizedBox.shrink(),
                                               Row(
@@ -331,9 +331,11 @@ class _CartScreenState extends State<CartScreen> {
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    cartItems[index].product!.name!,
-                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                                  SizedBox(
+                                                    width: context.width() / 3,
+                                                    child: Text(
+                                                      cartItems[index].product!.name!, overflow: TextOverflow.ellipsis,
+                                                    ),
                                                   ),
                                                   Text(
                                                     'Còn ' + DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays.toString() + ' ngày',
@@ -351,7 +353,7 @@ class _CartScreenState extends State<CartScreen> {
                                               cartItems[index].product!.productCategories != null
                                                   ? Text(
                                                       cartItems[index].product!.productCategories!.first.category!.name.toString(),
-                                                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                                                      style: TextStyle(color: Colors.grey, fontSize: 12),
                                                     )
                                                   : SizedBox.shrink(),
                                               Row(
@@ -361,7 +363,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     '₫' + FormatUtils.formatPrice(cartItems[index].product!.price!.toDouble()).toString(),
                                                     style: TextStyle(
                                                       color: Colors.grey,
-                                                      fontSize: 14.0,
+                                                      fontSize: 12.0,
                                                       decoration: TextDecoration.lineThrough,
                                                     ),
                                                   ),
