@@ -5,6 +5,7 @@ import 'package:appetit/cubit/product/products_cubit.dart';
 import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/categories.dart';
 import 'package:appetit/utils/Colors.dart';
+import 'package:appetit/widgets/AppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -23,22 +24,7 @@ class CampaignsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appLayout_background,
-      appBar: AppBar(
-        title: Text(
-          campaign.name.toString(),
-          style:
-              TextStyle(color: context.iconColor, fontWeight: FontWeight.bold),
-        ),
-        elevation: 0,
-        backgroundColor: appetitAppContainerColor,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
+      appBar: MyAppBar(title: campaign.name,),
       body: MultiBlocProvider(
         providers: [
           BlocProvider<CategoriesCubit>(
@@ -48,15 +34,16 @@ class CampaignsScreen extends StatelessWidget {
             create: (context) => ProductsCubit(),
           )
         ],
-        child: Body(),
+        child: Body(campaignId: campaign.id!,),
       ),
     );
   }
 }
 
 class Body extends StatefulWidget {
+  final String campaignId;
   const Body({
-    Key? key,
+    Key? key, required this.campaignId,
   }) : super(key: key);
 
   @override
@@ -78,6 +65,7 @@ class _BodyState extends State<Body> {
         return ScrollView(
           categories: categories,
           tabLength: categories.categories!.length,
+          campaignId: widget.campaignId,
         );
       }
       return SizedBox.shrink();
@@ -88,8 +76,9 @@ class _BodyState extends State<Body> {
 class ScrollView extends StatefulWidget {
   final int tabLength;
   final Categories categories;
+  final String campaignId;
   const ScrollView(
-      {Key? key, required this.categories, required this.tabLength})
+      {Key? key, required this.categories, required this.tabLength, required this.campaignId})
       : super(key: key);
 
   @override
@@ -141,7 +130,7 @@ class _ScrollViewState extends State<ScrollView>
           child: TabBarView(
               controller: tabController,
               children: widget.categories.categories!.map((e) {
-                return ProductsListComponent(categoryId: e.id.toString());
+                return ProductsListComponent(categoryId: e.id.toString(), campaignId: widget.campaignId,);
               }).toList()),
         ),
       ],

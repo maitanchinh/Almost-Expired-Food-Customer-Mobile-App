@@ -1,3 +1,5 @@
+import 'package:appetit/domain/models/categories.dart';
+
 class Products {
   Pagination? pagination;
   List<Product>? products;
@@ -139,51 +141,6 @@ class ProductCategories {
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }
-    return data;
-  }
-}
-
-class Category {
-  String? id;
-  String? name;
-  CategoryGroup? categoryGroup;
-
-  Category({this.id, this.name, this.categoryGroup});
-
-  Category.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    categoryGroup = json['categoryGroup'] != null
-        ? new CategoryGroup.fromJson(json['categoryGroup'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    if (this.categoryGroup != null) {
-      data['categoryGroup'] = this.categoryGroup!.toJson();
-    }
-    return data;
-  }
-}
-
-class CategoryGroup {
-  String? id;
-  String? name;
-
-  CategoryGroup({this.id, this.name});
-
-  CategoryGroup.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
     return data;
   }
 }
