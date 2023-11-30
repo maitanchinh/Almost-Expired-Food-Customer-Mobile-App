@@ -31,6 +31,7 @@ class CampaignsScreen extends StatelessWidget {
         ),
         elevation: 0,
         backgroundColor: appetitAppContainerColor,
+        centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
