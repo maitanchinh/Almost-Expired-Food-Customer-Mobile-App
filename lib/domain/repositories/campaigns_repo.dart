@@ -8,7 +8,7 @@ class CampaignsRepo {
 
   Future<Campaigns> getCampaignsList(String? storeOwnerId, String? branchId, String? storeId, String? name) async {
     try {
-      var res = await apiClient.get('/api/campaigns', queryParameters: {'storeOwnerId': storeOwnerId, 'branchId' : branchId, 'storeId': storeId,  'name' : name});
+      var res = await apiClient.get('/api/campaigns', queryParameters: {'storeOwnerId': storeOwnerId, 'branchId' : branchId, 'storeId': storeId,  'name' : name, 'status' : 'Opening'});
       return Campaigns.fromJson(res.data);
     } on DioException {
       throw Exception(msg_server_error);

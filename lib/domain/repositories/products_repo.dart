@@ -10,7 +10,7 @@ class ProductsRepo {
   Future<Products> getProducts(String? categoryId, String? campaignId,
       String? name, bool? isPriceHighToLow, bool? isPriceLowToHight) async {
     try {
-      var res = await apiClient.get('/api/products', queryParameters: {
+      var res = await apiClient.get('/api/products/available', queryParameters: {
         'categoryId': categoryId,
         'campaignId': campaignId,
         'name': name,

@@ -10,8 +10,7 @@ import 'package:nb_utils/nb_utils.dart';
 // ignore: must_be_immutable
 class CampaignsComponent extends StatefulWidget {
   final List<Campaign> campaigns;
-  ScrollPhysics? physics;
-  CampaignsComponent({this.physics, required this.campaigns});
+  CampaignsComponent({ required this.campaigns});
 
   @override
   State<CampaignsComponent> createState() => _CampaignsComponentState();
@@ -27,7 +26,7 @@ class _CampaignsComponentState extends State<CampaignsComponent> {
           childAspectRatio: (1 / 1.3),
           mainAxisSpacing: 16,
           crossAxisSpacing: 16),
-      physics: widget.physics ?? NeverScrollableScrollPhysics(),
+      physics: AlwaysScrollableScrollPhysics(),
       itemCount: widget.campaigns.length,
       padding: EdgeInsets.only(left: 16, right: 16, top: 0, bottom: 16),
       shrinkWrap: true,
@@ -58,7 +57,7 @@ class _CampaignsComponentState extends State<CampaignsComponent> {
                       placeholder: 'image/appetit/placeholder.png',
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   // Positioned(

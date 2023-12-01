@@ -32,7 +32,6 @@ class ProductsCubit extends Cubit<ProductsState> {
       final products = await _productsRepo.getProducts(
           categoryId, campaignId, name, isPriceHighToLow, isPriceLowToHight);
       emit(ProductsSuccessState(products: products));
-      print('aaaaaa');
     } on Exception catch (e) {
       emit(ProductsFailedState(msg: e.toString()));
     }
