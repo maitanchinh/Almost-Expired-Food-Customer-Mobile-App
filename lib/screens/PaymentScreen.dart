@@ -1,5 +1,6 @@
 import 'package:appetit/domain/models/cart.dart';
 import 'package:appetit/domain/models/order/create.dart';
+import 'package:appetit/screens/CartScreen.dart';
 import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/utils/format_utils.dart';
 import 'package:appetit/utils/gap.dart';
@@ -263,7 +264,9 @@ class OrderSubmitPopup extends StatelessWidget {
                   Text('Đặt hàng thành công'),
                   TextButton(
                       onPressed: () {
-                        Navigator.popUntil(context, ModalRoute.withName('/'));
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pushReplacementNamed(context, CartScreen.routeName);
                       },
                       child: Text(
                         'Đóng',
