@@ -132,10 +132,10 @@ class TabView extends StatelessWidget {
             return SizedBox.shrink();
           }
           if (state is CampaignsSuccessState) {
-            if (state.campaigns.campaign!.isNotEmpty) {
+            if (state.campaigns.campaigns!.isNotEmpty) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: CampaignsComponent(campaigns: state.campaigns.campaign!),
+                child: CampaignsComponent(campaigns: state.campaigns.campaigns!),
               );
             } else {
               return Center(

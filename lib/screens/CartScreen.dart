@@ -209,7 +209,7 @@ class _CartScreenState extends State<CartScreen> {
                                 shrinkWrap: true,
                                 itemCount: cartItems.length,
                                 itemBuilder: (context, index) {
-                                  if (DateTime.parse(cartItems[index].product!.expiredAt!).isBefore(DateTime.now()) || (cartItems[index].product!.quantity! - cartItems[index].product!.sold! == 0)) {
+                                  if (DateTime.parse(cartItems[index].product!.expiredAt!).isBefore(DateTime.now()) || cartItems[index].product!.quantity! == 0) {
                                     return Dismissible(
                                       key: Key(cartItems[index].id!),
                                       background: Container(

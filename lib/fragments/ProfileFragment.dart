@@ -1,9 +1,11 @@
+import 'package:appetit/components/AccountComponent.dart';
 import 'package:appetit/cubit/profile/account_cubit.dart';
 import 'package:appetit/cubit/profile/account_state.dart';
 import 'package:appetit/services/auth_service.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class ProfileFragment extends StatefulWidget {
   const ProfileFragment({Key? key}) : super(key: key);
@@ -34,7 +36,7 @@ class _ProfileFragmentState extends State<ProfileFragment>
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: 16),
+            padding: EdgeInsets.all(16),
             physics: AlwaysScrollableScrollPhysics(),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -113,6 +115,11 @@ class _ProfileFragmentState extends State<ProfileFragment>
                     ],
                   ),
                 ),
+                Gap.kSection.height,
+                AccountComponent(icon: 'image/appetit/bought.png', content: 'Đơn hàng đã mua').onTap((){
+                  
+                }),
+                Gap.kSection.height,
                 TextButton(
                     onPressed: () {
                       AuthService().signOut(context);

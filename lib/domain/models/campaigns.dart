@@ -1,17 +1,17 @@
 class Campaigns {
   Pagination? pagination;
-  List<Campaign>? campaign;
+  List<Campaign>? campaigns;
 
-  Campaigns({this.pagination, this.campaign});
+  Campaigns({this.pagination, this.campaigns});
 
   Campaigns.fromJson(Map<String, dynamic> json) {
     pagination = json['pagination'] != null
         ? new Pagination.fromJson(json['pagination'])
         : null;
     if (json['data'] != null) {
-      campaign = <Campaign>[];
+      campaigns = <Campaign>[];
       json['data'].forEach((v) {
-        campaign!.add(new Campaign.fromJson(v));
+        campaigns!.add(new Campaign.fromJson(v));
       });
     }
   }
@@ -21,8 +21,8 @@ class Campaigns {
     if (this.pagination != null) {
       data['pagination'] = this.pagination!.toJson();
     }
-    if (this.campaign != null) {
-      data['data'] = this.campaign!.map((v) => v.toJson()).toList();
+    if (this.campaigns != null) {
+      data['data'] = this.campaigns!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -56,6 +56,7 @@ class Campaign {
   Branch? branch;
   String? name;
   String? thumbnailUrl;
+  String? status;
   String? createAt;
   String? startTime;
   String? endTime;
@@ -66,6 +67,7 @@ class Campaign {
       this.branch,
       this.name,
       this.thumbnailUrl,
+      this.status,
       this.createAt,
       this.startTime,
       this.endTime});
@@ -79,6 +81,7 @@ class Campaign {
         json['branch'] != null ? new Branch.fromJson(json['branch']) : null;
     name = json['name'];
     thumbnailUrl = json['thumbnailUrl'];
+    status = json['status'];
     createAt = json['createAt'];
     startTime = json['startTime'];
     endTime = json['endTime'];
@@ -95,6 +98,7 @@ class Campaign {
     }
     data['name'] = this.name;
     data['thumbnailUrl'] = this.thumbnailUrl;
+    data['status'] = this.status;
     data['createAt'] = this.createAt;
     data['startTime'] = this.startTime;
     data['endTime'] = this.endTime;

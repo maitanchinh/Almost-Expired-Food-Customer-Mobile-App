@@ -39,39 +39,29 @@ class _HomeFragmentState extends State<HomeFragment> {
   Widget build(BuildContext context) {
     final _industriesCubit = GetIt.I.get<IndustriesCubit>();
     final _productsCubit = BlocProvider.of<ProductsCubit>(context);
-    final _storeCubit =
-                                BlocProvider.of<StoreCubit>(context);
+    final _storeCubit = BlocProvider.of<StoreCubit>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 16.0, top: 8, bottom: 8),
-          child: BlocBuilder<AccountCubit, AccountState>(
-              builder: (context, state) {
+          child: BlocBuilder<AccountCubit, AccountState>(builder: (context, state) {
             if (state is AccountLoadingState) {
               return SizedBox.shrink();
             }
             if (state is AccountSuccessState) {
               return ClipRRect(
                   borderRadius: BorderRadius.circular(35),
-                  child: FadeInImage.assetNetwork(
-                      image: state.account.avatarUrl.toString(),
-                      placeholder: 'image/appetit/avatar_placeholder.png',
-                      height: 30,
-                      width: 30,
-                      fit: BoxFit.cover));
+                  child: FadeInImage.assetNetwork(image: state.account.avatarUrl.toString(), placeholder: 'image/appetit/avatar_placeholder.png', height: 30, width: 30, fit: BoxFit.cover));
             }
             return SizedBox.shrink();
           }),
         ),
-        title: Align(
-            alignment: Alignment.center,
-            child: Text('Appetit', style: TextStyle(fontSize: 20))),
+        title: Align(alignment: Alignment.center, child: Text('Appetit', style: TextStyle(fontSize: 20))),
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart_outlined,
-                size: 27, color: context.iconColor),
+            icon: Icon(Icons.shopping_cart_outlined, size: 27, color: context.iconColor),
             onPressed: () => Navigator.pushNamed(context, CartScreen.routeName),
           ),
         ],
@@ -88,17 +78,13 @@ class _HomeFragmentState extends State<HomeFragment> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text('What do you want to buy today?',
-                    style:
-                        TextStyle(fontSize: 30, fontWeight: FontWeight.w600)),
+                child: Text('What do you want to buy today?', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600)),
               ),
-              BlocBuilder<IndustriesCubit, IndustriesState>(
-                  builder: (context, state) {
+              BlocBuilder<IndustriesCubit, IndustriesState>(builder: (context, state) {
                 if (state is IndustriesLoadingState) {
                   return Column(children: [
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -122,12 +108,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                         children: [
                           Row(
                             children: [
-                              SkeletonWidget(
-                                  borderRadius: 15, width: 100, height: 32),
-                              SkeletonWidget(
-                                  borderRadius: 15, width: 100, height: 32),
-                              SkeletonWidget(
-                                  borderRadius: 15, width: 100, height: 32),
+                              SkeletonWidget(borderRadius: 15, width: 100, height: 32),
+                              SkeletonWidget(borderRadius: 15, width: 100, height: 32),
+                              SkeletonWidget(borderRadius: 15, width: 100, height: 32),
                             ],
                           )
                         ],
@@ -141,25 +124,14 @@ class _HomeFragmentState extends State<HomeFragment> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Ngành hàng',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500)),
+                            Text('Ngành hàng', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                             TextButton(
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          IndustriesListScreen())),
-                              child: Text('Xem tất cả',
-                                  style: TextStyle(
-                                      color: appStore.isDarkModeOn
-                                          ? Colors.grey
-                                          : Colors.black.withOpacity(0.4))),
+                              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => IndustriesListScreen())),
+                              child: Text('Xem tất cả', style: TextStyle(color: appStore.isDarkModeOn ? Colors.grey : Colors.black.withOpacity(0.4))),
                             ),
                           ],
                         ),
@@ -174,20 +146,10 @@ class _HomeFragmentState extends State<HomeFragment> {
                               children: industry!.map((e) {
                                 return Container(
                                   margin: EdgeInsets.only(right: 16.0),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  child: Text(e.name.toString(),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: context.iconColor)),
-                                  decoration: BoxDecoration(
-                                      color: appStore.isDarkModeOn
-                                          ? context.cardColor
-                                          : appetitAppContainerColor,
-                                      borderRadius: BorderRadius.circular(15)),
-                                ).onTap(() => Navigator.of(context).pushNamed(
-                                    IndustryScreen.routeName,
-                                    arguments: e));
+                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  child: Text(e.name.toString(), style: TextStyle(fontWeight: FontWeight.w400, color: context.iconColor)),
+                                  decoration: BoxDecoration(color: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor, borderRadius: BorderRadius.circular(15)),
+                                ).onTap(() => Navigator.of(context).pushNamed(IndustryScreen.routeName, arguments: e));
                               }).toList(),
                             ),
                           ],
@@ -199,8 +161,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                 return SizedBox.shrink();
               }),
               SizedBox(height: 16),
-              BlocBuilder<ProductsCubit, ProductsState>(
-                  builder: (context, state) {
+              BlocBuilder<ProductsCubit, ProductsState>(builder: (context, state) {
                 if (state is ProductsLoadingState) {
                   return SingleChildScrollView(
                     padding: EdgeInsets.only(left: 12),
@@ -209,8 +170,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SkeletonWidget(
-                            borderRadius: 10, height: 20, width: 100),
+                        SkeletonWidget(borderRadius: 10, height: 20, width: 100),
                         Gap.k8.height,
                         Row(
                           children: [
@@ -239,8 +199,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                 if (state is ProductsSuccessState) {
                   var products = state.products.products;
                   products!.sort(
-                    (a, b) => DateTime.parse(a.expiredAt!)
-                        .compareTo(DateTime.parse(b.expiredAt!)),
+                    (a, b) => DateTime.parse(a.expiredAt!).compareTo(DateTime.parse(b.expiredAt!)),
                   );
                   products.removeWhere((product) {
                     final expiredDate = DateTime.parse(product.expiredAt!);
@@ -251,9 +210,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text('Xả kho giá tốt',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500)),
+                        child: Text('Xả kho giá tốt', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                       ),
                       Gap.k8.height,
                       SingleChildScrollView(
@@ -262,22 +219,18 @@ class _HomeFragmentState extends State<HomeFragment> {
                         physics: BouncingScrollPhysics(),
                         child: Row(
                           children: products.take(4).map((e) {
-                            
                             _storeCubit.getStoreByProductId(productId: e.id);
                             return Padding(
                               padding: EdgeInsets.only(right: 16.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: InkWell(
-                                  onTap: () => Navigator.pushNamed(
-                                      context, ProductDetailScreen.routeName,
-                                      arguments: e),
+                                  onTap: () => Navigator.pushNamed(context, ProductDetailScreen.routeName, arguments: e),
                                   child: Stack(
                                     children: [
                                       FadeInImage.assetNetwork(
                                         image: e.thumbnailUrl.toString(),
-                                        placeholder:
-                                            'image/appetit/placeholder.png',
+                                        placeholder: 'image/appetit/placeholder.png',
                                         height: 180,
                                         width: 250,
                                         fit: BoxFit.cover,
@@ -343,13 +296,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                                         top: 0,
                                         right: 20,
                                         child: CustomPaint(
-                                          size: Size(30,
-                                              40), // Set the size of the custom rectangle.
+                                          size: Size(30, 40), // Set the size of the custom rectangle.
                                           // painter: Discount('GIẢM' + ((1 - e.promotionalPrice! / e.price!) * 100).round().toString() + '%'),
-                                          painter: Discount((
-                                                  (e.price! - e.promotionalPrice!) /
-                                                      e.price!) *
-                                              100),
+                                          painter: Discount(((e.price! - e.promotionalPrice!) / e.price!) * 100),
                                         ),
                                       ),
                                       Positioned(
@@ -357,53 +306,26 @@ class _HomeFragmentState extends State<HomeFragment> {
                                         left: 1,
                                         right: 1,
                                         child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 8),
+                                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                           height: 45,
-                                          decoration: BoxDecoration(
-                                              color: white,
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(20),
-                                                  bottomRight:
-                                                      Radius.circular(20))),
+                                          decoration: BoxDecoration(color: white, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
                                           child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                  '₫' +
-                                                      FormatUtils.formatPrice(e
-                                                          .promotionalPrice!
-                                                          .toDouble()),
-                                                  style: TextStyle(
-                                                      color: Colors
-                                                          .orange.shade600,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                                              Text('₫' + FormatUtils.formatPrice(e.promotionalPrice!.toDouble()),
+                                                  style: TextStyle(color: Colors.orange.shade600, fontSize: 16, fontWeight: FontWeight.bold)),
                                               Stack(
                                                 children: [
                                                   SizedBox(
                                                     height: 12,
                                                     width: 120,
                                                     child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6),
-                                                      child:
-                                                          LinearProgressIndicator(
-                                                        value: e.sold! /
-                                                            (e.quantity! + e.sold!),
-                                                        backgroundColor: Colors
-                                                            .orange.shade200,
-                                                        valueColor:
-                                                            AlwaysStoppedAnimation<
-                                                                    Color>(
-                                                                Colors.orange
-                                                                    .shade600),
+                                                      borderRadius: BorderRadius.circular(6),
+                                                      child: LinearProgressIndicator(
+                                                        value: e.sold! / (e.quantity! + e.sold!),
+                                                        backgroundColor: Colors.orange.shade200,
+                                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.orange.shade600),
                                                       ),
                                                     ),
                                                   ),
@@ -414,14 +336,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                                                       left: 0,
                                                       child: Center(
                                                         child: Text(
-                                                          'Đã bán ' +
-                                                              e.sold.toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 10,
-                                                              color: white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                          'Đã bán ' + e.sold.toString(),
+                                                          style: TextStyle(fontSize: 10, color: white, fontWeight: FontWeight.bold),
                                                         ),
                                                       ))
                                                 ],
@@ -436,11 +352,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                         child: Container(
                                           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                           decoration: BoxDecoration(color: grey.withOpacity(0.5), borderRadius: BorderRadius.circular(20)),
-                                          child: Text(e.name.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500)),
+                                          child: Text(e.name.toString(), style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
                                         ),
                                       ),
                                     ],
@@ -457,8 +369,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                 return SizedBox.shrink();
               }),
               Gap.k16.height,
-              BlocBuilder<CampaignsCubit, CampaignsState>(
-                  builder: (context, state) {
+              BlocBuilder<CampaignsCubit, CampaignsState>(builder: (context, state) {
                 if (state is CampaignsLoadingState) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -473,41 +384,34 @@ class _HomeFragmentState extends State<HomeFragment> {
                       ),
                       Gap.k8.height,
                       GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: (1 / 1.3),
-                            mainAxisSpacing: 16,
-                            crossAxisSpacing: 16),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: (1 / 1.3), mainAxisSpacing: 16, crossAxisSpacing: 16),
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: 2,
-                        padding: EdgeInsets.only(
-                            left: 12, right: 16, top: 0, bottom: 16),
+                        padding: EdgeInsets.only(left: 12, right: 16, top: 0, bottom: 16),
                         shrinkWrap: true,
-                        itemBuilder: (context, indext) => SkeletonWidget(
-                            borderRadius: 20,
-                            height: MediaQuery.of(context).size.height,
-                            width: MediaQuery.of(context).size.width),
+                        itemBuilder: (context, indext) => SkeletonWidget(borderRadius: 20, height: MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width),
                       )
                     ],
                   );
                 }
                 if (state is CampaignsSuccessState) {
-                  var campaigns = state.campaigns.campaign!;
-                  campaigns.sort((a, b) => DateTime.parse(a.startTime!)
-                      .compareTo(DateTime.parse(b.startTime!)));
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Text('Chiến dịch mới',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500)),
-                      ),
-                      Gap.k8.height,
-                      CampaignsComponent(campaigns: campaigns),
-                    ],
-                  );
+                  var campaigns = state.campaigns.campaigns!.where((campaign) => campaign.status == 'Opening').toList();
+                  campaigns.sort((a, b) => DateTime.parse(a.startTime!).compareTo(DateTime.parse(b.startTime!)));
+                  if (campaigns.isNotEmpty) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text('Chiến dịch mới', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                        ),
+                        Gap.k8.height,
+                        CampaignsComponent(campaigns: campaigns),
+                      ],
+                    );
+                  } else {
+                    return SizedBox.shrink();
+                  }
                 }
                 return SizedBox.shrink();
               }),
@@ -524,16 +428,11 @@ class _HomeFragmentState extends State<HomeFragment> {
                         padding: EdgeInsets.only(left: 16),
                         child: Row(
                           children: [
-                            SkeletonWidget(
-                                borderRadius: 25, height: 50, width: 50),
-                            SkeletonWidget(
-                                borderRadius: 25, height: 50, width: 50),
-                            SkeletonWidget(
-                                borderRadius: 25, height: 50, width: 50),
-                            SkeletonWidget(
-                                borderRadius: 25, height: 50, width: 50),
-                            SkeletonWidget(
-                                borderRadius: 25, height: 50, width: 50),
+                            SkeletonWidget(borderRadius: 25, height: 50, width: 50),
+                            SkeletonWidget(borderRadius: 25, height: 50, width: 50),
+                            SkeletonWidget(borderRadius: 25, height: 50, width: 50),
+                            SkeletonWidget(borderRadius: 25, height: 50, width: 50),
+                            SkeletonWidget(borderRadius: 25, height: 50, width: 50),
                           ],
                         ),
                       )
@@ -541,19 +440,14 @@ class _HomeFragmentState extends State<HomeFragment> {
                   );
                 }
                 if (state is StoresSuccessState) {
-                  var stores = state.stores.stores!
-                      .where((element) =>
-                          element.rated != null && element.rated! >= 4)
-                      .toList();
+                  var stores = state.stores.stores!.where((element) => element.rated != null && element.rated! >= 4).toList();
                   if (stores.isNotEmpty) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
-                          child: Text('Cửa hàng nổi bật',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w500)),
+                          child: Text('Cửa hàng nổi bật', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                         ),
                         Gap.k8.height,
                         SingleChildScrollView(
@@ -563,7 +457,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                             children: stores.map((e) {
                               return Container(
                                 width: 90,
-                                // padding: EdgeInsets.only(right: 16),
+                                padding: EdgeInsets.only(right: 16),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -572,8 +466,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                       radius: 25,
                                       child: ClipOval(
                                         child: FadeInImage.assetNetwork(
-                                          placeholder:
-                                              'image/appetit/store-placeholder-avatar.png',
+                                          placeholder: 'image/appetit/store-placeholder-avatar.png',
                                           image: e.thumbnailUrl.toString(),
                                           fit: BoxFit.cover,
                                           height: 50,
@@ -584,8 +477,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                     SizedBox(height: 8),
                                     e.rated != null
                                         ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Icon(
                                                 Icons.star_outlined,
@@ -594,10 +486,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                                               ),
                                               Text(
                                                 e.rated.toString(),
-                                                style: TextStyle(
-                                                    color:
-                                                        Colors.orange.shade600,
-                                                    fontSize: 14),
+                                                style: TextStyle(color: Colors.orange.shade600, fontSize: 14),
                                               ),
                                             ],
                                           )

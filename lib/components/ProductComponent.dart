@@ -3,7 +3,6 @@ import 'package:appetit/screens/ProductDetailScreen.dart';
 import 'package:appetit/utils/format_utils.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class ProductComponent extends StatelessWidget {
@@ -12,138 +11,87 @@ class ProductComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAvailable = product.quantity! > 0;
     if (DateTime.parse(product.expiredAt!).isBefore(DateTime.now())) {
       return SizedBox.shrink();
     }
     return Container(
-            width: context.width(),
-            // padding: const EdgeInsets.all(8),
-            child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              FadeInImage.assetNetwork(
-                      image: product.thumbnailUrl.toString(),
-                      placeholder: 'image/appetit/placeholder.png',
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover)
-                  .cornerRadiusWithClipRRect(8),
-              8.width,
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name!,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  product.productCategories != null
-                      ? Text(
-                          product.productCategories!.length >= 2 ? product.productCategories!.first.category!.name
-                              .toString() + ' | +' + (product.productCategories!.length - 1).toString() : product.productCategories!.first.category!.name
-                              .toString(),
-                          style: TextStyle(color: Colors.grey, fontSize: 14),
-                        )
-                      : SizedBox.shrink(),
-                  Text(
-                    '₫' +
-                        FormatUtils.formatPrice(product.price!.toDouble())
-                            .toString(),
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14.0,
-                      decoration: TextDecoration.lineThrough,
-                    ),
-                  ),
-                  Row(    
+        width: context.width(),
+        // padding: const EdgeInsets.all(8),
+        child: IntrinsicHeight(
+          child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            isAvailable
+                ? FadeInImage.assetNetwork(image: product.thumbnailUrl.toString(), placeholder: 'image/appetit/placeholder.png', height: 80, width: 80, fit: BoxFit.cover).cornerRadiusWithClipRRect(8)
+                : Stack(
                     children: [
-                      Text(
-                        '₫' +
-                            FormatUtils.formatPrice(
-                                    product.promotionalPrice!.toDouble())
-                                .toString(),
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Gap.k8.width,
+                      FadeInImage.assetNetwork(image: product.thumbnailUrl.toString(), placeholder: 'image/appetit/placeholder.png', height: 80, width: 80, fit: BoxFit.cover)
+                          .cornerRadiusWithClipRRect(8),
                       Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 1, color: Colors.redAccent),
-                            borderRadius: BorderRadius.circular(4)),
-                        child: Text(
-                          'Giảm ' +
-                              ((product.promotionalPrice! / product.price!) *
-                                      100)
-                                  .round()
-                                  .toString() +
-                              '%',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      )
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(color: white.withOpacity(0.6), borderRadius: BorderRadius.circular(8)),
+                      ),
                     ],
                   ),
-                ],
-              ).expand(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Còn ' +
-                        DateTime.parse(product.expiredAt!)
-                            .difference(DateTime.now())
-                            .inDays
-                            .toString() +
-                        ' ngày',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: DateTime.parse(product.expiredAt!)
-                                    .difference(DateTime.now())
-                                    .inDays <=
-                                10
-                            ? Colors.redAccent
-                            : DateTime.parse(product.expiredAt!)
-                                            .difference(DateTime.now())
-                                            .inDays <=
-                                        30 &&
-                                    DateTime.parse(product.expiredAt!)
-                                            .difference(DateTime.now())
-                                            .inDays >
-                                        10
-                                ? Colors.orangeAccent
-                                : Colors.green),
+            8.width,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product.name!,
+                  style: TextStyle(fontWeight: FontWeight.bold, color: isAvailable ? context.iconColor : black.withOpacity(0.4)),
+                ),
+                product.productCategories != null
+                    ? Text(
+                        product.productCategories!.length >= 2
+                            ? product.productCategories!.first.category!.name.toString() + ' | +' + (product.productCategories!.length - 1).toString()
+                            : product.productCategories!.first.category!.name.toString(),
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      )
+                    : SizedBox.shrink(),
+                Text(
+                  '₫' + FormatUtils.formatPrice(product.price!.toDouble()).toString(),
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14.0,
+                    decoration: TextDecoration.lineThrough,
                   ),
-                  Gap.k8.height,
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
-                        border:
-                            Border.all(width: 1, color: Colors.orangeAccent)),
-                    child: Row(
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       children: [
                         Text(
-                          'Mua ',
-                          style: TextStyle(
-                              color: Colors.orangeAccent,
-                              fontWeight: FontWeight.bold),
+                          '₫' + FormatUtils.formatPrice(product.promotionalPrice!.toDouble()).toString(),
+                          style: TextStyle(color: isAvailable ? context.iconColor : black.withOpacity(0.4), fontSize: 14.0, fontWeight: FontWeight.bold),
                         ),
-                        SvgPicture.asset(
-                          'image/appetit/cart-shopping.svg',
-                          width: 16,
-                          color: Colors.orangeAccent,
-                        )
+                        Gap.k8.width,
+                        Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(border: Border.all(width: 1, color: isAvailable ? Colors.redAccent : Colors.redAccent.withOpacity(0.4)), borderRadius: BorderRadius.circular(4)),
+                          child: Text(
+                            'Giảm ' + ((product.promotionalPrice! / product.price!) * 100).round().toString() + '%',
+                            style: TextStyle(fontSize: 12, color: isAvailable ? Colors.redAccent : Colors.redAccent.withOpacity(0.4), fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ],
                     ),
-                  )
-                ],
-              )
-            ]))
-        .onTap(() => Navigator.pushNamed(context, ProductDetailScreen.routeName,
-            arguments: product));
+                    isAvailable ? Text(
+                      'Còn ' + DateTime.parse(product.expiredAt!).difference(DateTime.now()).inDays.toString() + ' ngày',
+                      style: TextStyle(
+                          color: DateTime.parse(product.expiredAt!).difference(DateTime.now()).inDays <= 10
+                              ? Colors.redAccent
+                              : DateTime.parse(product.expiredAt!).difference(DateTime.now()).inDays <= 30 && DateTime.parse(product.expiredAt!).difference(DateTime.now()).inDays > 10
+                                  ? Colors.orangeAccent
+                                  : Colors.green),
+                    ) : Text('Hết hàng', style: TextStyle(color: black.withOpacity(0.4)),)
+                  ],
+                ),
+              ],
+            ).expand(),
+          ]),
+        )).onTap(() => Navigator.pushNamed(context, ProductDetailScreen.routeName, arguments: product));
   }
 }

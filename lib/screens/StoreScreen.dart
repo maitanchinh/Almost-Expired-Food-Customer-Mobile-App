@@ -175,7 +175,7 @@ class Campaigns extends StatelessWidget {
                       );
                     }
                     if (state is CampaignsSuccessState) {
-                      var campaigns = state.campaigns.campaign!;
+                      var campaigns = state.campaigns.campaigns!;
                       return CampaignsComponent(
                         campaigns: campaigns,
                       ).paddingTop(16);

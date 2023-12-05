@@ -4,8 +4,8 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/main.dart';
 
-class ANotificationFragment extends StatelessWidget {
-  const ANotificationFragment({Key? key}) : super(key: key);
+class NotificationFragment extends StatelessWidget {
+  const NotificationFragment({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

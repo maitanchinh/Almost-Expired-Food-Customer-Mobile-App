@@ -3,6 +3,8 @@ import 'package:appetit/utils/get_it.dart';
 import 'package:appetit/utils/messages.dart';
 import 'package:dio/dio.dart';
 
+import '../models/order/orders.dart';
+
 class OrdersRepo {
   final Dio apiClient = getIt.get<Dio>();
 
@@ -23,6 +25,16 @@ class OrdersRepo {
       });
       return res.statusCode!;
     } on DioException {
+      throw Exception(msg_server_error);
+    }
+  }
+
+  Future<Orders> getOrdersList({String? status, String? isPayment}) async {
+    try {
+      var res = await apiClient.get('/api/orders/customers', queryParameters: {'status' : status, 'isPayment' : isPayment} );
+      return Orders.fromJson(res.data);
+    } on DioException catch (e) {
+      print(e);
       throw Exception(msg_server_error);
     }
   }

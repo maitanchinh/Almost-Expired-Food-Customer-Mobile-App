@@ -3,7 +3,7 @@ import 'package:appetit/cubit/product/products_cubit.dart';
 import 'package:appetit/cubit/store/store_cubit.dart';
 import 'package:appetit/cubit/stores/stores_cubit.dart';
 import 'package:appetit/fragments/HomeFragment.dart';
-import 'package:appetit/fragments/ANotificationFragment.dart';
+import 'package:appetit/fragments/NotificationFragment.dart';
 import 'package:appetit/fragments/ProfileFragment.dart';
 import 'package:appetit/fragments/SearchFragment.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   List<Widget> widgetOption = <Widget>[
     HomeFragment(),
     SearchFragment(),
-    ANotificationFragment(),
+    NotificationFragment(),
     ProfileFragment(),
   ];
 

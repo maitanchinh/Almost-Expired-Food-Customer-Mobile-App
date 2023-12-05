@@ -18,7 +18,13 @@ class ProductsListComponent extends StatefulWidget {
 class _ProductsListComponentState extends State<ProductsListComponent> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProductsCubit>(create: (context) => ProductsCubit(categoryId: widget.categoryId, name: widget.name, campaignId: widget.campaignId), child: ProductsList(categoryId: widget.categoryId, name: widget.name, campaignId: widget.campaignId,));
+    return BlocProvider<ProductsCubit>(
+        create: (context) => ProductsCubit(categoryId: widget.categoryId, name: widget.name, campaignId: widget.campaignId),
+        child: ProductsList(
+          categoryId: widget.categoryId,
+          name: widget.name,
+          campaignId: widget.campaignId,
+        ));
   }
 }
 
@@ -26,24 +32,21 @@ class ProductsList extends StatefulWidget {
   final String? categoryId;
   final String? name;
   final String? campaignId;
-  const ProductsList({Key? key, required this.categoryId, required this.name, this.campaignId})
-      : super(key: key);
+  const ProductsList({Key? key, required this.categoryId, required this.name, this.campaignId}) : super(key: key);
 
   @override
   State<ProductsList> createState() => _ProductsListState();
 }
 
 class _ProductsListState extends State<ProductsList> {
-@override
+  @override
   void initState() {
-    
     super.initState();
-    
   }
+
   @override
   Widget build(BuildContext context) {
-    print(widget.categoryId);
-final productsCubit = BlocProvider.of<ProductsCubit>(context);
+    final productsCubit = BlocProvider.of<ProductsCubit>(context);
     productsCubit.getProducts(categoryId: widget.categoryId, name: widget.name, campaignId: widget.campaignId);
     return BlocBuilder<ProductsCubit, ProductsState>(builder: (context, state) {
       // if (state is ProductsLoadingState) {
@@ -89,9 +92,7 @@ final productsCubit = BlocProvider.of<ProductsCubit>(context);
       // }
       if (state is ProductsSuccessState) {
         var products = state.products.products;
-        if (products!.isEmpty ||
-            !products.any((element) =>
-                DateTime.parse(element.expiredAt!).isAfter(DateTime.now()))) {
+        if (products!.isEmpty || !products.any((element) => DateTime.parse(element.expiredAt!).isAfter(DateTime.now()))) {
           return Center(
             child: Text('Các sản phẩm đã được bán hết'),
           );

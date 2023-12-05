@@ -73,7 +73,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        'Còn ' + (widget.product.quantity! - widget.product.sold!).toString() + ' sản phẩm',
+                        'Còn ' + widget.product.quantity!.toString() + ' sản phẩm',
                         style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 10),
                       ),
                     )
