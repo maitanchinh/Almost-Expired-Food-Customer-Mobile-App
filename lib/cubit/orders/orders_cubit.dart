@@ -49,4 +49,19 @@ class PaymentCubit extends Cubit<PaymentState> {
       emit(PaymentFailedState(msg: e.toString()));
     }
   }
+
+  
 }
+  //Complete order
+  class CompleteOrderCubit extends Cubit<CompleteOrderState> {
+    CompleteOrderCubit():super(CompleteOrderState());
+    Future<void> completeOrder({required String orderId}) async {
+      try {
+        emit(CompleteOrderLoadingState());
+        var statusCode = await _ordersRepo.updateStatusToCompleted(orderId: orderId);
+        emit(CompleteOrderSuccessState(statusCode: statusCode));
+      } on Exception catch (e) {
+        emit(CompleteOrderFailedState(msg: e.toString()));
+      }
+    }
+  }

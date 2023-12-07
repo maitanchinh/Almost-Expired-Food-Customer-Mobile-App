@@ -47,4 +47,14 @@ class OrdersRepo {
       throw Exception(msg_server_error);
     }
   }
+
+  Future<int> updateStatusToCompleted({required String orderId}) async {
+    try {
+      var res = await apiClient.put('/api/orders/$orderId', data: {'status' : 'Completed'});
+      return res.statusCode!;
+    } on Dio catch (e) {
+      print(e);
+      throw Exception(msg_server_error);
+    }
+  }
 }

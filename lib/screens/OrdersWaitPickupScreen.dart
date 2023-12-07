@@ -1,3 +1,4 @@
+import 'package:appetit/screens/OrdersCanceledScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -16,6 +17,7 @@ class OrdersWaitPickupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ordersCubit = BlocProvider.of<OrdersCubit>(context);
+    final completeOrderCubit = BlocProvider.of<CompleteOrderCubit>(context);
     ordersCubit.getOrdersList(status: 'Pending Pickup');
     return Scaffold(
       appBar: MyAppBar(title: 'Chờ nhận hàng',),
@@ -91,7 +93,49 @@ class OrdersWaitPickupScreen extends StatelessWidget {
                         RichText(text: TextSpan(children: [
                           TextSpan(text: 'Tổng tiền: ', style: TextStyle(color: context.iconColor, fontSize: 14)),
                           TextSpan(text: '₫' + FormatUtils.formatPrice(orders[index].amount!.toDouble()).toString(), style: TextStyle(color: Colors.orange.shade700, fontSize: 14))
-                        ]))
+                        ])),
+                        Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.orange.shade700), borderRadius: BorderRadius.circular(4)),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'Đã nhận hàng',
+                                        style: TextStyle(color: Colors.orange.shade700, fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                ).onTap(() {
+                                  showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Xác nhận'),
+                                    content: Text('Xác nhận đã nhận hàng thành công.'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false); // Đóng hộp thoại và trả về giá trị false
+                                        },
+                                        child: Text('Hủy'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true); // Đóng hộp thoại và trả về giá trị true
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Xác nhận'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).then((value) {
+                                if (value != null && value) {
+                                  completeOrderCubit.completeOrder(orderId: orders[index].id!);
+                                  Navigator.pushNamed(context, OrdersCanceledScreen.routeName);
+                                }
+                              });
+                                })
                       ],).paddingSymmetric(horizontal: 16),
                     ],
                   ),

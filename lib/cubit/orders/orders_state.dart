@@ -43,3 +43,22 @@ class PaymentSuccessState extends PaymentState {
   final String url;
   PaymentSuccessState({required this.url});
 }
+
+//Complete order
+class CompleteOrderState {
+  
+}
+
+class CompleteOrderLoadingState extends CompleteOrderState {
+  
+}
+
+class CompleteOrderFailedState extends CompleteOrderState {
+  final String msg;
+  CompleteOrderFailedState({required this.msg});
+}
+
+class CompleteOrderSuccessState extends CompleteOrderState {
+  final int statusCode;
+  CompleteOrderSuccessState({required this.statusCode});
+}

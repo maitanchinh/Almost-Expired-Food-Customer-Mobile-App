@@ -76,14 +76,21 @@ PageRoute? generateRoute(RouteSettings settings) {
     case OrdersWaitConfirmScreen.routeName:
       return MaterialPageRoute(builder: (_) => BlocProvider<OrdersCubit>(create: (context) => OrdersCubit(), child: OrdersWaitConfirmScreen()));
     case OrdersWaitPickupScreen.routeName:
-      return MaterialPageRoute(builder: (_) => BlocProvider<OrdersCubit>(create: (context) => OrdersCubit(), child: OrdersWaitPickupScreen()));
+      return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+              providers: [BlocProvider<OrdersCubit>(create: (context) => OrdersCubit()), BlocProvider<CompleteOrderCubit>(create: (context) => CompleteOrderCubit())],
+              child: OrdersWaitPickupScreen()));
     case OrdersCanceledScreen.routeName:
       return MaterialPageRoute(builder: (_) => BlocProvider<OrdersCubit>(create: (context) => OrdersCubit(), child: OrdersCanceledScreen()));
     case OrderDetailsScreen.routeName:
-    Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+      Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
       final orderDetails = arguments['orderDetails'] as List<OrderDetails>;
       final amount = arguments['amount'] as int;
-      return MaterialPageRoute(builder: (_) => OrderDetailsScreen(orderDetails: orderDetails, amout: amount,));
+      return MaterialPageRoute(
+          builder: (_) => OrderDetailsScreen(
+                orderDetails: orderDetails,
+                amout: amount,
+              ));
     default:
   }
   return null;
