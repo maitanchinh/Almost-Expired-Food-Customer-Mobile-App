@@ -17,7 +17,7 @@ class OrdersCompletedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ordersCubit = BlocProvider.of<OrdersCubit>(context);
-    ordersCubit.getOrdersList(status: 'Completed');
+    ordersCubit.getOrdersList(status: 'Finished');
     return Scaffold(
       backgroundColor: appLayout_background,
       appBar: MyAppBar(

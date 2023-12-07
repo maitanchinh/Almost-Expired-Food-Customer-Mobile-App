@@ -15,7 +15,7 @@ class OrdersWaitConfirmScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ordersCubit = BlocProvider.of<OrdersCubit>(context);
-    ordersCubit.getOrdersList(status: 'PendingPickup');
+    ordersCubit.getOrdersList(status: 'Pending');
     return Scaffold(
       appBar: MyAppBar(title: 'Chờ xác nhận',),
       body: BlocBuilder<OrdersCubit, OrdersState>(
