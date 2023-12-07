@@ -85,7 +85,7 @@ class OrdersCompletedScreen extends StatelessWidget {
                         Divider(),
                         Text('Xem thêm sản phẩm', style: TextStyle(color: grey, fontSize: 12),)
                       ],).onTap((){
-                        Navigator.pushNamed(context, OrderDetailsScreen.routeName);
+                                    Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: {'orderDetails' : orders[index].orderDetails, 'amount' : orders[index].amount});
                       }) : SizedBox.shrink(),
                       Divider(),
                       Row(

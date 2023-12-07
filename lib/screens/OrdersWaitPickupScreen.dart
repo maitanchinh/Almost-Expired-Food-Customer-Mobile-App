@@ -16,7 +16,7 @@ class OrdersWaitPickupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ordersCubit = BlocProvider.of<OrdersCubit>(context);
-    ordersCubit.getOrdersList(status: 'Paid');
+    ordersCubit.getOrdersList(status: 'Pending Pickup');
     return Scaffold(
       appBar: MyAppBar(title: 'Chờ nhận hàng',),
       body: BlocBuilder<OrdersCubit, OrdersState>(
@@ -81,7 +81,7 @@ class OrdersWaitPickupScreen extends StatelessWidget {
                         Divider(),
                         Text('Xem thêm sản phẩm', style: TextStyle(color: grey, fontSize: 12),)
                       ],).onTap((){
-                        Navigator.pushNamed(context, OrderDetailsScreen.routeName);
+                                                            Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: {'orderDetails' : orders[index].orderDetails, 'amount' : orders[index].amount});
                       }) : SizedBox.shrink(),
                       Divider(),
                       Row(

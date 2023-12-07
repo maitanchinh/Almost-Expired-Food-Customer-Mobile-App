@@ -89,7 +89,7 @@ class OrdersCanceledScreen extends StatelessWidget {
                                     )
                                   ],
                                 ).onTap(() {
-                                  Navigator.pushNamed(context, OrderDetailsScreen.routeName);
+                                    Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: {'orderDetails' : orders[index].orderDetails, 'amount' : orders[index].amount});
                                 })
                               : SizedBox.shrink(),
                           Divider(),

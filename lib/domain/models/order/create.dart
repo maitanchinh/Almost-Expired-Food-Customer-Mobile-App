@@ -1,7 +1,7 @@
 class CreateOrder {
   int? amount;
   String? paymentMethod;
-  List<OrderDetails>? orderDetails;
+  List<OrderForm>? orderDetails;
 
   CreateOrder({this.amount, this.paymentMethod, this.orderDetails});
 
@@ -9,9 +9,9 @@ class CreateOrder {
     amount = json['amount'];
     paymentMethod = json['isPayment'];
     if (json['orderDetails'] != null) {
-      orderDetails = <OrderDetails>[];
+      orderDetails = <OrderForm>[];
       json['orderDetails'].forEach((v) {
-        orderDetails!.add(new OrderDetails.fromJson(v));
+        orderDetails!.add(new OrderForm.fromJson(v));
       });
     }
   }
@@ -27,14 +27,14 @@ class CreateOrder {
   }
 }
 
-class OrderDetails {
+class OrderForm {
   String? productId;
   int? quantity;
   int? price;
 
-  OrderDetails({this.productId, this.quantity, this.price});
+  OrderForm({this.productId, this.quantity, this.price});
 
-  OrderDetails.fromJson(Map<String, dynamic> json) {
+  OrderForm.fromJson(Map<String, dynamic> json) {
     productId = json['productId'];
     quantity = json['quantity'];
     price = json['price'];

@@ -117,7 +117,7 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
   @override
   Widget build(BuildContext context) {
     final paymentCubit = BlocProvider.of<PaymentCubit>(context);
-      
+
     ordersCubit!.getOrdersList(status: 'Pending Payment');
     return Scaffold(
       appBar: MyAppBar(
@@ -131,26 +131,26 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
               urlPayment = state.url;
             });
             Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Scaffold(
-                                                appBar: AppBar(
-                                                  title: Text('Thanh Toán VNPAY'),
-                                                  centerTitle: true,
-                                                  backgroundColor: appLayout_background,
-                                                  leading: IconButton(
-                                                    icon: Icon(Icons.arrow_back),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                      Navigator.popAndPushNamed(context, OrdersWaitPaymentScreen.routeName);
-                                                    },
-                                                  ),
-                                                ),
-                                                body: WebView(
-                                                  initialUrl: urlPayment,
-                                                  javascriptMode: JavascriptMode.unrestricted,
-                                                ),
-                                              )));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Scaffold(
+                          appBar: AppBar(
+                            title: Text('Thanh Toán VNPAY'),
+                            centerTitle: true,
+                            backgroundColor: appLayout_background,
+                            leading: IconButton(
+                              icon: Icon(Icons.arrow_back),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.popAndPushNamed(context, OrdersWaitPaymentScreen.routeName);
+                              },
+                            ),
+                          ),
+                          body: WebView(
+                            initialUrl: urlPayment,
+                            javascriptMode: JavascriptMode.unrestricted,
+                          ),
+                        )));
           }
         },
         child: BlocBuilder<OrdersCubit, OrdersState>(
@@ -222,7 +222,7 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                       )
                                     ],
                                   ).onTap(() {
-                                    Navigator.pushNamed(context, OrderDetailsScreen.routeName);
+                                    Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: {'orderDetails' : orders[index].orderDetails, 'amount' : orders[index].amount});
                                   })
                                 : SizedBox.shrink(),
                             Divider(),
@@ -257,7 +257,6 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                 ).onTap(() {
                                   paymentCubit.payment(amount: orders[index].amount!, orderId: orders[index].id!);
                                   // _webviewController = WebViewController()..loadRequest(Uri.parse(urlPayment));
-                                  
                                 })
                               ],
                             ).paddingSymmetric(horizontal: 16),

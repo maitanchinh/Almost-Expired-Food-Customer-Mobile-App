@@ -4,6 +4,7 @@ import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/cart.dart';
 import 'package:appetit/domain/models/industries.dart';
 import 'package:appetit/domain/models/order/create.dart';
+import 'package:appetit/domain/models/order/orders.dart';
 import 'package:appetit/domain/models/products.dart';
 import 'package:appetit/domain/models/stores.dart';
 import 'package:appetit/screens/DashboardScreen.dart';
@@ -26,7 +27,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 PageRoute? generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case DashboardScreen.routeName:
-    return MaterialPageRoute(builder: (_) => DashboardScreen());
+      return MaterialPageRoute(builder: (_) => DashboardScreen());
     case IndustryScreen.routeName:
       return MaterialPageRoute(builder: (_) => IndustryScreen(categoryGroup: settings.arguments as Industry));
     case ProductDetailScreen.routeName:
@@ -78,8 +79,11 @@ PageRoute? generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => BlocProvider<OrdersCubit>(create: (context) => OrdersCubit(), child: OrdersWaitPickupScreen()));
     case OrdersCanceledScreen.routeName:
       return MaterialPageRoute(builder: (_) => BlocProvider<OrdersCubit>(create: (context) => OrdersCubit(), child: OrdersCanceledScreen()));
-      case OrderDetailsScreen.routeName:
-      return MaterialPageRoute(builder: (_) => OrderDetailsScreen());
+    case OrderDetailsScreen.routeName:
+    Map<String, dynamic> arguments = settings.arguments as Map<String, dynamic>;
+      final orderDetails = arguments['orderDetails'] as List<OrderDetails>;
+      final amount = arguments['amount'] as int;
+      return MaterialPageRoute(builder: (_) => OrderDetailsScreen(orderDetails: orderDetails, amout: amount,));
     default:
   }
   return null;

@@ -27,7 +27,7 @@ class _CartScreenState extends State<CartScreen> {
   bool isQuantityChanged = false;
   Timer? updateTimer;
   Map<CartItem, bool> choosenItems = {};
-  List<OrderDetails> orderDetailsList = [];
+  List<OrderForm> orderDetailsList = [];
   int totalPrice = 0;
   int totalDiscount = 0;
   bool isLoading = false;
@@ -140,7 +140,7 @@ class _CartScreenState extends State<CartScreen> {
           }
           choosenItems.forEach((cartItem, isSelected) {
             if (isSelected && !orderDetailsList.any((orderDetail) => orderDetail.productId == cartItem.product?.id)) {
-              OrderDetails orderDetails = OrderDetails(
+              OrderForm orderDetails = OrderForm(
                 productId: cartItem.product?.id,
                 quantity: cartItem.quantity,
                 price: cartItem.product?.promotionalPrice,
