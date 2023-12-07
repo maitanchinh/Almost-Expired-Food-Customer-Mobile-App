@@ -1,6 +1,5 @@
 import 'package:appetit/cubit/login/login_cubit.dart';
 import 'package:appetit/cubit/login/login_state.dart';
-import 'package:appetit/screens/ARegisterScreen.dart';
 import 'package:appetit/screens/DashboardScreen.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:appetit/utils/messages.dart';
@@ -79,15 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
                       ),
-                      TextButton(
-                        onPressed: () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ARegisterScreen())),
-                        child: Text('Register',
-                            style: TextStyle(
-                                fontSize: 20, color: context.iconColor)),
-                      ),
                     ],
                   ),
                   Gap.kSection.height,
@@ -95,13 +85,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   Gap.kSection.height,
                   Gap.kSection.height,
                   Gap.kSection.height,
-                  Text('Login',
+                  Text('Đăng nhập',
                       style:
                           TextStyle(fontSize: 45, fontWeight: FontWeight.w500)),
-                  Gap.kSection.height,
-                  Text('Login into this course for rewards ',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
                   Gap.kSection.height,
                   Container(
                     height: 60,

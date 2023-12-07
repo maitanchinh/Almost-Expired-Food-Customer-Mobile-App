@@ -28,3 +28,18 @@ class CreateOrderSuccessState extends CreateOrderState {
   final int status;
   CreateOrderSuccessState({required this.status});
 }
+
+//Payment
+class PaymentState {}
+
+class PaymentLoadingState extends PaymentState {}
+
+class PaymentFailedState extends PaymentState {
+  final String msg;
+  PaymentFailedState({required this.msg});
+}
+
+class PaymentSuccessState extends PaymentState {
+  final String url;
+  PaymentSuccessState({required this.url});
+}

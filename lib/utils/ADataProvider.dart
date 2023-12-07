@@ -107,35 +107,6 @@ final List<Category> categorymodal = [
   ),
 ];
 
-class SearchPage {
-  String? text;
-  String? image;
-
-  SearchPage({
-    this.text,
-    this.image,
-  });
-}
-
-final List<SearchPage> searchitems = [
-  SearchPage(
-    text: 'Chiến dịch',
-    image: "image/appetit/campaign.png",
-  ),
-  SearchPage(
-    text: 'Thể loại',
-    image: "image/appetit/category.png",
-  ),
-  SearchPage(
-    text: 'Sản phẩm',
-    image: "image/appetit/product.png",
-  ),
-  SearchPage(
-    text: 'Discovery',
-    image: 'image/appetit/map.png'
-  )
-];
-
 class Ingredients {
   String? image;
   String? data;

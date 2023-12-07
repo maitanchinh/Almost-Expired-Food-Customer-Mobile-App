@@ -19,8 +19,7 @@ class OrdersRepo {
   Future<int> createOrder(CreateOrder data) async {
     try {
       var res = await apiClient.post('/api/orders', data: {
-        'amount': data.amount,
-        'isPayment': data.isPayment,
+        'paymentMethod': data.paymentMethod,
         'orderDetails': data.orderDetails?.map((orderDetail) => orderDetail.toJson()).toList()
       });
       return res.statusCode!;
@@ -29,10 +28,20 @@ class OrdersRepo {
     }
   }
 
-  Future<Orders> getOrdersList({String? status, String? isPayment}) async {
+  Future<Orders> getOrdersList({String? status, bool? isPayment}) async {
     try {
       var res = await apiClient.get('/api/orders/customers', queryParameters: {'status' : status, 'isPayment' : isPayment} );
       return Orders.fromJson(res.data);
+    } on DioException catch (e) {
+      print(e);
+      throw Exception(msg_server_error);
+    }
+  }
+
+  Future<String> payment({required int amount, required String orderId}) async {
+    try {
+      var res = await apiClient.post('/api/payments/request', data: {'amount' : amount, 'orderId' : orderId});
+      return res.data;
     } on DioException catch (e) {
       print(e);
       throw Exception(msg_server_error);

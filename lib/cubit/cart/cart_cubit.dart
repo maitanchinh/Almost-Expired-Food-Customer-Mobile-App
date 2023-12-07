@@ -52,5 +52,21 @@ class UpdateCartCubit extends Cubit<UpdateCartState> {
       emit(UpdateCartFailedState(msg: e.toString()));
     }
   }
-  
+}
+
+  //Remove cart item
+class RemoveCartItemCubit extends Cubit<RemoveCartItemState> {
+  final CartRepo _cartRepo = getIt<CartRepo>();
+
+  RemoveCartItemCubit() :super(RemoveCartItemState());
+
+  Future<void> removeCartItem({required String itemId}) async {
+    try {
+      emit(RemoveCartItemLoadingState());
+      final statusCode = await _cartRepo.removeCartItem(itemId: itemId);
+      emit(RemoveCartItemSuccessState(statusCode: statusCode));
+    } on Exception catch (e) {
+      emit(RemoveCartItemFailedState(msg: e.toString()));
+    }
+  }
 }

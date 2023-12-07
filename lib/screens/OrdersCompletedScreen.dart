@@ -5,17 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../cubit/orders/orders_cubit.dart';
+import '../cubit/orders/orders_state.dart';
 import '../utils/format_utils.dart';
 import '../utils/gap.dart';
 
-class HistoryScreen extends StatelessWidget {
+class OrdersCompletedScreen extends StatelessWidget {
   static const String routeName = '/history';
-  const HistoryScreen({Key? key}) : super(key: key);
+  const OrdersCompletedScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final ordersCubit = BlocProvider.of<OrdersCubit>(context);
-    ordersCubit.getOrdersList(storeId: StoresRepo.storeId);
+    ordersCubit.getOrdersList(status: 'Completed');
     return Scaffold(
       backgroundColor: appLayout_background,
       appBar: MyAppBar(
@@ -82,7 +84,7 @@ class HistoryScreen extends StatelessWidget {
                         Divider(),
                         Text('Xem thêm sản phẩm', style: TextStyle(color: grey, fontSize: 12),)
                       ],).onTap((){
-                        Navigator.pushNamed(context, OrderDetailsScreen.routeName);
+                        // Navigator.pushNamed(context, OrderDetailsScreen.routeName);
                       }) : SizedBox.shrink(),
                       Divider(),
                       Row(

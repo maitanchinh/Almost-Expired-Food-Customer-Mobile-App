@@ -33,4 +33,13 @@ class CartRepo {
       throw Exception(msg_server_error);
     }
   }
+
+  Future<int> removeCartItem({required String itemId}) async {
+    try {
+      var res = await apiClient.delete('/api/carts/items/$itemId');
+      return res.statusCode!;
+    } on DioException {
+      throw Exception(msg_server_error);
+    }
+  }
 }

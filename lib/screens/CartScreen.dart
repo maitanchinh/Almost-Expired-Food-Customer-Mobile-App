@@ -45,6 +45,20 @@ class _CartScreenState extends State<CartScreen> {
   void updateQuantity(BuildContext context, String id) {
     var cartCubit = BlocProvider.of<UpdateCartCubit>(context);
     cartCubit.updateCart(itemId: id, quantity: quantities[id]);
+    choosenItems.forEach((key, value) {
+      if (key.id == id) {
+        key.quantity = quantities[id];
+      }
+    });
+  }
+
+  void removeCartItems(BuildContext context) {
+    var removeCartItemCubit = BlocProvider.of<RemoveCartItemCubit>(context);
+    choosenItems.forEach((cartItem, isSelected) {
+      if (isSelected == true) {
+        removeCartItemCubit.removeCartItem(itemId: cartItem.id!);
+      }
+    });
   }
 
   @override
@@ -57,7 +71,8 @@ class _CartScreenState extends State<CartScreen> {
         BlocProvider<CreateOrderCubit>(
           create: (context) => CreateOrderCubit(),
         ),
-        BlocProvider<UpdateCartCubit>(create: (context) => UpdateCartCubit())
+        BlocProvider<UpdateCartCubit>(create: (context) => UpdateCartCubit()),
+        BlocProvider<RemoveCartItemCubit>(create: (context) => RemoveCartItemCubit())
       ],
       child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
         if (state is CartLoadingState) {
@@ -133,53 +148,76 @@ class _CartScreenState extends State<CartScreen> {
               orderDetailsList.add(orderDetails);
             }
           });
-          //   for (var i = 0; i < choosenItems.length; i++) {
-          //     if (choosenItems.values.elementAt(i) == true && !orderDetailsList.any((orderDetail) =>
-          // orderDetail.productId == choosenItems.keys.elementAt(i).product?.id)) {
-          //       OrderDetails orderDetails = OrderDetails(
-          //         productId: choosenItems.keys.elementAt(i).product?.id,
-          //         quantity: choosenItems.keys.elementAt(i).quantity,
-          //         price: choosenItems.keys.elementAt(i).product!.promotionalPrice,
-          //       );
-          //       orderDetailsList.add(orderDetails);
-          //     }
-          //   }
-          // choosenItems.entries.where((entry) => entry.value).forEach((entry) {
-          //   CartItem cartItem = entry.key;
-
-          //   OrderDetails orderDetails = OrderDetails(
-          //     productId: cartItem.product?.id,
-          //     quantity: cartItem.quantity,
-          //     price: cartItem.product?.promotionalPrice,
-          //   );
-
-          //   orderDetailsList.add(orderDetails);
-          // });
-          // final createOrderCubit = BlocProvider.of<CreateOrderCubit>(context);
           return Scaffold(
               backgroundColor: appLayout_background,
               appBar: AppBar(
-                backgroundColor: appetitAppContainerColor,
-                centerTitle: true,
-                leading: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                title: RichText(
-                  text: TextSpan(children: <TextSpan>[
-                    TextSpan(
-                      text: 'Giỏ hàng',
-                      style: TextStyle(color: context.iconColor, fontSize: 20),
-                    ),
-                    TextSpan(
-                      text: '(' + cart!.length.toString() + ')',
-                      style: TextStyle(fontSize: 12, color: context.iconColor),
-                    ),
+                  backgroundColor: appetitAppContainerColor,
+                  centerTitle: true,
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  title: RichText(
+                    text: TextSpan(children: <TextSpan>[
+                      TextSpan(
+                        text: 'Giỏ hàng',
+                        style: TextStyle(color: context.iconColor, fontSize: 20),
+                      ),
+                      TextSpan(
+                        text: '(' + cart!.length.toString() + ')',
+                        style: TextStyle(fontSize: 12, color: context.iconColor),
+                      ),
+                    ]),
+                  ),
+                  actions: [
+                    choosenItems.values.any(
+                      (element) => element == true,
+                    )
+                        ? IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Xác nhận'),
+                                    content: Text('Bạn có chắc chắn muốn xóa sản phẩm khỏi giỏ hàng không?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false); // Đóng hộp thoại và trả về giá trị false
+                                        },
+                                        child: Text('Hủy'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true); // Đóng hộp thoại và trả về giá trị true
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('Xác nhận'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).then((value) {
+                                if (value != null && value) {
+                                  removeCartItems(context);
+                                  Navigator.pushNamed(context, CartScreen.routeName);
+                                }
+                              });
+                            },
+                            icon: Icon(
+                              Icons.delete_outline,
+                              color: redColor,
+                            ))
+                        : IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.delete_outline,
+                              color: grey,
+                            ))
                   ]),
-                ),
-              ),
               body: Stack(
                 children: [
                   ListView.separated(
@@ -210,230 +248,239 @@ class _CartScreenState extends State<CartScreen> {
                                 itemCount: cartItems.length,
                                 itemBuilder: (context, index) {
                                   if (DateTime.parse(cartItems[index].product!.expiredAt!).isBefore(DateTime.now()) || cartItems[index].product!.quantity! == 0) {
-                                    return Dismissible(
-                                      key: Key(cartItems[index].id!),
-                                      background: Container(
-                                        color: Colors.red,
-                                        alignment: Alignment.centerRight,
-                                        child: Icon(
-                                          Icons.delete,
-                                          color: Colors.white,
-                                        ).paddingRight(16),
-                                      ),
-                                      onDismissed: (direction) {
-                                        // setState(() {
-                                        //   items.removeAt(index);
-                                        // });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 48, right: 16),
-                                        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                          Stack(
-                                            children: [
-                                              FadeInImage.assetNetwork(
-                                                      image: cartItems[index].product!.thumbnailUrl.toString(), placeholder: 'image/appetit/placeholder.png', height: 80, width: 80, fit: BoxFit.cover)
-                                                  .cornerRadiusWithClipRRect(8),
-                                              Container(
-                                                width: 80,
-                                                height: 80,
-                                                decoration: BoxDecoration(color: white.withOpacity(0.6)),
-                                              ),
-                                            ],
-                                          ),
-                                          8.width,
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                cartItems[index].product!.name!,
-                                                style: TextStyle(color: black.withOpacity(0.4)),
-                                              ),
-                                              cartItems[index].product!.productCategories != null
-                                                  ? Text(
-                                                      cartItems[index].product!.productCategories!.first.category!.name.toString(),
-                                                      style: TextStyle(color: black.withOpacity(0.4), fontSize: 12),
-                                                    )
-                                                  : SizedBox.shrink(),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '₫' + FormatUtils.formatPrice(cartItems[index].product!.price!.toDouble()).toString(),
-                                                    style: TextStyle(
-                                                      color: black.withOpacity(0.4),
-                                                      fontSize: 14.0,
-                                                      decoration: TextDecoration.lineThrough,
-                                                    ),
+                                    return Padding(
+                                      padding: const EdgeInsets.only(left: 48, right: 16),
+                                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                        Stack(
+                                          children: [
+                                            FadeInImage.assetNetwork(
+                                                    image: cartItems[index].product!.thumbnailUrl.toString(), placeholder: 'image/appetit/placeholder.png', height: 80, width: 80, fit: BoxFit.cover)
+                                                .cornerRadiusWithClipRRect(8),
+                                            Container(
+                                              width: 80,
+                                              height: 80,
+                                              decoration: BoxDecoration(color: white.withOpacity(0.6)),
+                                            ),
+                                          ],
+                                        ),
+                                        8.width,
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  cartItems[index].product!.name!,
+                                                  style: TextStyle(color: black.withOpacity(0.4)),
+                                                ),
+                                                Icon(
+                                                  Icons.delete_outline,
+                                                  color: redColor,
+                                                ).onTap(() {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: Text('Xác nhận'),
+                                                        content: Text('Bạn có chắc chắn muốn xóa sản phẩm khỏi giỏ hàng không?'),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop(false); // Đóng hộp thoại và trả về giá trị false
+                                                            },
+                                                            child: Text('Hủy'),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop(true); // Đóng hộp thoại và trả về giá trị true
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                            child: Text('Xác nhận'),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  ).then((value) {
+                                                    if (value != null && value) {
+                                                      var removeCartItemCubit = BlocProvider.of<RemoveCartItemCubit>(context);
+                                                      removeCartItemCubit.removeCartItem(itemId: cartItems[index].id!);
+                                                      Navigator.pushNamed(context, CartScreen.routeName);
+                                                    }
+                                                  });
+                                                })
+                                              ],
+                                            ),
+                                            cartItems[index].product!.productCategories != null
+                                                ? Text(
+                                                    cartItems[index].product!.productCategories!.first.category!.name.toString(),
+                                                    style: TextStyle(color: black.withOpacity(0.4), fontSize: 12),
+                                                  )
+                                                : SizedBox.shrink(),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '₫' + FormatUtils.formatPrice(cartItems[index].product!.price!.toDouble()).toString(),
+                                                  style: TextStyle(
+                                                    color: black.withOpacity(0.4),
+                                                    fontSize: 14.0,
+                                                    decoration: TextDecoration.lineThrough,
                                                   ),
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '₫' + FormatUtils.formatPrice(cartItems[index].product!.promotionalPrice!.toDouble()).toString(),
-                                                    style: TextStyle(color: black.withOpacity(0.4), fontSize: 14.0, fontWeight: FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    'Sản phẩm không tồn tại',
-                                                    style: TextStyle(color: black.withOpacity(0.4), fontSize: 12.0, fontWeight: FontWeight.bold),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ).expand(),
-                                        ]),
-                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '₫' + FormatUtils.formatPrice(cartItems[index].product!.promotionalPrice!.toDouble()).toString(),
+                                                  style: TextStyle(color: black.withOpacity(0.4), fontSize: 14.0, fontWeight: FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  'Sản phẩm không tồn tại',
+                                                  style: TextStyle(color: black.withOpacity(0.4), fontSize: 12.0, fontWeight: FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ).expand(),
+                                      ]),
                                     );
                                   } else {
-                                    return Dismissible(
-                                      key: Key(cartItems[index].id!),
-                                      background: Container(
-                                        color: Colors.red,
-                                        alignment: Alignment.centerRight,
-                                        child: Icon(
-                                          Icons.delete,
-                                          color: Colors.white,
-                                        ).paddingRight(16),
-                                      ),
-                                      onDismissed: (direction) {
-                                        // setState(() {
-                                        //   items.removeAt(index);
-                                        // });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(right: 16),
-                                        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                                          Checkbox(
-                                              activeColor: Colors.orange.shade700,
-                                              value: choosenItems[cartItems[index]] ?? false,
-                                              onChanged: (bool? value) {
-                                                setState(() {
-                                                  choosenItems[cartItems[index]] = value!;
-                                                  if (value) {
-                                                    totalPrice = totalPrice + quantities[cartItems[index].id]! * cartItems[index].product!.promotionalPrice!;
-                                                    totalDiscount = totalDiscount + quantities[cartItems[index].id]! * (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
-                                                  } else {
-                                                    totalPrice = totalPrice - quantities[cartItems[index].id]! * cartItems[index].product!.promotionalPrice!;
-                                                    totalDiscount = totalDiscount - quantities[cartItems[index].id]! * (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
-                                                  }
-                                                });
-                                              }),
-                                          FadeInImage.assetNetwork(
-                                                  image: cartItems[index].product!.thumbnailUrl.toString(), placeholder: 'image/appetit/placeholder.png', height: 80, width: 80, fit: BoxFit.cover)
-                                              .cornerRadiusWithClipRRect(8),
-                                          8.width,
-                                          Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  SizedBox(
-                                                    width: context.width() / 3,
-                                                    child: Text(
-                                                      cartItems[index].product!.name!, overflow: TextOverflow.ellipsis,
-                                                    ),
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 16),
+                                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                        Checkbox(
+                                            activeColor: Colors.orange.shade700,
+                                            value: choosenItems[cartItems[index]] ?? false,
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                choosenItems[cartItems[index]] = value!;
+                                                if (value) {
+                                                  totalPrice = totalPrice + quantities[cartItems[index].id]! * cartItems[index].product!.promotionalPrice!;
+                                                  totalDiscount = totalDiscount + quantities[cartItems[index].id]! * (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
+                                                } else {
+                                                  totalPrice = totalPrice - quantities[cartItems[index].id]! * cartItems[index].product!.promotionalPrice!;
+                                                  totalDiscount = totalDiscount - quantities[cartItems[index].id]! * (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
+                                                }
+                                              });
+                                            }),
+                                        FadeInImage.assetNetwork(
+                                                image: cartItems[index].product!.thumbnailUrl.toString(), placeholder: 'image/appetit/placeholder.png', height: 80, width: 80, fit: BoxFit.cover)
+                                            .cornerRadiusWithClipRRect(8),
+                                        8.width,
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                SizedBox(
+                                                  width: context.width() / 3,
+                                                  child: Text(
+                                                    cartItems[index].product!.name!,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  Text(
-                                                    'Còn ' + DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays.toString() + ' ngày',
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays <= 10
-                                                            ? Colors.redAccent
-                                                            : DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays <= 30 &&
-                                                                    DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays > 10
-                                                                ? Colors.orangeAccent
-                                                                : Colors.green),
-                                                  ),
-                                                ],
-                                              ),
-                                              cartItems[index].product!.productCategories != null
-                                                  ? Text(
-                                                      cartItems[index].product!.productCategories!.first.category!.name.toString(),
-                                                      style: TextStyle(color: Colors.grey, fontSize: 12),
-                                                    )
-                                                  : SizedBox.shrink(),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '₫' + FormatUtils.formatPrice(cartItems[index].product!.price!.toDouble()).toString(),
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 12.0,
-                                                      decoration: TextDecoration.lineThrough,
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        width: 20,
-                                                        height: 20,
-                                                        child: Center(child: SvgPicture.asset('image/appetit/minus-solid.svg', width: 10, color: gray)),
-                                                        decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
-                                                      ).onTap(() {
-                                                        setState(() {
-                                                          if (quantities[cartItems[index].id]! > 1) {
-                                                            quantities[cartItems[index].id!] = quantities[cartItems[index].id!]! - 1;
-                                                            if (choosenItems[cartItems[index]]!) {
-                                                              totalPrice = totalPrice - cartItems[index].product!.promotionalPrice!;
-                                                              totalDiscount = totalDiscount - (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
-                                                            }
-                                                          } else {
-                                                            quantities[cartItems[index].id!] = 1;
-                                                          }
-                                                        });
-                                                        updateQuantity(context, cartItems[index].id!);
-                                                      }),
-                                                      Container(
-                                                        child: Center(child: Text(quantities[cartItems[index].id].toString())),
-                                                        width: 30,
-                                                        height: 20,
-                                                        decoration: BoxDecoration(border: Border.symmetric(horizontal: BorderSide(width: 1, color: Colors.grey))),
-                                                      ),
-                                                      Container(
-                                                        width: 20,
-                                                        height: 20,
-                                                        child: Center(child: SvgPicture.asset('image/appetit/plus-solid.svg', width: 10, color: gray)),
-                                                        decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
-                                                      ).onTap(() {
-                                                        setState(() {
-                                                          if (quantities[cartItems[index].id!]! < cartItems[index].product!.quantity!) {
-                                                            quantities[cartItems[index].id!] = quantities[cartItems[index].id!]! + 1;
-                                                            if (choosenItems[cartItems[index]]!) {
-                                                              totalPrice = totalPrice + cartItems[index].product!.promotionalPrice!;
-                                                              totalDiscount = totalDiscount + (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
-                                                            }
-                                                          } else {
-                                                            quantities[cartItems[index].id!] = cartItems[index].product!.quantity!;
-                                                          }
-                                                        });
-                                                        updateQuantity(context, cartItems[index].id!);
-                                                      })
-                                                    ],
+                                                ),
+                                                Text(
+                                                  'Còn ' + DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays.toString() + ' ngày',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays <= 10
+                                                          ? Colors.redAccent
+                                                          : DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays <= 30 &&
+                                                                  DateTime.parse(cartItems[index].product!.expiredAt!).difference(DateTime.now()).inDays > 10
+                                                              ? Colors.orangeAccent
+                                                              : Colors.green),
+                                                ),
+                                              ],
+                                            ),
+                                            cartItems[index].product!.productCategories != null
+                                                ? Text(
+                                                    cartItems[index].product!.productCategories!.first.category!.name.toString(),
+                                                    style: TextStyle(color: Colors.grey, fontSize: 12),
                                                   )
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '₫' + FormatUtils.formatPrice(cartItems[index].product!.promotionalPrice!.toDouble()).toString(),
-                                                    style: TextStyle(color: Colors.orange.shade700, fontSize: 14.0, fontWeight: FontWeight.bold),
+                                                : SizedBox.shrink(),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '₫' + FormatUtils.formatPrice(cartItems[index].product!.price!.toDouble()).toString(),
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 12.0,
+                                                    decoration: TextDecoration.lineThrough,
                                                   ),
-                                                  Text(
-                                                    'Còn ' + (cartItems[index].product!.quantity!).toString() + ' sản phẩm',
-                                                    style: TextStyle(color: Colors.orange.shade700, fontSize: 12),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ).expand(),
-                                        ]),
-                                      ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child: Center(child: SvgPicture.asset('image/appetit/minus-solid.svg', width: 10, color: gray)),
+                                                      decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
+                                                    ).onTap(() {
+                                                      setState(() {
+                                                        if (quantities[cartItems[index].id]! > 1) {
+                                                          quantities[cartItems[index].id!] = quantities[cartItems[index].id!]! - 1;
+                                                          if (choosenItems[cartItems[index]]!) {
+                                                            totalPrice = totalPrice - cartItems[index].product!.promotionalPrice!;
+                                                            totalDiscount = totalDiscount - (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
+                                                          }
+                                                        } else {
+                                                          quantities[cartItems[index].id!] = 1;
+                                                        }
+                                                      });
+                                                      updateQuantity(context, cartItems[index].id!);
+                                                    }),
+                                                    Container(
+                                                      child: Center(child: Text(quantities[cartItems[index].id].toString())),
+                                                      width: 30,
+                                                      height: 20,
+                                                      decoration: BoxDecoration(border: Border.symmetric(horizontal: BorderSide(width: 1, color: Colors.grey))),
+                                                    ),
+                                                    Container(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child: Center(child: SvgPicture.asset('image/appetit/plus-solid.svg', width: 10, color: gray)),
+                                                      decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
+                                                    ).onTap(() {
+                                                      setState(() {
+                                                        if (quantities[cartItems[index].id!]! < cartItems[index].product!.quantity!) {
+                                                          quantities[cartItems[index].id!] = quantities[cartItems[index].id!]! + 1;
+                                                          if (choosenItems[cartItems[index]]!) {
+                                                            totalPrice = totalPrice + cartItems[index].product!.promotionalPrice!;
+                                                            totalDiscount = totalDiscount + (cartItems[index].product!.price! - cartItems[index].product!.promotionalPrice!);
+                                                          }
+                                                        } else {
+                                                          quantities[cartItems[index].id!] = cartItems[index].product!.quantity!;
+                                                        }
+                                                      });
+                                                      updateQuantity(context, cartItems[index].id!);
+                                                    })
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '₫' + FormatUtils.formatPrice(cartItems[index].product!.promotionalPrice!.toDouble()).toString(),
+                                                  style: TextStyle(color: Colors.orange.shade700, fontSize: 14.0, fontWeight: FontWeight.bold),
+                                                ),
+                                                Text(
+                                                  'Còn ' + (cartItems[index].product!.quantity!).toString() + ' sản phẩm',
+                                                  style: TextStyle(color: Colors.orange.shade700, fontSize: 12),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ).expand(),
+                                      ]),
                                     );
                                   }
                                 }).paddingBottom(16),
@@ -509,7 +556,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ).onTap(() {
                                       Navigator.pushNamed(context, PaymentScreen.routeName, arguments: {
                                         'cartItems': choosenItems.entries.where((entry) => entry.value == true).map((entry) => entry.key).toList(),
-                                        'order': CreateOrder(amount: totalPrice, isPayment: true, orderDetails: orderDetailsList)
+                                        'order': CreateOrder(amount: totalPrice, orderDetails: orderDetailsList)
                                       });
                                     }),
                                   )

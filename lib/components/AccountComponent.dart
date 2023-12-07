@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class AccountComponent extends StatelessWidget {
@@ -51,7 +50,7 @@ class AccountComponent extends StatelessWidget {
             ),
              SizedBox(
               width: 24,
-              child: Icon(Icons.arrow_forward_outlined),
+              child: Icon(Icons.arrow_right_sharp, color: Colors.orange.shade600,),
             ),
           ],
         ),

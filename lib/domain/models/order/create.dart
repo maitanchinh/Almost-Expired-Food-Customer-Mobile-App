@@ -1,13 +1,13 @@
 class CreateOrder {
   int? amount;
-  bool? isPayment;
+  String? paymentMethod;
   List<OrderDetails>? orderDetails;
 
-  CreateOrder({this.amount, this.isPayment, this.orderDetails});
+  CreateOrder({this.amount, this.paymentMethod, this.orderDetails});
 
   CreateOrder.fromJson(Map<String, dynamic> json) {
     amount = json['amount'];
-    isPayment = json['isPayment'];
+    paymentMethod = json['isPayment'];
     if (json['orderDetails'] != null) {
       orderDetails = <OrderDetails>[];
       json['orderDetails'].forEach((v) {
@@ -19,7 +19,7 @@ class CreateOrder {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['amount'] = this.amount;
-    data['isPayment'] = this.isPayment;
+    data['isPayment'] = this.paymentMethod;
     if (this.orderDetails != null) {
       data['orderDetails'] = this.orderDetails!.map((v) => v.toJson()).toList();
     }

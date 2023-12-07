@@ -44,3 +44,17 @@ class AddToCartFailedState extends AddToCartState {
   final String msg;
   AddToCartFailedState({required this.msg});
 }
+
+class RemoveCartItemState {}
+
+class RemoveCartItemLoadingState extends RemoveCartItemState {}
+
+class RemoveCartItemSuccessState extends RemoveCartItemState {
+  final int statusCode;
+  RemoveCartItemSuccessState({required this.statusCode});
+}
+
+class RemoveCartItemFailedState extends RemoveCartItemState {
+  final String msg;
+  RemoveCartItemFailedState({required this.msg});
+}

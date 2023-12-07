@@ -15,6 +15,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:appetit/main.dart';
 
 import '../utils/format_utils.dart';
+import 'CartScreen.dart';
 
 // ignore: must_be_immutable
 class ProductDetailScreen extends StatefulWidget {
@@ -37,7 +38,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: context.scaffoldBackgroundColor,
-        actions: [],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart_outlined, size: 27, color: context.iconColor),
+            onPressed: () => Navigator.pushNamed(context, CartScreen.routeName),
+          ),
+        ],
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -62,19 +68,25 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      widget.product.name.toString(),
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
+                    Flexible(
+                      flex: 7,
                       child: Text(
-                        'Còn ' + widget.product.quantity!.toString() + ' sản phẩm',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 10),
+                        widget.product.name.toString(),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Text(
+                          'Còn ' + widget.product.quantity!.toString() + ' sản phẩm',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: white, fontSize: 10),
+                        ),
                       ),
                     )
                   ],

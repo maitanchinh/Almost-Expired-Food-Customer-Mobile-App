@@ -4,8 +4,9 @@ import 'package:appetit/domain/repositories/orders_repo.dart';
 import 'package:appetit/utils/get_it.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateOrderCubit extends Cubit<CreateOrderState> {
   final OrdersRepo _ordersRepo = getIt<OrdersRepo>();
+//Create order
+class CreateOrderCubit extends Cubit<CreateOrderState> {
 
   CreateOrderCubit() :super(CreateOrderState());
 
@@ -16,6 +17,36 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
       emit(CreateOrderSuccessState(status: status));
     } on Exception catch (e) {
       emit(CreateOrderFailedState(msg: e.toString()));
+    }
+  }
+}
+
+//Orders
+class OrdersCubit extends Cubit<OrdersState> {
+
+  OrdersCubit() :super(OrdersState());
+
+  Future<void> getOrdersList({String? status, bool? isPayment}) async{
+    try {
+      emit(OrdersLoadingState());
+      final orders = await _ordersRepo.getOrdersList(status: status, isPayment: isPayment);
+      emit(OrdersSuccessState(orders: orders));
+    } on Exception catch (e) {
+      emit(OrdersFailedState(msg: e.toString()));
+    }
+  }
+}
+
+//Payment
+class PaymentCubit extends Cubit<PaymentState> {
+  PaymentCubit():super(PaymentState());
+  Future<void> payment({required int amount, required String orderId}) async {
+    try {
+      emit(PaymentLoadingState());
+      var url = await _ordersRepo.payment(amount: amount, orderId: orderId);
+      emit(PaymentSuccessState(url: url));
+    } on Exception catch (e) {
+      emit(PaymentFailedState(msg: e.toString()));
     }
   }
 }

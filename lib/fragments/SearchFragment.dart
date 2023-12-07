@@ -6,7 +6,6 @@ import 'package:appetit/cubit/campaigns/campaign_cubit.dart';
 import 'package:appetit/cubit/campaigns/campaigns_state.dart';
 import 'package:appetit/cubit/categories/categories_cubit.dart';
 import 'package:appetit/cubit/product/products_cubit.dart';
-import 'package:appetit/utils/ADataProvider.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,18 +21,40 @@ class SearchFragment extends StatefulWidget {
   State<SearchFragment> createState() => _SearchFragmentState();
 }
 
-class _SearchFragmentState extends State<SearchFragment>
-    with SingleTickerProviderStateMixin {
+class SearchPage {
+  String? text;
+  String? image;
+
+  SearchPage({
+    this.text,
+    this.image,
+  });
+}
+
+class _SearchFragmentState extends State<SearchFragment> with SingleTickerProviderStateMixin {
   var selectedItem = 0;
   String _searchQuery = '';
-
+  final List<SearchPage> searchitems = [
+    SearchPage(
+      text: 'Chiến dịch',
+      image: "image/appetit/campaign.png",
+    ),
+    SearchPage(
+      text: 'Thể loại',
+      image: "image/appetit/category.png",
+    ),
+    SearchPage(
+      text: 'Sản phẩm',
+      image: "image/appetit/product.png",
+    ),
+    SearchPage(text: 'Discovery', image: 'image/appetit/map.png')
+  ];
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
           BlocProvider<CampaignsCubit>(create: (context) => CampaignsCubit()),
-          BlocProvider<ProductsCubit>(
-              create: (context) => ProductsCubit(name: _searchQuery)),
+          BlocProvider<ProductsCubit>(create: (context) => ProductsCubit(name: _searchQuery)),
           BlocProvider<CategoriesCubit>(
             create: (context) => CategoriesCubit(name: _searchQuery),
           )
@@ -57,14 +78,11 @@ class _SearchFragmentState extends State<SearchFragment>
                   labelText: 'Search',
                   hintStyle: TextStyle(color: Colors.grey),
                   hintText: 'Enter any name to search',
-                  prefixIcon:
-                      Icon(Icons.search_outlined, size: 24, color: Colors.grey),
+                  prefixIcon: Icon(Icons.search_outlined, size: 24, color: Colors.grey),
                   border: InputBorder.none,
                   filled: true,
                   contentPadding: EdgeInsets.zero,
-                  fillColor: appStore.isDarkModeOn
-                      ? context.cardColor
-                      : appetitAppContainerColor,
+                  fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
                 ),
               ).cornerRadiusWithClipRRect(16),
               elevation: 0,
@@ -96,8 +114,7 @@ class _SearchFragmentState extends State<SearchFragment>
                         Gap.k4.width,
                         Text(
                           e.text.toString(),
-                          style:
-                              TextStyle(color: context.iconColor, fontSize: 14),
+                          style: TextStyle(color: context.iconColor, fontSize: 14),
                         ),
                       ],
                     ).paddingSymmetric(vertical: 6);

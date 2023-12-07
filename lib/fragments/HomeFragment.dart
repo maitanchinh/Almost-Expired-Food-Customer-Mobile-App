@@ -40,6 +40,7 @@ class _HomeFragmentState extends State<HomeFragment> {
     final _industriesCubit = GetIt.I.get<IndustriesCubit>();
     final _productsCubit = BlocProvider.of<ProductsCubit>(context);
     final _storeCubit = BlocProvider.of<StoreCubit>(context);
+    final _campaignCubit = BlocProvider.of<CampaignsCubit>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -70,6 +71,7 @@ class _HomeFragmentState extends State<HomeFragment> {
         onRefresh: () async {
           _industriesCubit.refresh();
           _productsCubit.refresh();
+          _campaignCubit.getCampaignsList();
         },
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -197,8 +199,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                   );
                 }
                 if (state is ProductsSuccessState) {
-                  var products = state.products.products;
-                  products!.sort(
+                  var products = state.products.products!.where((product) => product.quantity! > 0).toList();
+                  products.sort(
                     (a, b) => DateTime.parse(a.expiredAt!).compareTo(DateTime.parse(b.expiredAt!)),
                   );
                   products.removeWhere((product) {
