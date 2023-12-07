@@ -42,7 +42,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit():super(PaymentState());
   Future<void> payment({required int amount, required String orderId}) async {
     try {
-      emit(PaymentLoadingState());
+      // emit(PaymentLoadingState());
       var url = await _ordersRepo.payment(amount: amount, orderId: orderId);
       emit(PaymentSuccessState(url: url));
     } on Exception catch (e) {

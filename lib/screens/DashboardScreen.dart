@@ -13,6 +13,7 @@ import '../cubit/categories/categories_cubit.dart';
 import '../cubit/profile/account_cubit.dart';
 
 class DashboardScreen extends StatefulWidget {
+  static const String routeName = '/dashboard';
   DashboardScreen({Key? key}) : super(key: key);
 
   @override

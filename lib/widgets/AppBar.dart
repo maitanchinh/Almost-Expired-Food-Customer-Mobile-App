@@ -7,7 +7,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
-  const MyAppBar({Key? key, this.title, this.actions, this.bottom}) : super(key: key);
+  final String? routeName;
+  const MyAppBar({Key? key, this.title, this.actions, this.bottom, this.routeName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () {
-          Navigator.pop(context);
+          routeName == null ? Navigator.pop(context) : Navigator.pushReplacementNamed(context, routeName!);
         },
       ),
       actions: actions,

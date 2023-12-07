@@ -388,57 +388,83 @@ class ProcessingPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Container(
-        height: 150,
-        width: 150,
-        padding: const EdgeInsets.all(32.0),
-        child: Builder(builder: (context) {
-          if (state is AddToCartLoadingState) {
-            return Column(
-              children: [
-                Center(
-                  child: CircularProgressIndicator(),
-                ),
-                Gap.k16.height,
-                Text('Đang xử lý, vui lòng chờ.')
-              ],
-            );
-          }
-          if (state is AddToCartSuccessState) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Thêm vào giỏ hàng thành công'),
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      'Đóng',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ))
-              ],
-            );
-          }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text('Đã xãy ra sự cố, hãy thử lại'),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    'Đóng',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ))
-            ],
-          );
-        }),
-      ),
-    );
+    return state is AddToCartLoadingState
+        ? Dialog(
+            child: Container(
+                height: 150,
+                width: 150,
+                padding: const EdgeInsets.all(32.0),
+                child: Column(
+                  children: [
+                    Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    Gap.k16.height,
+                    Text('Đang xử lý, vui lòng chờ.')
+                  ],
+                )),
+          )
+        : state is AddToCartSuccessState
+            ? Dialog(
+                child: Container(
+                    height: 150,
+                    width: 150,
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      children: [
+                        Text('Thêm vào giỏ hàng thành công.'),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Đóng',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))
+                      ],
+                    )),
+              )
+            : state is AddToCartFailedState
+                ? Dialog(
+                    child: Container(
+                      height: 200,
+                      width: 150,
+                      padding: const EdgeInsets.all(32.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text((state as AddToCartFailedState).msg.replaceAll('Exception: ', ''), textAlign: TextAlign.center,),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Đóng'))
+                        ],
+                      ),
+                    ),
+                  )
+                : Dialog(
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      padding: const EdgeInsets.all(32.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text('Đã xãy ra sự cố, hãy thử lại'),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'Đóng',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ))
+                        ],
+                      ),
+                    ),
+                  );
   }
 }

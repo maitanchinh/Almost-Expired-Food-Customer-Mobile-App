@@ -1,14 +1,17 @@
 import 'package:appetit/cubit/orders/orders_cubit.dart';
 import 'package:appetit/cubit/orders/orders_state.dart';
-import 'package:appetit/domain/repositories/orders_repo.dart';
+import 'package:appetit/screens/DashboardScreen.dart';
+import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/widgets/AppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils/format_utils.dart';
 import '../utils/gap.dart';
+import 'OrderDetailsScreen.dart';
 
 class OrdersWaitPaymentScreen extends StatefulWidget {
   static const String routeName = '/wait-payment';
@@ -20,21 +23,106 @@ class OrdersWaitPaymentScreen extends StatefulWidget {
 
 class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
   String urlPayment = '';
+  bool paymentStatus = false;
+  OrdersCubit? ordersCubit;
+  bool isRefresh = false;
+  // WebViewController? _webviewController;
+  // void _launchURL(String url) async {
+  //   final Uri uri = Uri.parse(url);
+  //   if (!await launchUrl(uri, mode: LaunchMode.platformDefault)) {
+  //     throw Exception('Could not launch $url');
+  //   }
+  // }
 
-  void _launchURL(String url) async {
-   final Uri uri = Uri.parse(url);
-   if (!await launchUrl(uri)) {
-        throw Exception('Could not launch $url');
-    }
-}
+  @override
+  void initState() {
+    super.initState();
+    ordersCubit = BlocProvider.of<OrdersCubit>(context);
+    ordersCubit!.getOrdersList(status: 'Pending Payment');
+    WebView.platform = AndroidWebView();
+    // WidgetsBinding.instance.addObserver(this);
+  }
+
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.dispose();
+  // }
+
+  // @override
+  // Future<bool> didPopRoute() async {
+  //     print('aaaaa');
+  //     checkOrder();
+  //     if (paymentStatus) {
+  //       showDialog(
+  //           context: context,
+  //           builder: (_) {
+  //             return Dialog(
+  //               child: Container(
+  //                 height: 100,
+  //                 width: 150,
+  //                 child: Column(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   children: [Text('Thanh toán thành công'), TextButton(onPressed: () {
+  //                   Navigator.pop(context);
+  //                   Navigator.pop(context);
+  //                   Navigator.pushReplacementNamed(context, OrdersWaitPaymentScreen.routeName);
+  //                 }, child: Text('Đóng'))]),
+  //               ),
+  //             );
+  //           });
+  //     } else {
+  //       showDialog(
+  //           context: context,
+  //           builder: (_) {
+  //             return Dialog(
+  //               child: Container(
+  //                 height: 100,
+  //                 width: 150,
+  //                 child: Column(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   children: [Text('Thanh toán thất bại. Hãy thử lại.'), TextButton(onPressed: () {
+  //                   Navigator.pop(context);
+  //                 }, child: Text('Đóng'))]),
+  //               ),
+  //             );
+  //           });
+
+  //   }
+  //   return false;
+  // }
+
+  // Future<void> checkOrder() async {
+  //   try {
+  //     await ordersCubit!.getOrdersList(status: 'Pending Payment');
+  //     ordersCubit!.stream.listen((state) {
+  //       if (state is OrdersSuccessState) {
+  //         if (state.orders.orders!.any((order) => order.isPayment == true)) {
+  //           setState(() {
+  //             paymentStatus = true;
+  //           });
+  //         } else {
+  //           paymentStatus = false;
+  //         }
+  //       }
+  //     });
+  //   } catch (e) {
+  //     // Xử lý các trường hợp ngoại lệ nếu có
+  //     print('Error loading orders: $e');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
-    final ordersCubit = BlocProvider.of<OrdersCubit>(context);
     final paymentCubit = BlocProvider.of<PaymentCubit>(context);
-    ordersCubit.getOrdersList(status: 'PendingPayment');
+      
+    ordersCubit!.getOrdersList(status: 'Pending Payment');
     return Scaffold(
       appBar: MyAppBar(
         title: 'Chờ thanh toán',
+        routeName: DashboardScreen.routeName,
       ),
       body: BlocListener<PaymentCubit, PaymentState>(
         listener: (context, state) {
@@ -42,7 +130,27 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
             setState(() {
               urlPayment = state.url;
             });
-            _launchURL(urlPayment);
+            Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Scaffold(
+                                                appBar: AppBar(
+                                                  title: Text('Thanh Toán VNPAY'),
+                                                  centerTitle: true,
+                                                  backgroundColor: appLayout_background,
+                                                  leading: IconButton(
+                                                    icon: Icon(Icons.arrow_back),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                      Navigator.popAndPushNamed(context, OrdersWaitPaymentScreen.routeName);
+                                                    },
+                                                  ),
+                                                ),
+                                                body: WebView(
+                                                  initialUrl: urlPayment,
+                                                  javascriptMode: JavascriptMode.unrestricted,
+                                                ),
+                                              )));
           }
         },
         child: BlocBuilder<OrdersCubit, OrdersState>(
@@ -114,7 +222,7 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                       )
                                     ],
                                   ).onTap(() {
-                                    // Navigator.pushNamed(context, OrderDetailsScreen.routeName);
+                                    Navigator.pushNamed(context, OrderDetailsScreen.routeName);
                                   })
                                 : SizedBox.shrink(),
                             Divider(),
@@ -148,6 +256,8 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                   ),
                                 ).onTap(() {
                                   paymentCubit.payment(amount: orders[index].amount!, orderId: orders[index].id!);
+                                  // _webviewController = WebViewController()..loadRequest(Uri.parse(urlPayment));
+                                  
                                 })
                               ],
                             ).paddingSymmetric(horizontal: 16),

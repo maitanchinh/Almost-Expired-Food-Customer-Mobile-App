@@ -1,8 +1,8 @@
 import 'package:appetit/components/AccountComponent.dart';
 import 'package:appetit/cubit/profile/account_cubit.dart';
 import 'package:appetit/cubit/profile/account_state.dart';
+import 'package:appetit/screens/OrdersCanceledScreen.dart';
 import 'package:appetit/screens/OrdersCompletedScreen.dart';
-import 'package:appetit/screens/OrdersWaitConfirmScreen.dart';
 import 'package:appetit/screens/OrdersWaitPaymentScreen.dart';
 import 'package:appetit/screens/OrdersWaitPickUpScreen.dart';
 import 'package:appetit/services/auth_service.dart';
@@ -120,9 +120,9 @@ class _ProfileFragmentState extends State<ProfileFragment>
                   ),
                 ),
                 Gap.kSection.height,
-                AccountComponent(icon: 'image/appetit/confirm.png', content: 'Chờ xác nhận').onTap((){
-                  Navigator.pushNamed(context, OrdersWaitConfirmScreen.routeName);
-                }),
+                // AccountComponent(icon: 'image/appetit/confirm.png', content: 'Chờ xác nhận').onTap((){
+                //   Navigator.pushNamed(context, OrdersWaitConfirmScreen.routeName);
+                // }),
                 AccountComponent(icon: 'image/appetit/time-to-pay.png', content: 'Chờ thanh toán').onTap((){
                   Navigator.pushNamed(context, OrdersWaitPaymentScreen.routeName);
                 }),
@@ -131,6 +131,9 @@ class _ProfileFragmentState extends State<ProfileFragment>
                 }),
                 AccountComponent(icon: 'image/appetit/order-completed.png', content: 'Đơn hàng đã nhận').onTap((){
                   Navigator.pushNamed(context, OrdersCompletedScreen.routeName);
+                }),
+                AccountComponent(icon: 'image/appetit/cancel-order.png', content: 'Đơn đã hủy').onTap((){
+                  Navigator.pushNamed(context, OrdersCanceledScreen.routeName);
                 }),
                 Gap.kSection.height,
                 TextButton(

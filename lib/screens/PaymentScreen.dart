@@ -1,6 +1,6 @@
 import 'package:appetit/domain/models/cart.dart';
 import 'package:appetit/domain/models/order/create.dart';
-import 'package:appetit/screens/OrdersWaitConfirmScreen.dart';
+import 'package:appetit/screens/OrdersWaitPaymentScreen.dart';
 import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/utils/format_utils.dart';
 import 'package:appetit/utils/gap.dart';
@@ -37,7 +37,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         children: [
           ListView.separated(
                   itemBuilder: (context, index) {
-                    if (index < widget.cartItems.length) {
+                    // if (index < widget.cartItems.length) {
                       return Container(
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(color: white),
@@ -141,75 +141,75 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ]),
                       );
-                    } else {
-                      return Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: white,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Phương thức thanh toán',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Gap.k8.height,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(border: Border.all(width: 0.5, color: isPayBefore ? grey.withOpacity(0.5) : Colors.orange.shade700), borderRadius: BorderRadius.circular(8)),
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        'image/appetit/cash.png',
-                                        width: 16,
-                                      ),
-                                      Gap.k8.width,
-                                      Text(
-                                        'Thanh toán khi nhận hàng',
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                                      )
-                                    ],
-                                  ),
-                                ).onTap((){
-                                  setState(() {
-                                    isPayBefore = false;
-                                  });
-                                }),
-                                Gap.k16.width,
-                                Container(
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(border: Border.all(width: 0.5, color: !isPayBefore ? grey.withOpacity(0.5) : Colors.orange.shade700), borderRadius: BorderRadius.circular(8)),
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        'image/appetit/card.png',
-                                        width: 16,
-                                      ),
-                                      Gap.k8.width,
-                                      Text(
-                                        'Thanh toán VNPAY',
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
-                                      )
-                                    ],
-                                  ),
-                                ).onTap((){
-                                  setState(() {
-                                    isPayBefore = true;
-                                  });
-                                }),
-                              ],
-                            )
-                          ],
-                        ),
-                      );
-                    }
+                    // } else {
+                    //   return Container(
+                    //     padding: EdgeInsets.all(16),
+                    //     decoration: BoxDecoration(
+                    //       color: white,
+                    //     ),
+                    //     child: Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         Text(
+                    //           'Phương thức thanh toán',
+                    //           style: TextStyle(fontWeight: FontWeight.bold),
+                    //         ),
+                    //         Gap.k8.height,
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //           children: [
+                    //             Container(
+                    //               padding: EdgeInsets.all(8),
+                    //               decoration: BoxDecoration(border: Border.all(width: 0.5, color: isPayBefore ? grey.withOpacity(0.5) : Colors.orange.shade700), borderRadius: BorderRadius.circular(8)),
+                    //               child: Row(
+                    //                 children: [
+                    //                   Image.asset(
+                    //                     'image/appetit/cash.png',
+                    //                     width: 16,
+                    //                   ),
+                    //                   Gap.k8.width,
+                    //                   Text(
+                    //                     'Thanh toán khi nhận hàng',
+                    //                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    //                   )
+                    //                 ],
+                    //               ),
+                    //             ).onTap((){
+                    //               setState(() {
+                    //                 isPayBefore = false;
+                    //               });
+                    //             }),
+                    //             Gap.k16.width,
+                    //             Container(
+                    //               padding: EdgeInsets.all(8),
+                    //               decoration: BoxDecoration(border: Border.all(width: 0.5, color: !isPayBefore ? grey.withOpacity(0.5) : Colors.orange.shade700), borderRadius: BorderRadius.circular(8)),
+                    //               child: Row(
+                    //                 children: [
+                    //                   Image.asset(
+                    //                     'image/appetit/card.png',
+                    //                     width: 16,
+                    //                   ),
+                    //                   Gap.k8.width,
+                    //                   Text(
+                    //                     'Thanh toán VNPAY',
+                    //                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10),
+                    //                   )
+                    //                 ],
+                    //               ),
+                    //             ).onTap((){
+                    //               setState(() {
+                    //                 isPayBefore = true;
+                    //               });
+                    //             }),
+                    //           ],
+                    //         )
+                    //       ],
+                    //     ),
+                    //   );
+                    // }
                   },
                   separatorBuilder: (context, index) => Gap.k8.height,
-                  itemCount: widget.cartItems.length + 1)
+                  itemCount: widget.cartItems.length)
               .paddingBottom(64),
           Positioned(
             bottom: 0,
@@ -244,7 +244,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         style: TextStyle(color: white, fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ).onTap(() async {
-                      await orderCubit.createOrder(CreateOrder(paymentMethod: isPayBefore ? 'VNPay' : 'Cash', orderDetails: widget.order.orderDetails));
+                      await orderCubit.createOrder(CreateOrder(paymentMethod: 'VNPay', orderDetails: widget.order.orderDetails));
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -300,7 +300,7 @@ class OrderSubmitPopup extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      Navigator.pushReplacementNamed(context, OrdersWaitConfirmScreen.routeName);
+                      Navigator.pushReplacementNamed(context, OrdersWaitPaymentScreen.routeName);
                     },
                     child: Text(
                       'Đóng',

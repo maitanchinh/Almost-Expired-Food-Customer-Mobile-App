@@ -7,14 +7,14 @@ import '../cubit/orders/orders_state.dart';
 import '../utils/format_utils.dart';
 import '../utils/gap.dart';
 
-class OrderReceivedComponent extends StatefulWidget {
-  const OrderReceivedComponent({Key? key}) : super(key: key);
+class OrderComponent extends StatefulWidget {
+  const OrderComponent({Key? key}) : super(key: key);
 
   @override
-  State<OrderReceivedComponent> createState() => _OrderReceivedComponentState();
+  State<OrderComponent> createState() => _OrderComponentState();
 }
 
-class _OrderReceivedComponentState extends State<OrderReceivedComponent> {
+class _OrderComponentState extends State<OrderComponent> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<OrdersCubit>(

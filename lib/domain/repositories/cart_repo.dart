@@ -21,6 +21,9 @@ class CartRepo {
       return res.statusCode!;
     } on DioException catch(e){
       print(e);
+      if (e.response!.statusCode == 409) {
+        throw Exception(msg_exceed_quantity);
+      }
       throw Exception(msg_server_error);
     }
   }

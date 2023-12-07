@@ -9,6 +9,7 @@ import '../cubit/orders/orders_cubit.dart';
 import '../cubit/orders/orders_state.dart';
 import '../utils/format_utils.dart';
 import '../utils/gap.dart';
+import 'OrderDetailsScreen.dart';
 
 class OrdersCompletedScreen extends StatelessWidget {
   static const String routeName = '/history';
@@ -84,7 +85,7 @@ class OrdersCompletedScreen extends StatelessWidget {
                         Divider(),
                         Text('Xem thêm sản phẩm', style: TextStyle(color: grey, fontSize: 12),)
                       ],).onTap((){
-                        // Navigator.pushNamed(context, OrderDetailsScreen.routeName);
+                        Navigator.pushNamed(context, OrderDetailsScreen.routeName);
                       }) : SizedBox.shrink(),
                       Divider(),
                       Row(
