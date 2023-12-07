@@ -4,6 +4,7 @@ import 'package:appetit/cubit/profile/account_state.dart';
 import 'package:appetit/screens/OrdersCompletedScreen.dart';
 import 'package:appetit/screens/OrdersWaitConfirmScreen.dart';
 import 'package:appetit/screens/OrdersWaitPaymentScreen.dart';
+import 'package:appetit/screens/OrdersWaitPickUpScreen.dart';
 import 'package:appetit/services/auth_service.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
@@ -124,6 +125,9 @@ class _ProfileFragmentState extends State<ProfileFragment>
                 }),
                 AccountComponent(icon: 'image/appetit/time-to-pay.png', content: 'Chờ thanh toán').onTap((){
                   Navigator.pushNamed(context, OrdersWaitPaymentScreen.routeName);
+                }),
+                AccountComponent(icon: 'image/appetit/pickup.png', content: 'Chờ nhận hàng').onTap((){
+                  Navigator.pushNamed(context, OrdersWaitPickupScreen.routeName);
                 }),
                 AccountComponent(icon: 'image/appetit/order-completed.png', content: 'Đơn hàng đã nhận').onTap((){
                   Navigator.pushNamed(context, OrdersCompletedScreen.routeName);

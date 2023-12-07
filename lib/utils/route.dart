@@ -12,6 +12,7 @@ import 'package:appetit/screens/CartScreen.dart';
 import 'package:appetit/screens/IndustryScreen.dart';
 import 'package:appetit/screens/OrdersWaitConfirmScreen.dart';
 import 'package:appetit/screens/OrdersWaitPaymentScreen.dart';
+import 'package:appetit/screens/OrdersWaitPickUpScreen.dart';
 import 'package:appetit/screens/PaymentScreen.dart';
 import 'package:appetit/screens/ProductDetailScreen.dart';
 import 'package:appetit/screens/CampaignsScreen.dart';
@@ -68,6 +69,8 @@ PageRoute? generateRoute(RouteSettings settings) {
               providers: [BlocProvider<OrdersCubit>(create: (context) => OrdersCubit()), BlocProvider<PaymentCubit>(create: (context) => PaymentCubit())], child: OrdersWaitPaymentScreen()));
     case OrdersWaitConfirmScreen.routeName:
       return MaterialPageRoute(builder: (_) => BlocProvider<OrdersCubit>(create: (context) => OrdersCubit(), child: OrdersWaitConfirmScreen()));
+    case OrdersWaitPickupScreen.routeName:
+      return MaterialPageRoute(builder: (_) => BlocProvider<OrdersCubit>(create: (context) => OrdersCubit(), child: OrdersWaitPickupScreen()));
     default:
   }
   return null;

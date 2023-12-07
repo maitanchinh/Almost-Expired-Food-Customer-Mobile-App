@@ -1,4 +1,3 @@
-import 'package:appetit/widgets/AppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -7,17 +6,18 @@ import '../cubit/orders/orders_cubit.dart';
 import '../cubit/orders/orders_state.dart';
 import '../utils/format_utils.dart';
 import '../utils/gap.dart';
+import '../widgets/AppBar.dart';
 
-class OrdersWaitConfirmScreen extends StatelessWidget {
-  static const String routeName = '/wait-confirm';
-  const OrdersWaitConfirmScreen({Key? key}) : super(key: key);
+class OrdersWaitPickupScreen extends StatelessWidget {
+  static const String routeName = '/wait-pickup';
+  const OrdersWaitPickupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final ordersCubit = BlocProvider.of<OrdersCubit>(context);
-    ordersCubit.getOrdersList(status: 'PendingPickup');
+    ordersCubit.getOrdersList(status: 'Paid');
     return Scaffold(
-      appBar: MyAppBar(title: 'Chờ xác nhận',),
+      appBar: MyAppBar(title: 'Chờ nhận hàng',),
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
           if (state is OrdersSuccessState) {
