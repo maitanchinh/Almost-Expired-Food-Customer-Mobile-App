@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CartCubit extends Cubit<CartState> {
   final CartRepo _cartRepo = getIt<CartRepo>();
 
-  CartCubit() :super(CartState()){getCart();}
+  CartCubit() :super(CartState());
 
   Future<void> getCart()async{
     try {

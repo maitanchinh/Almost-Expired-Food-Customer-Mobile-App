@@ -12,6 +12,7 @@ import 'package:appetit/cubit/stores/stores_state.dart';
 import 'package:appetit/screens/CartScreen.dart';
 import 'package:appetit/screens/IndustryScreen.dart';
 import 'package:appetit/screens/ProductDetailScreen.dart';
+import 'package:appetit/screens/StoreScreen.dart';
 import 'package:appetit/utils/Colors.dart';
 import 'package:appetit/main.dart';
 import 'package:appetit/screens/IndustriesListScreen.dart';
@@ -499,7 +500,9 @@ class _HomeFragmentState extends State<HomeFragment> {
                                     ),
                                   ],
                                 ),
-                              );
+                              ).onTap((){
+                                Navigator.pushNamed(context, StoreScreen.routeName, arguments: e);
+                              });
                             }).toList(),
                           ),
                         ),

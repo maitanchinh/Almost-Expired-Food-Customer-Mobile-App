@@ -53,7 +53,17 @@ PageRoute? generateRoute(RouteSettings settings) {
                 campaign: campaign,
               ));
     case CartScreen.routeName:
-      return MaterialPageRoute(builder: (_) => CartScreen());
+      return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(providers: [
+                BlocProvider<CartCubit>(
+                  create: (context) => CartCubit(),
+                ),
+                BlocProvider<CreateOrderCubit>(
+                  create: (context) => CreateOrderCubit(),
+                ),
+                BlocProvider<UpdateCartCubit>(create: (context) => UpdateCartCubit()),
+                BlocProvider<RemoveCartItemCubit>(create: (context) => RemoveCartItemCubit())
+              ], child: CartScreen()));
     case LoginScreen.routeName:
       return MaterialPageRoute(builder: (_) => LoginScreen());
     case PaymentScreen.routeName:

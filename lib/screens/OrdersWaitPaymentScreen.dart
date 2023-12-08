@@ -142,7 +142,6 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
                                 Navigator.pop(context);
-                                Navigator.popAndPushNamed(context, OrdersWaitPaymentScreen.routeName);
                               },
                             ),
                           ),

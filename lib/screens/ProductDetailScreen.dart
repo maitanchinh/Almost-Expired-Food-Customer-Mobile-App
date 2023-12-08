@@ -41,7 +41,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart_outlined, size: 27, color: context.iconColor),
-            onPressed: () => Navigator.pushNamed(context, CartScreen.routeName),
+            onPressed: () => Navigator.pushReplacementNamed(context, CartScreen.routeName),
           ),
         ],
         leading: IconButton(
