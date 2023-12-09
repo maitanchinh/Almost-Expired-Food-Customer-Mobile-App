@@ -1,6 +1,8 @@
 import 'package:appetit/domain/models/products.dart';
 import 'package:appetit/domain/models/stores.dart';
 
+import 'branchs.dart';
+
 class Cart {
   String? id;
   List<CartItem>? cartItems;
@@ -44,7 +46,7 @@ class Cart {
 class CartItem {
   String? id;
   Store? store;
-  Branches? branch;
+  Branch? branch;
   int? quantity;
   Product? product;
 
@@ -54,7 +56,7 @@ class CartItem {
     id = json['id'];
     store = json['store'] != null ? new Store.fromJson(json['store']) : null;
     branch =
-        json['branch'] != null ? new Branches.fromJson(json['branch']) : null;
+        json['branch'] != null ? new Branch.fromJson(json['branch']) : null;
     quantity = json['quantity'];
     product =
         json['product'] != null ? new Product.fromJson(json['product']) : null;
@@ -111,34 +113,6 @@ class StoreOwner {
     data['phone'] = this.phone;
     data['avatarUrl'] = this.avatarUrl;
     data['status'] = this.status;
-    return data;
-  }
-}
-
-class Branches {
-  String? id;
-  String? address;
-  double? latitude;
-  double? longitude;
-  String? phone;
-
-  Branches({this.id, this.address, this.latitude, this.longitude, this.phone});
-
-  Branches.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    phone = json['phone'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['address'] = this.address;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['phone'] = this.phone;
     return data;
   }
 }

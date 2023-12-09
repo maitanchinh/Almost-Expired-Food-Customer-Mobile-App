@@ -3,6 +3,7 @@ import 'package:appetit/cubit/product/products_cubit.dart';
 import 'package:appetit/cubit/store/store_cubit.dart';
 import 'package:appetit/cubit/stores/stores_cubit.dart';
 import 'package:appetit/fragments/HomeFragment.dart';
+import 'package:appetit/fragments/MapFragment.dart';
 import 'package:appetit/fragments/NotificationFragment.dart';
 import 'package:appetit/fragments/ProfileFragment.dart';
 import 'package:appetit/fragments/SearchFragment.dart';
@@ -29,6 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   List<Widget> widgetOption = <Widget>[
     HomeFragment(),
+    MapFragment(),
     SearchFragment(),
     NotificationFragment(),
     ProfileFragment(),
@@ -46,7 +48,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BlocProvider<StoreCubit>(create: (context) => StoreCubit()),
         BlocProvider<CampaignsCubit>(create: (context) => CampaignsCubit()),
         BlocProvider<StoresCubit>(create: (context) => StoresCubit()),
-        BlocProvider<CategoriesCubit>(create: (context) => CategoriesCubit())
+        BlocProvider<CategoriesCubit>(create: (context) => CategoriesCubit()),
+
       ],
       child: Scaffold(
         body: widgetOption.elementAt(selectedItem),
@@ -63,6 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           selectedItemColor: Colors.orangeAccent,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Map'),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_outlined),

@@ -457,6 +457,7 @@ class _HomeFragmentState extends State<HomeFragment> {
                           scrollDirection: Axis.horizontal,
                           physics: BouncingScrollPhysics(),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: stores.map((e) {
                               return Container(
                                 width: 90,

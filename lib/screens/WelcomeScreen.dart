@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
         title: Align(
           alignment: Alignment.center,
-          child: Text('Appetit', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w400, color: context.iconColor)),
+          child: Text('Customer', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w400, color: context.iconColor)),
         ),
         actions: [
           Container(

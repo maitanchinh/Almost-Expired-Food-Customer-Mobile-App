@@ -1,3 +1,5 @@
+import 'branchs.dart';
+
 class Stores {
   Pagination? pagination;
   List<Store>? stores;
@@ -55,10 +57,9 @@ class Store {
   String? name;
   String? thumbnailUrl;
   String? description;
-  String? address;
   double? rated;
   StoreOwner? storeOwner;
-  List<Branches>? branches;
+  List<Branch>? branches;
   String? createAt;
 
   Store(
@@ -66,7 +67,6 @@ class Store {
       this.name,
       this.thumbnailUrl,
       this.description,
-      this.address,
       this.rated,
       this.storeOwner,
       this.branches,
@@ -77,15 +77,14 @@ class Store {
     name = json['name'];
     thumbnailUrl = json['thumbnailUrl'];
     description = json['description'];
-    address = json['address'];
     rated = json['rated'];
     storeOwner = json['storeOwner'] != null
         ? new StoreOwner.fromJson(json['storeOwner'])
         : null;
     if (json['branches'] != null) {
-      branches = <Branches>[];
+      branches = <Branch>[];
       json['branches'].forEach((v) {
-        branches!.add(new Branches.fromJson(v));
+        branches!.add(new Branch.fromJson(v));
       });
     }
     createAt = json['createAt'];
@@ -97,7 +96,6 @@ class Store {
     data['name'] = this.name;
     data['thumbnailUrl'] = this.thumbnailUrl;
     data['description'] = this.description;
-    data['address'] = this.address;
     data['rated'] = this.rated;
     if (this.storeOwner != null) {
       data['storeOwner'] = this.storeOwner!.toJson();
@@ -146,32 +144,3 @@ class StoreOwner {
     return data;
   }
 }
-
-class Branches {
-  String? id;
-  String? address;
-  double? latitude;
-  double? longitude;
-  String? phone;
-
-  Branches({this.id, this.address, this.latitude, this.longitude, this.phone});
-
-  Branches.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    phone = json['phone'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['address'] = this.address;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['phone'] = this.phone;
-    return data;
-  }
-}
-

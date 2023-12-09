@@ -1,6 +1,5 @@
 import 'package:appetit/components/CategoriesListComponent.dart';
 import 'package:appetit/components/CampaignsComponent.dart';
-import 'package:appetit/components/MapComponent.dart';
 import 'package:appetit/components/ProductsListComponent.dart';
 import 'package:appetit/cubit/campaigns/campaign_cubit.dart';
 import 'package:appetit/cubit/campaigns/campaigns_state.dart';
@@ -47,7 +46,6 @@ class _SearchFragmentState extends State<SearchFragment> with SingleTickerProvid
       text: 'Sản phẩm',
       image: "image/appetit/product.png",
     ),
-    SearchPage(text: 'Discovery', image: 'image/appetit/map.png')
   ];
   @override
   Widget build(BuildContext context) {
@@ -168,7 +166,6 @@ class TabView extends StatelessWidget {
         ProductsListComponent(
           name: searchQuery,
         ),
-        MapComponent()
       ],
     );
   }

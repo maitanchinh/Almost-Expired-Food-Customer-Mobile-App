@@ -1,3 +1,5 @@
+import 'branchs.dart';
+
 class Campaigns {
   Pagination? pagination;
   List<Campaign>? campaigns;
@@ -143,24 +145,3 @@ class StoreOwner {
   }
 }
 
-class Branch {
-  String? id;
-  String? address;
-  String? phone;
-
-  Branch({this.id, this.address, this.phone});
-
-  Branch.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    address = json['address'];
-    phone = json['phone'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['address'] = this.address;
-    data['phone'] = this.phone;
-    return data;
-  }
-}
