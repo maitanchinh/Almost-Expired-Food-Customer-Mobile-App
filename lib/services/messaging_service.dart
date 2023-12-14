@@ -1,5 +1,7 @@
 import 'package:appetit/screens/OrdersCanceledScreen.dart';
+import 'package:appetit/screens/OrdersCompletedScreen.dart';
 import 'package:appetit/screens/OrdersWaitPaymentScreen.dart';
+import 'package:appetit/screens/OrdersWaitPickUpScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -58,10 +60,16 @@ class MessagingService {
       onDidReceiveNotificationResponse: (details) {
         print('payload at click noti event: ' + details.payload.toString());
         NotificationCubit().getNotifications();
+        if (details.payload == 'Hoàn tất đơn hàng') {
+          
+          navigatorKey.currentState?.pushNamed(OrdersCompletedScreen.routeName);
+        }
+        if (details.payload == 'Thanh toán thành công') {
+          
+          navigatorKey.currentState?.pushNamed(OrdersWaitPickupScreen.routeName);
+        }
         if (details.payload == 'Đơn hàng đã bị hủy') {
           navigatorKey.currentState?.pushNamed(OrdersCanceledScreen.routeName);
-        } else {
-          navigatorKey.currentState?.pushNamed(OrdersWaitPaymentScreen.routeName);
         }
       },
     );

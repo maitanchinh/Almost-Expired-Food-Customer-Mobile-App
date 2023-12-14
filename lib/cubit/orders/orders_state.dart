@@ -14,6 +14,21 @@ class OrdersSuccessState extends OrdersState {
   OrdersSuccessState({required this.orders});
 }
 
+//Order details
+class OrderDetailsState {}
+
+class OrdersDetailsLoadingState extends OrderDetailsState {}
+
+class OrderDetailsFailedState extends OrderDetailsState {
+  final String msg;
+  OrderDetailsFailedState({required this.msg});
+}
+
+class OrderDetailsSuccessState extends OrderDetailsState {
+  final Order order;
+  OrderDetailsSuccessState({required this.order});
+}
+
 //Create Order
 class CreateOrderState {}
 
@@ -45,13 +60,9 @@ class PaymentSuccessState extends PaymentState {
 }
 
 //Complete order
-class CompleteOrderState {
-  
-}
+class CompleteOrderState {}
 
-class CompleteOrderLoadingState extends CompleteOrderState {
-  
-}
+class CompleteOrderLoadingState extends CompleteOrderState {}
 
 class CompleteOrderFailedState extends CompleteOrderState {
   final String msg;

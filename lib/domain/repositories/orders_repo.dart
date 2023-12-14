@@ -8,14 +8,6 @@ import '../models/order/orders.dart';
 class OrdersRepo {
   final Dio apiClient = getIt.get<Dio>();
 
-  // Future<Orders> getAllOrder() async {
-  //   try {
-  //     var res = await apiClient.get
-  //   } on DioException {
-  //     throw Exception(msg_server_error);
-  //   }
-  // }
-
   Future<int> createOrder(CreateOrder data) async {
     try {
       var res = await apiClient.post('/api/orders', data: {
@@ -36,6 +28,16 @@ class OrdersRepo {
     } on DioException catch (e) {
       print(e);
       throw Exception(msg_server_error);
+    }
+  }
+
+  Future<Order> getOrderById({required String orderId}) async {
+    try {
+      var res = await apiClient.get('/api/orders/$orderId');
+      return Order.fromJson(res.data);
+    } on DioException catch (e) {
+      print(e);
+      throw Exception(e);
     }
   }
 

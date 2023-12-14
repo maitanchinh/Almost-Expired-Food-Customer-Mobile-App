@@ -24,158 +24,160 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
-  
+  late UpdateProfileCubit _updateProfileCubit;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _nameController.text = widget.profile.name!;
     _phoneController.text = widget.profile.phone!;
     _addressController.text = widget.profile.address!;
+    _updateProfileCubit = BlocProvider.of<UpdateProfileCubit>(context);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Cập nhật thông tin',),
-      body: BlocProvider<UpdateProfileCubit>(
-        create: (context) => UpdateProfileCubit(),
-        child: BlocListener<UpdateProfileCubit, UpdateProfileState>(
-          listener: (context, state) {
-             showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  var _updateProfileCubit = UpdateProfileCubit();
-                                  return ProcessingPopup(
-                                    state: _updateProfileCubit.state,
-                                  );
-                                });
-          },
-          child: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: TextField(
-                          controller: _nameController,
-                          // onChanged: (value) {
-                          //   setState(() {
-                          //     _campaignName = value;
-                          //   });
-                          // },
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
-                            filled: true,
-                            labelStyle: TextStyle(color: Colors.grey),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            labelText: 'Tên*',
-                            hintText: 'Nhập tên',
-                          ),
+      appBar: MyAppBar(
+        title: 'Cập nhật thông tin',
+      ),
+      body: BlocListener<UpdateProfileCubit, UpdateProfileState>(
+        listener: (context, state) {
+          if (!(state is UpdateProfileLoadingState)) {
+            Navigator.pop(context);
+          }
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return ProcessingPopup(
+                  state: state,
+                );
+              });
+        },
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: TextField(
+                        controller: _nameController,
+                        // onChanged: (value) {
+                        //   setState(() {
+                        //     _campaignName = value;
+                        //   });
+                        // },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
+                          filled: true,
+                          labelStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          labelText: 'Tên*',
+                          hintText: 'Nhập tên',
                         ),
                       ),
-                      Gap.k16.height,
-                      // ClipRRect(
-                      //   borderRadius: BorderRadius.circular(15),
-                      //   child: TextField(
-                      //     controller: _addressController,
-                      //     // onChanged: (value) {
-                      //     //   setState(() {
-                      //     //     _campaignName = value;
-                      //     //   });
-                      //     // },
-                      //     decoration: InputDecoration(
-                      //       border: InputBorder.none,
-                      //       fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
-                      //       filled: true,
-                      //       labelStyle: TextStyle(color: Colors.grey),
-                      //       hintStyle: TextStyle(color: Colors.grey),
-                      //       labelText: 'Địa chỉ*',
-                      //       hintText: 'Nhập địa chỉ',
-                      //     ),
-                      //   ),
-                      // ),
-                      // Gap.k16.height,
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: TextField(
-                          keyboardType: TextInputType.phone,
-                          controller: _phoneController,
-                          // onChanged: (value) {
-                          //   setState(() {
-                          //     _campaignName = value;
-                          //   });
-                          // },
-                          decoration: InputDecoration(
-                            
-                            border: InputBorder.none,
-                            fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
-                            filled: true,
-                            labelStyle: TextStyle(color: Colors.grey),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            labelText: 'Số điện thoại*',
-                            hintText: 'Nhập số điện thoại',
-                          ),
+                    ),
+                    Gap.k16.height,
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(15),
+                    //   child: TextField(
+                    //     controller: _addressController,
+                    //     // onChanged: (value) {
+                    //     //   setState(() {
+                    //     //     _campaignName = value;
+                    //     //   });
+                    //     // },
+                    //     decoration: InputDecoration(
+                    //       border: InputBorder.none,
+                    //       fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
+                    //       filled: true,
+                    //       labelStyle: TextStyle(color: Colors.grey),
+                    //       hintStyle: TextStyle(color: Colors.grey),
+                    //       labelText: 'Địa chỉ*',
+                    //       hintText: 'Nhập địa chỉ',
+                    //     ),
+                    //   ),
+                    // ),
+                    // Gap.k16.height,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: TextField(
+                        keyboardType: TextInputType.phone,
+                        controller: _phoneController,
+                        // onChanged: (value) {
+                        //   setState(() {
+                        //     _campaignName = value;
+                        //   });
+                        // },
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
+                          filled: true,
+                          labelStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          labelText: 'Số điện thoại*',
+                          hintText: 'Nhập số điện thoại',
                         ),
                       ),
-                      Gap.k16.height,
-                    
-                      Text(
-                        '(*): Bắt buộc nhập',
-                        style: TextStyle(color: grey),
-                      ),
-                    ],
-                  ),
+                    ),
+                    Gap.k16.height,
+
+                    Text(
+                      '(*): Bắt buộc nhập',
+                      style: TextStyle(color: grey),
+                    ),
+                  ],
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-                    child: (_nameController.text != '' && _phoneController.text != '')
-                        ? ElevatedButton(
-                            onPressed: () async {
-                              var _updateProfileCubit = UpdateProfileCubit();
-                              await _updateProfileCubit.updateProfile(name: _nameController.text, phone: _phoneController.text);
-                             
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Lưu', style: TextStyle(fontSize: 18)),
-                              ],
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.orange.shade600,
-                              padding: EdgeInsets.symmetric(horizontal: 48, vertical: 16),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                            ),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Lưu', style: TextStyle(fontSize: 18)),
-                              ],
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.grey.shade400,
-                              padding: EdgeInsets.symmetric(horizontal: 48, vertical: 16),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                            ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+                  child: (_nameController.text != '' && _phoneController.text != '')
+                      ? ElevatedButton(
+                          onPressed: () {
+                            _updateProfileCubit.updateProfile(name: _nameController.text, phone: _phoneController.text);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Lưu', style: TextStyle(fontSize: 18)),
+                            ],
                           ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.orange.shade600,
+                            padding: EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                          ),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Lưu', style: TextStyle(fontSize: 18)),
+                            ],
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.grey.shade400,
+                            padding: EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -191,13 +193,13 @@ class ProcessingPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return state is UpdateProfileLoadingState
-        ? Dialog(
-            child: Container(
-                height: 150,
+    return Dialog(
+        child: state is UpdateProfileLoadingState
+            ? Container(
                 width: 150,
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Center(
                       child: CircularProgressIndicator(),
@@ -205,73 +207,69 @@ class ProcessingPopup extends StatelessWidget {
                     Gap.k16.height,
                     Text('Đang xử lý, vui lòng chờ.')
                   ],
-                )),
-          )
-        : state is UpdateProfileSuccessState
-            ? Dialog(
-                child: Container(
-                    height: 150,
+                ))
+            : state is UpdateProfileSuccessState
+                ? Container(
                     width: 150,
                     padding: const EdgeInsets.all(32.0),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('Cập nhật chiến dịch thành công'),
+                        Text('Cập nhật thông tin thành công'),
                         TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName, arguments: 4);
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                  builder: (_) => DashboardScreen(
+                                        tabIndex: 4,
+                                      )));
                             },
                             child: Text(
                               'Đóng',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))
                       ],
-                    )),
-              )
-            : state is UpdateProfileFailedState
-                ? Dialog(
-                    child: Container(
-                      height: 150,
-                      width: 150,
-                      padding: const EdgeInsets.all(32.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            (state as UpdateProfileFailedState).msg.replaceAll('Exception: ', ''),
-                            textAlign: TextAlign.center,
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Đóng'))
-                        ],
-                      ),
-                    ),
-                  )
-                : Dialog(
-                    child: Container(
-                      height: 150,
-                      width: 150,
-                      padding: const EdgeInsets.all(32.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text('Đã xãy ra sự cố, hãy thử lại'),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                'Đóng',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ))
-                        ],
-                      ),
-                    ),
-                  );
+                    ))
+                : state is UpdateProfileFailedState
+                    ? Container(
+                        width: 150,
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              (state as UpdateProfileFailedState).msg.replaceAll('Exception: ', ''),
+                              textAlign: TextAlign.center,
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Đóng'))
+                          ],
+                        ),
+                      )
+                    : Container(
+                        height: 150,
+                        width: 150,
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text('Đã xãy ra sự cố, hãy thử lại'),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  'Đóng',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ))
+                          ],
+                        ),
+                      ));
   }
 }

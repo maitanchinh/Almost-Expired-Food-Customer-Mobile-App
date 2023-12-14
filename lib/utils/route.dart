@@ -1,5 +1,6 @@
 import 'package:appetit/cubit/cart/cart_cubit.dart';
 import 'package:appetit/cubit/orders/orders_cubit.dart';
+import 'package:appetit/cubit/profile/account_cubit.dart';
 import 'package:appetit/domain/models/account.dart';
 import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/cart.dart';
@@ -35,7 +36,7 @@ PageRoute? generateRoute(RouteSettings settings) {
     case WelcomeScreen.routeName:
     return MaterialPageRoute(builder: (_) => WelcomeScreen());
     case DashboardScreen.routeName:
-      return MaterialPageRoute(builder: (_) => DashboardScreen(tabIndex: settings.arguments as int,));
+      return MaterialPageRoute(builder: (_) => DashboardScreen());
     case IndustryScreen.routeName:
       return MaterialPageRoute(builder: (_) => IndustryScreen(categoryGroup: settings.arguments as Industry));
     case ProductDetailScreen.routeName:
@@ -110,7 +111,7 @@ PageRoute? generateRoute(RouteSettings settings) {
     case CategoryScreen.routeName:
     return MaterialPageRoute(builder: (_) => CategoryScreen(categoryId: settings.arguments as String,));
     case UpdateProfileScreen.routeName:
-    return MaterialPageRoute(builder: (_) => UpdateProfileScreen(profile: settings.arguments as Account,));
+    return MaterialPageRoute(builder: (_) => BlocProvider<UpdateProfileCubit>(create: (context) => UpdateProfileCubit(), child: UpdateProfileScreen(profile: settings.arguments as Account,)));
     default:
   }
   return null;

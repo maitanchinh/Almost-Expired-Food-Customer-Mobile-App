@@ -37,6 +37,20 @@ class OrdersCubit extends Cubit<OrdersState> {
   }
 }
 
+//Order details
+class OrderDetailsCubit extends Cubit<OrderDetailsState> {
+  OrderDetailsCubit({required String orderId}) :super(OrderDetailsState()){getOrderDetails(orderId: orderId);}
+  Future<void> getOrderDetails({required String orderId}) async {
+    try {
+      emit(OrdersDetailsLoadingState());
+      var order = await _ordersRepo.getOrderById(orderId: orderId);
+      emit(OrderDetailsSuccessState(order: order));
+    } on Exception catch (e) {
+      emit(OrderDetailsFailedState(msg: e.toString()));
+    }
+  }
+}
+
 //Payment
 class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit():super(PaymentState());
