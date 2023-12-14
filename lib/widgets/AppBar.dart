@@ -13,6 +13,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
       backgroundColor: appetitAppContainerColor,
       centerTitle: true,
       leading: IconButton(

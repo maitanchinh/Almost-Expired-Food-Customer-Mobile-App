@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:appetit/cubit/cart/cart_cubit.dart';
 import 'package:appetit/cubit/cart/cart_state.dart';
 import 'package:appetit/cubit/orders/orders_cubit.dart';
@@ -47,8 +46,6 @@ class _CartScreenState extends State<CartScreen> {
     removeCartItemCubit = BlocProvider.of<RemoveCartItemCubit>(context);
     updateCartCubit = BlocProvider.of<UpdateCartCubit>(context);
     cartCubit.getCart();
-    print('cartCubit: ' + cartCubit.isClosed.toString());
-    print('removeCartCubit: ' + removeCartItemCubit.isClosed.toString());
   }
 
   @override
@@ -137,7 +134,6 @@ class _CartScreenState extends State<CartScreen> {
         );
       }
       if (state is CartSuccessState) {
-        print('qqqqq' + Random().nextInt(100).toString());
         var groupedCartItems = state.cart.groupCartItemsByStore();
         var cart = state.cart.cartItems;
         if (quantities.isEmpty) {

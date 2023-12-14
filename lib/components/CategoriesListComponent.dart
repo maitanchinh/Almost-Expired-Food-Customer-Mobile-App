@@ -1,8 +1,10 @@
 import 'package:appetit/cubit/categories/categories_cubit.dart';
 import 'package:appetit/cubit/categories/categories_state.dart';
+import 'package:appetit/screens/CategoryScreen.dart';
 import 'package:appetit/widgets/SkeletonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class CategoriesListComponent extends StatelessWidget {
   final String? name;
@@ -111,7 +113,9 @@ class CategoriesListComponent extends StatelessWidget {
                 //   ),
                 // ),
               ],
-            );
+            ).onTap((){
+              Navigator.pushNamed(context, CategoryScreen.routeName, arguments: categories[index].id);
+            });
           },
         );
       }

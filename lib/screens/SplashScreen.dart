@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'AWalkThroughScreen.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const String routeName = '/splash';
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Center(child: Text('Appetit', style: TextStyle(fontSize: 45))),
+          Center(child: Text('Customer', style: TextStyle(fontSize: 45))),
           Positioned(
             left: 0,
             bottom: 0,

@@ -23,7 +23,8 @@ class OrdersRepo {
         'orderDetails': data.orderDetails?.map((orderDetail) => orderDetail.toJson()).toList()
       });
       return res.statusCode!;
-    } on DioException {
+    } on DioException catch (e){
+      print(e);
       throw Exception(msg_server_error);
     }
   }

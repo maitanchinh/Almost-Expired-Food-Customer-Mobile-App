@@ -18,13 +18,16 @@ class OrdersCompletedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ordersCubit = BlocProvider.of<OrdersCubit>(context);
-    ordersCubit.getOrdersList(status: 'Finished');
+    ordersCubit.getOrdersList(status: 'Completed');
     return Scaffold(
       backgroundColor: appLayout_background,
       appBar: MyAppBar(
-        title: 'Đã bán',
+        title: 'Đã nhận hàng',
       ),
       body: BlocBuilder<OrdersCubit, OrdersState>(builder: (context, state) {
+        if (state is OrdersLoadingState) {
+              return Center(child: CircularProgressIndicator(),);
+            }
         if (state is OrdersSuccessState) {
           var orders = state.orders.orders;
           if (orders!.isNotEmpty) {

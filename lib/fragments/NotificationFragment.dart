@@ -1,149 +1,132 @@
-import 'package:appetit/utils/ADataProvider.dart';
-import 'package:flutter/material.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:appetit/screens/OrdersWaitPickupScreen.dart';
 import 'package:appetit/utils/Colors.dart';
-import 'package:appetit/main.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 
-class NotificationFragment extends StatelessWidget {
+import '../cubit/notification/notification_cubit.dart';
+import '../cubit/notification/notification_state.dart';
+import '../domain/repositories/notification_repo.dart';
+import '../screens/OrdersCanceledScreen.dart';
+import '../screens/OrdersWaitPaymentScreen.dart';
+
+class NotificationFragment extends StatefulWidget {
   const NotificationFragment({Key? key}) : super(key: key);
 
   @override
+  State<NotificationFragment> createState() => _NotificationFragmentState();
+}
+
+class _NotificationFragmentState extends State<NotificationFragment> {
+  late NotificationCubit _notificationCubit;
+  @override
+  void initState() {
+    _notificationCubit = BlocProvider.of<NotificationCubit>(context);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () {
-        return Future.value(true);
-      },
-      child: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).viewPadding.top),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Notification", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
-                Container(
-                  padding: EdgeInsets.all(12),
-                  alignment: Alignment.center,
-                  child: Icon(Icons.delete_outline_outlined, color: context.iconColor, size: 24),
-                  decoration: BoxDecoration(color: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor, borderRadius: BorderRadius.circular(15)),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Recent", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-                SizedBox(height: 16),
-                ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: mynotifications.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(35),
-                            child: Image.asset(mynotifications[index].image.toString(), height: 50, width: 50, fit: BoxFit.cover),
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: mynotifications[index].name.toString(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          color: context.iconColor,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: mynotifications[index].message.toString(),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w300,
-                                          color: context.iconColor,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+    _notificationCubit.getNotifications();
+    return Scaffold(
+      backgroundColor: appLayout_background,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _notificationCubit.getNotifications();
+        },
+        child: BlocBuilder<NotificationCubit, NotificationState>(
+          builder: (context, state) {
+            if (state is NotificationLoadingState) {
+              return Center(child: CircularProgressIndicator(),);
+            }
+            if (state is NotificationSuccessState) {
+              var notifications = state.notifications.notifications;
+              if (notifications!.isNotEmpty) {
+                
+            return SingleChildScrollView(
+              physics: ScrollPhysics(),
+              padding: EdgeInsets.all(16),
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text("Recent", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                    // SizedBox(height: 16),
+                    ListView.separated(
+                      padding: EdgeInsets.zero,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: notifications.length,
+                      separatorBuilder: (context, index) => Divider(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(color: notifications[index].isRead! ? appLayout_background : appetitAppContainerColor),
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // RichText(
+                                    //   text: TextSpan(
+                                    //     children: <TextSpan>[
+                                    //       TextSpan(
+                                    //         text: mynotifications[index].name.toString(),
+                                    //         style: TextStyle(
+                                    //           fontWeight: FontWeight.w700,
+                                    //           color: context.iconColor,
+                                    //         ),
+                                    //       ),
+                                    //       TextSpan(
+                                    //         text: mynotifications[index].message.toString(),
+                                    //         style: TextStyle(
+                                    //           fontWeight: FontWeight.w300,
+                                    //           color: context.iconColor,
+                                    //         ),
+                                    //       )
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    Text(notifications[index].message!),
+                                    SizedBox(height: 8),
+                                    Text(DateTime.now().difference(DateTime.parse(notifications[index].createAt!)).inHours <= 24 ? DateTime.now().difference(DateTime.parse(notifications[index].createAt!)).inHours.toString()  + ' giờ trước' : DateTime.now().difference(DateTime.parse(notifications[index].createAt!)).inDays.toString() + ' ngày trước', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10)),
+                                  ],
                                 ),
-                                SizedBox(height: 8),
-                                Text(mynotifications[index].time.toString(), style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10)),
-                              ],
-                            ),
+                              ),
+                              // ClipRRect(
+                              //   borderRadius: BorderRadius.circular(10),
+                              //   child: Image.asset(mynotifications[index].recipeimage.toString(), height: 45, width: 45, fit: BoxFit.cover),
+                              // ),
+                            ],
                           ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(mynotifications[index].recipeimage.toString(), height: 45, width: 45, fit: BoxFit.cover),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+                        ).onTap(() async {
+                          await NotificationRepo().markAsRead(notificationId: notifications[index].id!);
+                          setState(() {
+                            
+                          });
+                           if (notifications[index].title == 'Đơn hàng đã bị hủy') {
+                              Navigator.pushNamed(context, OrdersCanceledScreen.routeName);
+                            }
+
+                            if (notifications[index].title == 'Đơn hàng mới') {
+                              Navigator.pushNamed(context, OrdersWaitPaymentScreen.routeName);
+                            }
+                            if (notifications[index].title == 'Đã thanh toán') {
+                              Navigator.pushNamed(context, OrdersWaitPickupScreen.routeName);
+                            }
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                SizedBox(height: 8),
-                Text('Older Notifications', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-                SizedBox(height: 16),
-                ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: mynotifications.length.clamp(0, 5),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(35),
-                            child: Image.asset(mynotifications[index].image.toString(), height: 50, width: 50, fit: BoxFit.cover),
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: mynotifications[index].name.toString(),
-                                        style: TextStyle(fontWeight: FontWeight.w700, color: context.iconColor),
-                                      ),
-                                      TextSpan(
-                                        text: mynotifications[index].message.toString(),
-                                        style: TextStyle(fontWeight: FontWeight.w300, color: context.iconColor),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 8),
-                                Text(mynotifications[index].time.toString(), style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10)),
-                              ],
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(mynotifications[index].recipeimage.toString(), height: 45, width: 45, fit: BoxFit.cover),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
+              ),
+            );
+              } else {
+                return Center(child: Text('Chưa có thông báo'),);
+              }
+            } return SizedBox.shrink();
+          }
         ),
       ),
     );

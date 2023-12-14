@@ -58,7 +58,7 @@ class _SearchFragmentState extends State<SearchFragment> with SingleTickerProvid
           )
         ],
         child: DefaultTabController(
-          length: 4,
+          length: 3,
           child: Scaffold(
             appBar: AppBar(
               leading: SizedBox(),

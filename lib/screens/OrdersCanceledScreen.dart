@@ -22,6 +22,9 @@ class OrdersCanceledScreen extends StatelessWidget {
       appBar: MyAppBar(title: 'Đơn đã hủy'),
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
+          if (state is OrdersLoadingState) {
+              return Center(child: CircularProgressIndicator(),);
+            }
           if (state is OrdersSuccessState) {
             var orders = state.orders.orders;
             if (orders!.isNotEmpty) {

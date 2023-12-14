@@ -135,13 +135,15 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                 MaterialPageRoute(
                     builder: (context) => Scaffold(
                           appBar: AppBar(
-                            title: Text('Thanh Toán VNPAY'),
+                            elevation: 0,
+                            title: Text('Thanh Toán VNPAY', style: TextStyle(color: context.iconColor),),
                             centerTitle: true,
                             backgroundColor: appLayout_background,
                             leading: IconButton(
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
                                 Navigator.pop(context);
+                                Navigator.pushReplacementNamed(context, OrdersWaitPaymentScreen.routeName);
                               },
                             ),
                           ),
@@ -154,6 +156,9 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
         },
         child: BlocBuilder<OrdersCubit, OrdersState>(
           builder: (context, state) {
+            if (state is OrdersLoadingState) {
+              return Center(child: CircularProgressIndicator(),);
+            }
             if (state is OrdersSuccessState) {
               var orders = state.orders.orders;
               if (orders!.isNotEmpty) {
@@ -183,9 +188,15 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(orderItem.name.toString()),
-                                      Text(
-                                        'Số lượng: ' + orders[index].orderDetails!.first.quantity.toString(),
-                                        style: TextStyle(color: grey, fontSize: 12),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Số lượng: ' + orders[index].orderDetails!.first.quantity.toString(),
+                                            style: TextStyle(color: grey, fontSize: 12),
+                                          ),
+                                          Text('Còn ' + DateTime.parse(orderItem.createAt!).add(Duration(minutes: 15)).difference(DateTime.now()).inMinutes.toString() + ' phút để thanh toán', style: TextStyle(color: grey, fontSize: 12),)
+                                        ],
                                       ),
                                       Row(
                                         children: [
@@ -207,7 +218,7 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                         ],
                                       ),
                                     ],
-                                  )
+                                  ).expand()
                                 ],
                               ).paddingSymmetric(horizontal: 16),
                             ),

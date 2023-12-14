@@ -60,7 +60,7 @@ class _HomeFragmentState extends State<HomeFragment> {
             return SizedBox.shrink();
           }),
         ),
-        title: Align(alignment: Alignment.center, child: Text('Appetit', style: TextStyle(fontSize: 20))),
+        title: Align(alignment: Alignment.center, child: Text('Customer', style: TextStyle(fontSize: 20))),
         actions: [
           IconButton(
             icon: Icon(Icons.shopping_cart_outlined, size: 27, color: context.iconColor),
