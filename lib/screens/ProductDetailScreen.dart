@@ -61,7 +61,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return ProcessingPopup(
-                  state: addToCartCubit.state,
+                  state: state,
                 );
               });
         },

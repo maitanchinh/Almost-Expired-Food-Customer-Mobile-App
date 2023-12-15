@@ -23,8 +23,10 @@ class OrdersCanceledScreen extends StatelessWidget {
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
           if (state is OrdersLoadingState) {
-              return Center(child: CircularProgressIndicator(),);
-            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           if (state is OrdersSuccessState) {
             var orders = state.orders.orders;
             if (orders!.isNotEmpty) {
@@ -91,9 +93,7 @@ class OrdersCanceledScreen extends StatelessWidget {
                                       style: TextStyle(color: grey, fontSize: 12),
                                     )
                                   ],
-                                ).onTap(() {
-                                    Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: {'orderDetails' : orders[index].orderDetails, 'amount' : orders[index].amount});
-                                })
+                                )
                               : SizedBox.shrink(),
                           Divider(),
                           Row(
@@ -112,7 +112,9 @@ class OrdersCanceledScreen extends StatelessWidget {
                           ).paddingSymmetric(horizontal: 16),
                         ],
                       ),
-                    );
+                    ).onTap(() {
+                      Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: orders[index].id);
+                    });
                   },
                   separatorBuilder: (context, index) => Gap.k8.height,
                   itemCount: orders.length);

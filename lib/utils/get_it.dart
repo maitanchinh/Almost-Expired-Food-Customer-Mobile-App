@@ -7,6 +7,7 @@ import 'package:appetit/domain/repositories/branch_repo.dart';
 import 'package:appetit/domain/repositories/campaigns_repo.dart';
 import 'package:appetit/domain/repositories/cart_repo.dart';
 import 'package:appetit/domain/repositories/categories_repo.dart';
+import 'package:appetit/domain/repositories/feedback_repo.dart';
 import 'package:appetit/domain/repositories/industries_repo.dart';
 import 'package:appetit/domain/repositories/notification_repo.dart';
 import 'package:appetit/domain/repositories/orders_repo.dart';
@@ -32,6 +33,7 @@ Future<void> initialGetIt() async {
   getIt.registerLazySingleton(() => OrdersRepo());
   getIt.registerLazySingleton(() => BranchRepo());
   getIt.registerLazySingleton(() => NotificationRepo());
+  getIt.registerLazySingleton(() => FeedbackRepo());
 
   getIt.registerLazySingleton(() => IndustriesCubit());
   getIt.registerLazySingleton(() => AccountCubit());

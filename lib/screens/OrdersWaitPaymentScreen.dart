@@ -2,7 +2,6 @@ import 'package:appetit/cubit/orders/orders_cubit.dart';
 import 'package:appetit/cubit/orders/orders_state.dart';
 import 'package:appetit/screens/DashboardScreen.dart';
 import 'package:appetit/utils/Colors.dart';
-import 'package:appetit/widgets/AppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -120,9 +119,25 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
 
     ordersCubit!.getOrdersList(status: 'Pending Payment');
     return Scaffold(
-      appBar: MyAppBar(
-        title: 'Chờ thanh toán',
-        routeName: DashboardScreen.routeName,
+      appBar: AppBar(
+        title: Text(
+          'Chờ thanh toán',
+          style: TextStyle(color: context.iconColor),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: appetitAppContainerColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => DashboardScreen(
+                          tabIndex: 4,
+                        )));
+          },
+        ),
       ),
       body: BlocListener<PaymentCubit, PaymentState>(
         listener: (context, state) {
@@ -136,9 +151,12 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                     builder: (context) => Scaffold(
                           appBar: AppBar(
                             elevation: 0,
-                            title: Text('Thanh Toán VNPAY', style: TextStyle(color: context.iconColor),),
+                            title: Text(
+                              'Thanh Toán VNPAY',
+                              style: TextStyle(color: context.iconColor),
+                            ),
                             centerTitle: true,
-                            backgroundColor: appLayout_background,
+                            backgroundColor: appetitAppContainerColor,
                             leading: IconButton(
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
@@ -157,7 +175,9 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
         child: BlocBuilder<OrdersCubit, OrdersState>(
           builder: (context, state) {
             if (state is OrdersLoadingState) {
-              return Center(child: CircularProgressIndicator(),);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
             if (state is OrdersSuccessState) {
               var orders = state.orders.orders;
@@ -195,7 +215,10 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                             'Số lượng: ' + orders[index].orderDetails!.first.quantity.toString(),
                                             style: TextStyle(color: grey, fontSize: 12),
                                           ),
-                                          Text('Còn ' + DateTime.parse(orderItem.createAt!).add(Duration(minutes: 15)).difference(DateTime.now()).inMinutes.toString() + ' phút để thanh toán', style: TextStyle(color: grey, fontSize: 12),)
+                                          Text(
+                                            'Còn ' + DateTime.parse(orderItem.createAt!).add(Duration(minutes: 15)).difference(DateTime.now()).inMinutes.toString() + ' phút để thanh toán',
+                                            style: TextStyle(color: grey, fontSize: 12),
+                                          )
                                         ],
                                       ),
                                       Row(
@@ -231,9 +254,7 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                         style: TextStyle(color: grey, fontSize: 12),
                                       )
                                     ],
-                                  ).onTap(() {
-                                    Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: {'orderDetails' : orders[index].orderDetails, 'amount' : orders[index].amount});
-                                  })
+                                  )
                                 : SizedBox.shrink(),
                             Divider(),
                             Row(
@@ -272,7 +293,9 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                             ).paddingSymmetric(horizontal: 16),
                           ],
                         ),
-                      );
+                      ).onTap(() {
+                        Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: orders[index].id);
+                      });
                     },
                     separatorBuilder: (context, index) => Gap.k8.height,
                     itemCount: orders.length);

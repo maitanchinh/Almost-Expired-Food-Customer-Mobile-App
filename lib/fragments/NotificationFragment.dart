@@ -1,15 +1,11 @@
 import 'package:appetit/screens/OrderDetailsScreen.dart';
-import 'package:appetit/screens/OrdersCompletedScreen.dart';
-import 'package:appetit/screens/OrdersWaitPickupScreen.dart';
 import 'package:appetit/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 import '../cubit/notification/notification_cubit.dart';
 import '../cubit/notification/notification_state.dart';
 import '../domain/repositories/notification_repo.dart';
-import '../screens/OrdersCanceledScreen.dart';
 
 class NotificationFragment extends StatefulWidget {
   const NotificationFragment({Key? key}) : super(key: key);
@@ -103,7 +99,7 @@ class _NotificationFragmentState extends State<NotificationFragment> {
                           ),
                         ).onTap(() async {
                           await NotificationRepo().markAsRead(notificationId: notifications[index].id!);
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetailsScreen(orderId: notifications[index].link,)));
+                          Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: notifications[index].link!);
                           //  if (notifications[index].title == 'Đơn hàng đã bị hủy') {
                           //     Navigator.pushNamed(context, OrdersCanceledScreen.routeName);
                           //   }
