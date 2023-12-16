@@ -115,7 +115,7 @@ class OrdersCompletedScreen extends StatelessWidget {
                       ],
                     ),
                   ).onTap(() {
-                      Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: orders[index].id);
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetailsScreen(orderId: orders[index].id!, isShowFeedbackButton: true,)));
                   });
                 },
                 separatorBuilder: (context, index) => Gap.k8.height,

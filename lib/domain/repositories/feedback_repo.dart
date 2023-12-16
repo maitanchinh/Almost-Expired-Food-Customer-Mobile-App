@@ -1,3 +1,4 @@
+import 'package:appetit/domain/models/Feedback.dart';
 import 'package:appetit/utils/get_it.dart';
 import 'package:appetit/utils/messages.dart';
 import 'package:dio/dio.dart';
@@ -11,6 +12,16 @@ class FeedbackRepo {
       return res.statusCode!;
     } on DioException catch (e) {
       print('Exception at feedback: ' + e.response!.data);
+      throw Exception(msg_server_error);
+    }
+  }
+
+  Future<Feedback> getFeedback({required String productId, String? customerId}) async {
+    try {
+      var res = await _apiClient.get('/api/feedbacks', queryParameters: {'customerId' : customerId, 'productId' : productId});
+      return Feedback.fromJson(res.data);
+    } on DioException catch (e) {
+      print('Exception at get feedback: ' + e.response!.data);
       throw Exception(msg_server_error);
     }
   }

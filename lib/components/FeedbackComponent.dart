@@ -165,7 +165,8 @@ class ProcessingPopup extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();
-                              Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: orderId);
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => OrderDetailsScreen(orderId: orderId, isShowFeedbackButton: true,)));
+
                             },
                             child: Text(
                               'Đóng',

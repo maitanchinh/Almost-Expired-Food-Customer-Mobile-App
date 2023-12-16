@@ -1,7 +1,5 @@
-import 'package:appetit/screens/OrdersCanceledScreen.dart';
-import 'package:appetit/screens/OrdersCompletedScreen.dart';
+import 'package:appetit/screens/OrderDetailsScreen.dart';
 import 'package:appetit/screens/OrdersWaitPaymentScreen.dart';
-import 'package:appetit/screens/OrdersWaitPickUpScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -44,7 +42,7 @@ class MessagingService {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       _initLocalNotify();
-      showNotification(message.notification!.title!, message.notification!.body!);
+      showNotification(message.notification!.title!, message.notification!.body!, message.data['link']);
     });
   }
 
@@ -60,17 +58,7 @@ class MessagingService {
       onDidReceiveNotificationResponse: (details) {
         print('payload at click noti event: ' + details.payload.toString());
         NotificationCubit().getNotifications();
-        if (details.payload == 'Hoàn tất đơn hàng') {
-          
-          navigatorKey.currentState?.pushNamed(OrdersCompletedScreen.routeName);
-        }
-        if (details.payload == 'Thanh toán thành công') {
-          
-          navigatorKey.currentState?.pushNamed(OrdersWaitPickupScreen.routeName);
-        }
-        if (details.payload == 'Đơn hàng đã bị hủy') {
-          navigatorKey.currentState?.pushNamed(OrdersCanceledScreen.routeName);
-        }
+          navigatorKey.currentState?.pushNamed(OrderDetailsScreen.routeName, arguments: details.payload);
       },
     );
 
@@ -97,10 +85,10 @@ class MessagingService {
     String body = message.notification?.body ?? 'Default body';
 
     // Hiển thị thông báo khi có message tới
-    await showNotification(title, body);
+    await showNotification(title, body, message.data['link']);
   }
 
-  Future<void> showNotification(String title, String body) async {
+  Future<void> showNotification(String title, String body, String link) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'your channel id', // ID kênh thông báo
       'your channel name', // Tên kênh thông báo
@@ -116,6 +104,6 @@ class MessagingService {
       body,
       platformChannelSpecifics,
     );
-    await _flutterLocalNotificationsPlugin.show(0, title, body, platformChannelSpecifics, payload: title);
+    await _flutterLocalNotificationsPlugin.show(0, title, body, platformChannelSpecifics, payload: link);
   }
 }

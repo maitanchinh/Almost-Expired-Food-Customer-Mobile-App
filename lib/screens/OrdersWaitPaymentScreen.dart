@@ -216,7 +216,7 @@ class _OrdersWaitPaymentScreenState extends State<OrdersWaitPaymentScreen> {
                                             style: TextStyle(color: grey, fontSize: 12),
                                           ),
                                           Text(
-                                            'Còn ' + DateTime.parse(orderItem.createAt!).add(Duration(minutes: 15)).difference(DateTime.now()).inMinutes.toString() + ' phút để thanh toán',
+                                            'Còn ' + DateTime.parse(orders[index].createAt!).add(Duration(minutes: 15)).difference(DateTime.now()).inMinutes.toString() + ' phút để thanh toán',
                                             style: TextStyle(color: grey, fontSize: 12),
                                           )
                                         ],

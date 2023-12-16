@@ -1,7 +1,9 @@
 import 'package:appetit/components/FeedbackComponent.dart';
 import 'package:appetit/cubit/feedback/feadback_cubit.dart';
+import 'package:appetit/cubit/feedback/feedback_state.dart';
 import 'package:appetit/cubit/orders/orders_cubit.dart';
 import 'package:appetit/cubit/orders/orders_state.dart';
+import 'package:appetit/domain/repositories/account_repo.dart';
 import 'package:appetit/widgets/AppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +14,9 @@ import '../utils/gap.dart';
 class OrderDetailsScreen extends StatelessWidget {
   static const String routeName = '/order-details';
   final bool? isShowPaymentButton;
+  final bool? isShowFeedbackButton;
   final String orderId;
-  const OrderDetailsScreen({Key? key, this.isShowPaymentButton, required this.orderId}) : super(key: key);
+  const OrderDetailsScreen({Key? key, this.isShowPaymentButton, required this.orderId, this.isShowFeedbackButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(orderDetails[index].product!.name.toString()),
+                                  Gap.k4.height,
                                   Text(
                                     'Số lượng: ' + orderDetails[index].quantity.toString(),
                                     style: TextStyle(color: grey, fontSize: 12),
@@ -85,26 +89,52 @@ class OrderDetailsScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.orange.shade700), borderRadius: BorderRadius.circular(4), color: Colors.orange.shade700),
-                                        child: Text(
-                                          'Đánh giá',
-                                          style: TextStyle(
-                                            color: white,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ).onTap(() {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => BlocProvider<FeedbackCubit>(
-                                                create: (context) => FeedbackCubit(),
-                                                child: FeedbackComponent(
-                                                  productId: orderDetails[index].product!.id!,
-                                                  orderId: orderId,
-                                                )));
-                                      })
+                                      isShowFeedbackButton == true
+                                          ? BlocProvider<GetFeedbackCubit>(
+                                              create: (context) => GetFeedbackCubit(productId: orderDetails[index].product!.id!, customerId: AccountRepo.account!.id!),
+                                              child: BlocBuilder<GetFeedbackCubit, GetFeedbackState>(builder: (context, state) {
+                                                if (state is GetFeedbackSuccessState) {
+                                                  if (state.feedback.data!.length == 0) {
+                                                    return Container(
+                                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(width: 1, color: Colors.orange.shade700), borderRadius: BorderRadius.circular(4), color: Colors.orange.shade700),
+                                                      child: Text(
+                                                        'Đánh giá',
+                                                        style: TextStyle(
+                                                          color: white,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ).onTap(() {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) => BlocProvider<FeedbackCubit>(
+                                                              create: (context) => FeedbackCubit(),
+                                                              child: FeedbackComponent(
+                                                                productId: orderDetails[index].product!.id!,
+                                                                orderId: orderId,
+                                                              )));
+                                                    });
+                                                  } else {
+                                                    return Container(
+                                                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(width: 1, color: Colors.orange.shade700), borderRadius: BorderRadius.circular(4)),
+                                                      child: Text(
+                                                        'Đã đánh giá',
+                                                        style: TextStyle(
+                                                          color: Colors.orange.shade700,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                }
+                                                return SizedBox.shrink();
+                                              }),
+                                            )
+                                          : SizedBox.shrink()
                                     ],
                                   ),
                                 ],

@@ -5,10 +5,11 @@ import 'package:dio/dio.dart';
 
 class AccountRepo {
   final Dio _apiClient = getIt.get<Dio>();
-
+  static Account? account;
   Future<Account> getAccountInformation() async {
     try {
       var res = await _apiClient.get('/api/customers/information');
+      account = Account.fromJson(res.data);
       return Account.fromJson(res.data);
     } on DioException {
       throw Exception(msg_server_error);

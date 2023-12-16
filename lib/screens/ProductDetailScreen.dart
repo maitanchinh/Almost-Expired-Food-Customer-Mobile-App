@@ -1,18 +1,15 @@
-import 'package:appetit/components/ADiscussionComponent.dart';
+import 'package:appetit/components/DiscussionComponent.dart';
 import 'package:appetit/cubit/cart/cart_cubit.dart';
 import 'package:appetit/cubit/cart/cart_state.dart';
 import 'package:appetit/cubit/store/store_cubit.dart';
 import 'package:appetit/cubit/store/store_state.dart';
 import 'package:appetit/domain/models/products.dart';
-import 'package:appetit/screens/ADiscussionScreen.dart';
 import 'package:appetit/screens/StoreScreen.dart';
 import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
-import 'package:appetit/utils/Colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:appetit/main.dart';
 
 import '../utils/format_utils.dart';
 import 'CartScreen.dart';
@@ -255,12 +252,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                             children: [
                                               Icon(
                                                 Icons.star_outlined,
-                                                color: Colors.orange.shade600,
+                                                color: Colors.amber,
                                                 size: 16,
                                               ),
+                                              Gap.k4.width,
                                               Text(
                                                 store.rated.toString(),
-                                                style: TextStyle(color: Colors.orange.shade600),
+                                                style: TextStyle(color: Colors.amber),
                                               ),
                                             ],
                                           )
@@ -274,7 +272,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.orange.shade600), borderRadius: BorderRadius.circular(4)),
                               child: Text(
                                 'Xem cửa hàng',
-                                style: TextStyle(color: Colors.orange.shade600),
+                                style: TextStyle(color: Colors.orange.shade600, fontSize: 12),
                               ),
                             ).onTap(() => Navigator.pushNamed(context, StoreScreen.routeName, arguments: store))
                           ],
@@ -286,41 +284,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Gap.kSection.height,
 
                   //Discussion title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Đánh giá cửa hàng', style: TextStyle(fontWeight: FontWeight.w600)),
-                      InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ADiscussionScreen())),
-                        child: Text('Xem tất cả', style: TextStyle(color: Colors.grey)),
-                      ),
-                    ],
-                  ),
+                  Text('Đánh giá sản phẩm', style: TextStyle(fontWeight: FontWeight.w600)),
 
                   SizedBox(height: 16),
 
-                  Container(
-                    child: Column(
-                      children: [
-                        //List of elements
-                        ADiscussionComponent(),
-                        SizedBox(height: 8),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
-                              filled: true,
-                              labelText: 'Discuss here',
-                              labelStyle: TextStyle(color: Colors.grey),
-                              suffixIcon: Icon(Icons.send_outlined, color: Colors.orange.shade600),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  DiscussionComponent(productId: widget.product.id!,),
                   Gap.kSection.height,
                   Gap.kSection.height,
                   Gap.kSection.height,
