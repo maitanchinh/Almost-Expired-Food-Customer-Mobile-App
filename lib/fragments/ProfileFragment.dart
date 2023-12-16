@@ -110,7 +110,7 @@ class _ProfileFragmentState extends State<ProfileFragment> with TickerProviderSt
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     account.phone != null ? Text(account.phone!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)) : SizedBox.shrink(),
-                                    Text(account.email!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)),
+                                    // Text(account.email!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)),
                                     account.address != null ? Text(account.address!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)) : SizedBox.shrink()
                                   ],
                                 ),

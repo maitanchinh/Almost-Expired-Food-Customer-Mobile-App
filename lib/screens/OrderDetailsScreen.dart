@@ -154,7 +154,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 ),
               );
             }
-            return SizedBox.shrink();
+            return Center(child: Text('Không tìm thấy đơn hàng'),);
           },
         ),
       ),
