@@ -107,11 +107,11 @@ class _ProfileFragmentState extends State<ProfileFragment> with TickerProviderSt
                                 Text(account.name!, style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20)),
                                 Gap.k4.height,
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     account.phone != null ? Text(account.phone!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)) : SizedBox.shrink(),
-                                    // Text(account.email!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)),
-                                    account.address != null ? Text(account.address!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)) : SizedBox.shrink()
+                                    Text(account.email!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)),
+                                    // account.address != null ? Text(account.address!, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)) : SizedBox.shrink()
                                   ],
                                 ),
                               ],
@@ -128,24 +128,29 @@ class _ProfileFragmentState extends State<ProfileFragment> with TickerProviderSt
                   AccountComponent(icon: 'image/appetit/time-to-pay.png', content: 'Chờ thanh toán').onTap(() {
                     Navigator.pushNamed(context, OrdersWaitPaymentScreen.routeName);
                   }),
+                  Gap.k8.height,
                   AccountComponent(icon: 'image/appetit/pickup.png', content: 'Chờ nhận hàng').onTap(() {
                     Navigator.pushNamed(context, OrdersWaitPickupScreen.routeName);
                   }),
+                  Gap.k8.height,
                   AccountComponent(icon: 'image/appetit/order-completed.png', content: 'Đơn hàng đã nhận').onTap(() {
                     Navigator.pushNamed(context, OrdersCompletedScreen.routeName);
                   }),
+                  Gap.k8.height,
                   AccountComponent(icon: 'image/appetit/cancel-order.png', content: 'Đơn đã hủy').onTap(() {
                     Navigator.pushNamed(context, OrdersCanceledScreen.routeName);
                   }),
                   Gap.kSection.height,
-                  TextButton(
-                      onPressed: () {
-                        AuthService().signOut(context);
-                      },
-                      child: Text(
-                        'Logout',
-                        style: TextStyle(color: Colors.redAccent.shade700, fontSize: 16, fontWeight: FontWeight.bold),
-                      ))
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(color: redColor.withOpacity(0.3), borderRadius: BorderRadius.circular(8)),
+                    child: Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.redAccent.shade700, fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ).onTap((){
+                    AuthService().signOut(context);
+                  })
                   //2nd content (Social information)
                   // Gap.k16.height,
                   // Container(

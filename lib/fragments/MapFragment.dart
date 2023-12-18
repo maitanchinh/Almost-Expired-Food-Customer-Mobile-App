@@ -16,7 +16,10 @@ class _MapFragmentState extends State<MapFragment> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body:         BlocProvider<BranchsCubit>(create: (context) => BranchsCubit(), child: MapComponent(),),
+        body: BlocProvider<BranchsCubit>(
+          create: (context) => BranchsCubit(),
+          child: MapComponent(),
+        ),
       ),
     );
   }

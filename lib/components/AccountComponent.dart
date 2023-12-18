@@ -1,3 +1,4 @@
+import 'package:appetit/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -21,7 +22,9 @@ class AccountComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: callBack,
-      child: SizedBox(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: appetitAppContainerColor),
         height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

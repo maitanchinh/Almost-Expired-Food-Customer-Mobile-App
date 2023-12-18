@@ -9,6 +9,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../main.dart';
 import '../utils/Colors.dart';
+import '../utils/format_utils.dart';
 import '../utils/gap.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
   late UpdateProfileCubit _updateProfileCubit;
+  bool _phoneValidate = true;
 
   @override
   void initState() {
@@ -112,11 +114,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       child: TextField(
                         keyboardType: TextInputType.phone,
                         controller: _phoneController,
-                        // onChanged: (value) {
-                        //   setState(() {
-                        //     _campaignName = value;
-                        //   });
-                        // },
+                        onChanged: (value) => setState(() {
+                          _phoneValidate = FormatUtils.phoneValidate(value);
+                          print(FormatUtils.phoneValidate(value));
+                        }),
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           fillColor: appStore.isDarkModeOn ? context.cardColor : appetitAppContainerColor,
@@ -128,8 +129,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         ),
                       ),
                     ),
-                    Gap.k16.height,
-
+                    Gap.k8.height,
+                    !_phoneValidate && _phoneController.text != ''
+                        ? Column(
+                            children: [
+                              Gap.k4.height,
+                              Text(
+                                'Số điện thoại gồm 10 số và các đầu số hợp lệ: 03, 05, 07, 08, 09',
+                                style: TextStyle(color: redColor, fontSize: 10),
+                              )
+                            ],
+                          )
+                        : SizedBox.shrink(),
                     Text(
                       '(*): Bắt buộc nhập',
                       style: TextStyle(color: grey),
