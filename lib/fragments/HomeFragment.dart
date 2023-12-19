@@ -81,7 +81,7 @@ class _HomeFragmentState extends State<HomeFragment> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text('What do you want to buy today?', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600)),
+                child: Text('Bạn muốn mua gì?', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600)),
               ),
               BlocBuilder<IndustriesCubit, IndustriesState>(builder: (context, state) {
                 if (state is IndustriesLoadingState) {
@@ -238,63 +238,6 @@ class _HomeFragmentState extends State<HomeFragment> {
                                         width: 250,
                                         fit: BoxFit.cover,
                                       ),
-                                      // BlocBuilder<StoreCubit, StoreState>(
-                                      //     builder: (context, state) {
-                                      //   if (state is StoreLoadingState) {
-                                      //     return SizedBox.shrink();
-                                      //   }
-                                      //   if (state is StoreSuccessState) {
-                                      //     var store = state.store;
-                                      //     print(store.name);
-                                      //     return Positioned(
-                                      //       top: 16,
-                                      //       left: 16,
-                                      //       child: Container(
-                                      //           height: 40,
-                                      //           width: 160,
-                                      //           padding: EdgeInsets.symmetric(
-                                      //               horizontal: 8, vertical: 4),
-                                      //           decoration: BoxDecoration(
-                                      //             borderRadius:
-                                      //                 BorderRadius.circular(20),
-                                      //             color: Colors.grey
-                                      //                 .withOpacity(0.5),
-                                      //           ),
-                                      //           child: Row(
-                                      //             children: [
-                                      //               CircleAvatar(
-                                      //                 child: ClipOval(
-                                      //                   child: FadeInImage
-                                      //                       .assetNetwork(
-                                      //                     image: store
-                                      //                         .thumbnailUrl
-                                      //                         .toString(),
-                                      //                     placeholder:
-                                      //                         'image/appetit/store-placeholder-avatar.png',
-                                      //                     height: 70,
-                                      //                     width: 70,
-                                      //                     fit: BoxFit.cover,
-                                      //                   ),
-                                      //                 ),
-                                      //                 radius: 15,
-                                      //               ),
-                                      //               SizedBox(width: 8),
-                                      //               Expanded(
-                                      //                 child: Text(
-                                      //                     store.name.toString(),
-                                      //                     style: TextStyle(
-                                      //                         overflow:
-                                      //                             TextOverflow
-                                      //                                 .ellipsis,
-                                      //                         color: Colors
-                                      //                             .white)),
-                                      //               ),
-                                      //             ],
-                                      //           )),
-                                      //     );
-                                      //   }
-                                      //   return SizedBox.shrink();
-                                      // }),
                                       Positioned(
                                         top: 0,
                                         right: 20,
@@ -351,7 +294,8 @@ class _HomeFragmentState extends State<HomeFragment> {
                                       ),
                                       Positioned(
                                         left: 16,
-                                        top: 80,
+                                        right: 16,
+                                        bottom: 60,
                                         child: Container(
                                           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                           decoration: BoxDecoration(color: grey.withOpacity(0.5), borderRadius: BorderRadius.circular(20)),

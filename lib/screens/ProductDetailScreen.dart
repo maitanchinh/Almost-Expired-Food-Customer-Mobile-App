@@ -215,6 +215,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     style: TextStyle(color: Colors.grey),
                   ),
                   Gap.kSection.height,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Ngày sản xuất',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Gap.k4.height,
+                          Text(FormatUtils.formatDate(widget.product.createAt!))
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Hạn sử dụng',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Gap.k4.height,
+                          Text(FormatUtils.formatDate(widget.product.expiredAt!))
+                        ],
+                      )
+                    ],
+                  ),
+                  Gap.kSection.height,
                   Text(
                     'Cửa hàng',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -282,13 +310,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     }),
                   ),
                   Gap.kSection.height,
-
-                  //Discussion title
                   Text('Đánh giá sản phẩm', style: TextStyle(fontWeight: FontWeight.w600)),
 
                   SizedBox(height: 16),
 
-                  DiscussionComponent(productId: widget.product.id!,),
+                  DiscussionComponent(
+                    productId: widget.product.id!,
+                  ),
                   Gap.kSection.height,
                   Gap.kSection.height,
                   Gap.kSection.height,
