@@ -5,6 +5,7 @@ import 'package:nb_utils/nb_utils.dart';
 class AccountComponent extends StatelessWidget {
   final String icon;
   final Color? greyColor;
+  final Color? containerColor;
   final Color? iconColor;
   final String content;
   final VoidCallback? callBack;
@@ -15,7 +16,7 @@ class AccountComponent extends StatelessWidget {
     required this.content,
     this.greyColor,
     this.callBack,
-    this.iconColor,
+    this.iconColor, this.containerColor,
   }) : super(key: key);
 
   @override
@@ -24,7 +25,7 @@ class AccountComponent extends StatelessWidget {
       onTap: callBack,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: appetitAppContainerColor),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: containerColor != null ? containerColor : appetitAppContainerColor),
         height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,7 +54,7 @@ class AccountComponent extends StatelessWidget {
             ),
              SizedBox(
               width: 24,
-              child: Icon(Icons.arrow_right_sharp, color: Colors.orange.shade600,),
+              child: Icon(Icons.arrow_right_sharp, color: iconColor != null ? iconColor : Colors.orange.shade600,),
             ),
           ],
         ),

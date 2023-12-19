@@ -6,6 +6,7 @@ import 'package:appetit/utils/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/Colors.dart';
 
@@ -141,11 +142,13 @@ class _StoreScreenState extends State<StoreScreen>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(widget.store.branches![index].address.toString()),
+                            SizedBox(width: context.width() - 60, child: Text(widget.store.branches![index].address.toString())),
                             Text(widget.store.branches![index].phone.toString())
                           ],
                         ),
-                        Icon(Icons.directions, color: iconColorSecondary,)
+                        Icon(Icons.directions, color: iconColorSecondary,).onTap(() async {
+                          await launchUrl(Uri.parse('http://maps.google.com/maps?q=${widget.store.branches![index].latitude},${widget.store.branches![index].longitude}&iwloc=A'));
+                        })
                       ],
                     );
                   }, separatorBuilder: (context, index){

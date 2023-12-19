@@ -1,6 +1,7 @@
 import 'package:appetit/cubit/cart/cart_cubit.dart';
 import 'package:appetit/cubit/orders/orders_cubit.dart';
 import 'package:appetit/cubit/profile/account_cubit.dart';
+import 'package:appetit/cubit/transaction/transaction_cubit.dart';
 import 'package:appetit/domain/models/account.dart';
 import 'package:appetit/domain/models/campaigns.dart';
 import 'package:appetit/domain/models/cart.dart';
@@ -23,6 +24,7 @@ import 'package:appetit/screens/ProductDetailScreen.dart';
 import 'package:appetit/screens/CampaignsScreen.dart';
 import 'package:appetit/screens/SplashScreen.dart';
 import 'package:appetit/screens/StoreScreen.dart';
+import 'package:appetit/screens/TransactionsScreen.dart';
 import 'package:appetit/screens/UpdateProfileScreen.dart';
 import 'package:appetit/screens/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +109,8 @@ PageRoute? generateRoute(RouteSettings settings) {
     return MaterialPageRoute(builder: (_) => CategoryScreen(categoryId: settings.arguments as String,));
     case UpdateProfileScreen.routeName:
     return MaterialPageRoute(builder: (_) => BlocProvider<UpdateProfileCubit>(create: (context) => UpdateProfileCubit(), child: UpdateProfileScreen(profile: settings.arguments as Account,)));
+    case TransactionsScreen.routeName:
+    return MaterialPageRoute(builder: (_) => BlocProvider<TransactionsCubit>(create: (context) => TransactionsCubit(), child: TransactionsScreen(),));
     default:
   }
   return null;

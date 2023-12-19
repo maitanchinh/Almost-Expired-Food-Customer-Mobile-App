@@ -70,10 +70,10 @@ class _CartScreenState extends State<CartScreen> {
     //   }
     // });
     await Future.forEach(choosenItems.entries, (MapEntry<CartItem, bool> entry) async {
-    if (entry.value == true) {
-      await removeCartItemCubit.removeCartItem(itemId: entry.key.id!);
-    }
-  });
+      if (entry.value == true) {
+        await removeCartItemCubit.removeCartItem(itemId: entry.key.id!);
+      }
+    });
   }
 
   @override
@@ -208,8 +208,6 @@ class _CartScreenState extends State<CartScreen> {
                               if (value != null && value) {
                                 await removeCartItems(context);
                                 Navigator.pushReplacementNamed(context, CartScreen.routeName);
-                                print('cartCubit: ' + cartCubit.isClosed.toString());
-                                print('removeCartCubit: ' + removeCartItemCubit.isClosed.toString());
                               }
                             });
                           },
@@ -301,18 +299,17 @@ class _CartScreenState extends State<CartScreen> {
                                                         TextButton(
                                                           onPressed: () {
                                                             Navigator.of(context).pop(true); // Đóng hộp thoại và trả về giá trị true
-                                                            Navigator.of(context).pop();
                                                           },
                                                           child: Text('Xác nhận'),
                                                         ),
                                                       ],
                                                     );
                                                   },
-                                                ).then((value) {
+                                                ).then((value) async {
                                                   if (value != null && value) {
                                                     var removeCartItemCubit = BlocProvider.of<RemoveCartItemCubit>(context);
-                                                    removeCartItemCubit.removeCartItem(itemId: cartItems[index].id!);
-                                                    Navigator.pushNamed(context, CartScreen.routeName);
+                                                    await removeCartItemCubit.removeCartItem(itemId: cartItems[index].id!);
+                                                    Navigator.pushReplacementNamed(context, CartScreen.routeName);
                                                   }
                                                 });
                                               })

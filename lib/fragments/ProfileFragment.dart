@@ -5,6 +5,7 @@ import 'package:appetit/screens/OrdersCanceledScreen.dart';
 import 'package:appetit/screens/OrdersCompletedScreen.dart';
 import 'package:appetit/screens/OrdersWaitPaymentScreen.dart';
 import 'package:appetit/screens/OrdersWaitPickUpScreen.dart';
+import 'package:appetit/screens/TransactionsScreen.dart';
 import 'package:appetit/screens/UpdateProfileScreen.dart';
 import 'package:appetit/services/auth_service.dart';
 import 'package:appetit/utils/gap.dart';
@@ -139,6 +140,12 @@ class _ProfileFragmentState extends State<ProfileFragment> with TickerProviderSt
                   Gap.k8.height,
                   AccountComponent(icon: 'image/appetit/cancel-order.png', content: 'Đơn đã hủy').onTap(() {
                     Navigator.pushNamed(context, OrdersCanceledScreen.routeName);
+                  }),
+                  Gap.k8.height,
+                  Divider(),
+                  Gap.k8.height,
+                  AccountComponent(icon: 'image/appetit/transaction.png', content: 'Giao dịch', containerColor: Colors.green.shade100, iconColor: Colors.green.shade600,).onTap(() {
+                    Navigator.pushNamed(context, TransactionsScreen.routeName);
                   }),
                   Gap.kSection.height,
                   Container(
