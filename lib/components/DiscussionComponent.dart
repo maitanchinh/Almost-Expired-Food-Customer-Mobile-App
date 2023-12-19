@@ -45,8 +45,10 @@ class _DiscussionComponentState extends State<DiscussionComponent> {
         }
         if (state is GetFeedbackSuccessState) {
           var feedback = state.feedback.data;
+          if (feedback!.isNotEmpty) {
+            
           return Column(
-            children: feedback!.map((e) {
+            children: feedback.map((e) {
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -99,6 +101,9 @@ class _DiscussionComponentState extends State<DiscussionComponent> {
               ).paddingSymmetric(vertical: 8);
             }).toList(),
           );
+          } else {
+            return Text('Chưa có đánh giá');
+          }
         }
         return SizedBox.shrink();
       }

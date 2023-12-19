@@ -126,6 +126,9 @@ class _NotificationFragmentState extends State<NotificationFragment> {
                           ).onTap(() async {
                             await NotificationRepo().markAsRead(notificationId: notifications[index].id!);
                             Navigator.pushNamed(context, OrderDetailsScreen.routeName, arguments: notifications[index].link!);
+                            setState(() {
+                              
+                            });
                             //  if (notifications[index].title == 'Đơn hàng đã bị hủy') {
                             //     Navigator.pushNamed(context, OrdersCanceledScreen.routeName);
                             //   }
